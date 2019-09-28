@@ -1,0 +1,17 @@
+table .btn {
+	padding: 0 12px;
+	border: 1px solid;
+	margin-left: 5px;
+}
+
+.pagination>li>a {
+	cursor: pointer;
+}
+
+.simform__actions-sidetext {
+	margin: 22px 0 0;
+}
+
+.sminputs .input .inputCheck {
+	width: auto;
+}

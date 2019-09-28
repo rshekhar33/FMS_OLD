@@ -1,0 +1,17 @@
+spring:
+  datasource:
+    jndi-name: java:comp/env/jdbc/fmsdb
+  jackson:
+    default-property-inclusion: non-null
+    serialization:
+      fail-on-empty-beans: false
+  jpa:
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        format_sql: true
+    show-sql: false
+  main:
+    allow-bean-definition-overriding: true
