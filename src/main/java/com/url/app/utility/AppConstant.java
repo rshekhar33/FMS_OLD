@@ -33,8 +33,8 @@ public class AppConstant {
 	public static final String COURSE_TYPE_CODE_PREFIX = "CT";
 
 	/* File upload max size */
-	public static final int MAX_UPLOAD_SIZE_PER_FILE_IN_MB = 5 * 1024 * 1024;// 5MB
-	public static final int MAX_UPLOAD_SIZE_IN_MB = 2 * MAX_UPLOAD_SIZE_PER_FILE_IN_MB;
+	public static final int MAX_UPLOAD_SIZE_PER_FILE_IN_BYTES = 5 * 1024 * 1024;// 5MB
+	public static final int MAX_UPLOAD_SIZE_IN_BYTES = 2 * MAX_UPLOAD_SIZE_PER_FILE_IN_BYTES;
 
 	/* Spring settings */
 	public static final String SPRING_SECURITY_MSG_FILE_BASENAME = "springsecurity-messages";

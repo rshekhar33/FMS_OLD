@@ -14,7 +14,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.1.8.RELEASE</version>
+		<version>2.1.9.RELEASE</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 
@@ -22,12 +22,13 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
-		<hibernate.core.version>5.4.4.Final</hibernate.core.version>
+		<hibernate.core.version>5.4.6.Final</hibernate.core.version>
 		<hibernate.validator.version>6.0.17.Final</hibernate.validator.version>
 		<mysql.connector.version>8.0.17</mysql.connector.version>
 		<org.aspectj.version>1.9.4</org.aspectj.version>
-		<jackson.version>2.10.0.pr2</jackson.version>
-		<commons-fileupload-version>1.4</commons-fileupload-version>
+		<jackson.version>2.10.0</jackson.version>
+		<commons.fileupload.version>1.4</commons.fileupload.version>
+		<javax.servlet.jsp.version>2.3.3</javax.servlet.jsp.version>
 	</properties>
 
 	<dependencies>
@@ -84,7 +85,7 @@
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
-			<version>${jackson.version}</version><!--$NO-MVN-MAN-VER$-->
+			<version>${jackson.version}</version><!--$NO-MVN-MAN-VER$ -->
 		</dependency>
 		<!-- AspectJ -->
 		<dependency>
@@ -96,7 +97,7 @@
 		<dependency>
 			<groupId>commons-fileupload</groupId>
 			<artifactId>commons-fileupload</artifactId>
-			<version>${commons-fileupload-version}</version>
+			<version>${commons.fileupload.version}</version>
 		</dependency>
 
 		<!-- <dependency>
@@ -114,7 +115,7 @@
 		<dependency>
 			<groupId>javax.servlet.jsp</groupId>
 			<artifactId>javax.servlet.jsp-api</artifactId>
-			<version>2.3.3</version>
+			<version>${javax.servlet.jsp.version}</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>

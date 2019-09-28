@@ -113,6 +113,25 @@
 				</ul>
 			</li>
 			</c:if>
+			<c:if test="${appAuthorization.isAccessAllowed('facultySkillset/list') || appAuthorization.isAccessAllowed('facultySkillset/add')}">
+			<li class="treeview ${facultySkillsetsActiveCls} ${facultySkillsetCrudActiveCls}">
+				<a href="#">
+					<i class="fa fa-wrench"></i>
+					<span>Faculty Skillset</span>
+					<span class="pull-right-container">
+						<i class="fa fa-angle-left pull-right"></i>
+					</span>
+				</a>
+				<ul class="treeview-menu">
+					<c:if test="${appAuthorization.isAccessAllowed('facultySkillset/list')}">
+					<li class="${facultySkillsetsActiveCls}"><a href="${contextPath}facultySkillset/list"><i class="fa fa-list"></i> List Faculty Skillsets</a></li>
+					</c:if>
+					<c:if test="${appAuthorization.isAccessAllowed('facultySkillset/add')}">
+					<li class="${facultySkillsetCrudActiveCls}"><a href="${contextPath}facultySkillset/add"><i class="fa fa-plus"></i> Add Faculty Skillset</a></li>
+					</c:if>
+				</ul>
+			</li>
+			</c:if>
 		</ul>
 	</section>
 	<!-- /.sidebar -->
