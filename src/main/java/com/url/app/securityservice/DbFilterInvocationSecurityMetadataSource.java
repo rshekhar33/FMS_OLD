@@ -16,7 +16,7 @@ import org.springframework.security.web.access.intercept.FilterInvocationSecurit
 import org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestWrapper;
 import org.springframework.stereotype.Component;
 
-import com.url.app.service.AppService;
+import com.url.app.interf.service.AppService;
 
 /**
  * Spring Security filter MetadataSource.

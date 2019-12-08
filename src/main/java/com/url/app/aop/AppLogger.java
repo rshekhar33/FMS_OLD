@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StopWatch;
 
 import com.url.app.dto.User;
-import com.url.app.service.AppUserService;
+import com.url.app.interf.service.AppUserService;
 
 /**
  * Logging Aspect.

@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 
-import com.url.app.service.AppUserService;
+import com.url.app.interf.service.AppUserService;
 
 /**
  * Login success handler class.

@@ -14,7 +14,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 
 import com.url.app.config.AppMessage;
-import com.url.app.service.AppUserService;
+import com.url.app.interf.service.AppUserService;
 import com.url.app.utility.AppHttpSessionKey;
 
 /**

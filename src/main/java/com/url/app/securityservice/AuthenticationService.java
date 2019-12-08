@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.url.app.config.AppMessage;
 import com.url.app.dto.LoggedUser;
 import com.url.app.dto.User;
-import com.url.app.service.AppUserService;
+import com.url.app.interf.service.AppUserService;
 
 /**
  * Authentication service which returns UserDetails instance.
