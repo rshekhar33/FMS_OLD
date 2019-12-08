@@ -29,7 +29,7 @@ public class CourseTypeRestController {
 	/**
 	 * Fetch data of Course Types Listing.
 	 */
-	@PostMapping(value = AppUrlView.URL_FETCH_DETAILS, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@PostMapping(value = AppUrlView.URL_FETCH_DETAILS, produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<CourseType> fetchDetails() {
 		return appCourseTypeService.fetchDetailsCourseTypes();
 	}
@@ -37,7 +37,7 @@ public class CourseTypeRestController {
 	/**
 	 * Fetch data of on add/update course type screen.
 	 */
-	@PostMapping(value = AppUrlView.URL_FETCH_DATA, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@PostMapping(value = AppUrlView.URL_FETCH_DATA, produces = MediaType.APPLICATION_JSON_VALUE)
 	public Map<String, Object> fetchData(@RequestParam(value = "courseTypeId", required = false) final String courseTypeIdStr) {
 		return appCourseTypeService.fetchDataCourseType(courseTypeIdStr);
 	}
@@ -45,7 +45,7 @@ public class CourseTypeRestController {
 	/**
 	 * Validate and save data of on add/update course type screen.
 	 */
-	@PostMapping(value = AppUrlView.URL_VALIDATE_SAVE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@PostMapping(value = AppUrlView.URL_VALIDATE_SAVE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public Map<String, Object> validateSave(@RequestParam final Map<String, String> allRequestParams) {
 		return appCourseTypeService.validateSaveCourseType(allRequestParams);
 	}
@@ -53,7 +53,7 @@ public class CourseTypeRestController {
 	/**
 	 * Validate and save data of on course type activation screen.
 	 */
-	@PostMapping(value = AppUrlView.URL_ACTIVATION, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@PostMapping(value = AppUrlView.URL_ACTIVATION, produces = MediaType.APPLICATION_JSON_VALUE)
 	public Map<String, Object> validateUpdateActivation(@RequestParam final Map<String, String> allRequestParams) {
 		return appCourseTypeService.validateUpdateActivation(allRequestParams);
 	}

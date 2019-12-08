@@ -29,7 +29,7 @@ public class RoleRestController {
 	/**
 	 * Fetch data of Roles Listing.
 	 */
-	@PostMapping(value = AppUrlView.URL_FETCH_DETAILS, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@PostMapping(value = AppUrlView.URL_FETCH_DETAILS, produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<Role> fetchDetails() {
 		return appRoleService.fetchDetailsRoles();
 	}
@@ -37,7 +37,7 @@ public class RoleRestController {
 	/**
 	 * Fetch data of on add/update role screen.
 	 */
-	@PostMapping(value = AppUrlView.URL_FETCH_DATA, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@PostMapping(value = AppUrlView.URL_FETCH_DATA, produces = MediaType.APPLICATION_JSON_VALUE)
 	public Map<String, Object> fetchData(@RequestParam(value = "roleId", required = false) final String roleIdStr) {
 		return appRoleService.fetchDataRole(roleIdStr);
 	}
@@ -45,7 +45,7 @@ public class RoleRestController {
 	/**
 	 * Validate and save data of on add/update role screen.
 	 */
-	@PostMapping(value = AppUrlView.URL_VALIDATE_SAVE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@PostMapping(value = AppUrlView.URL_VALIDATE_SAVE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public Map<String, Object> validateSave(@RequestParam final Map<String, String> allRequestParams) {
 		return appRoleService.validateSaveRole(allRequestParams);
 	}
@@ -53,7 +53,7 @@ public class RoleRestController {
 	/**
 	 * Validate and save data of on role activation screen.
 	 */
-	@PostMapping(value = AppUrlView.URL_ACTIVATION, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@PostMapping(value = AppUrlView.URL_ACTIVATION, produces = MediaType.APPLICATION_JSON_VALUE)
 	public Map<String, Object> validateUpdateActivation(@RequestParam final Map<String, String> allRequestParams) {
 		return appRoleService.validateUpdateActivation(allRequestParams);
 	}

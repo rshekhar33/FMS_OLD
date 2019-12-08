@@ -26,7 +26,7 @@ public class LoginRestController {
 	/**
 	 * Ajax for Login check on Login screen.
 	 */
-	/*@PostMapping(value = AppUrlView.URL_LOGIN_CHECK, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	/*@PostMapping(value = AppUrlView.URL_LOGIN_CHECK, produces = MediaType.APPLICATION_JSON_VALUE)
 	public Map<String, Object> loginCheck(@RequestParam("userName") String userName, @RequestParam("password") String password, HttpServletRequest request,
 			HttpServletResponse response) {
 		logger.debug("userName = {} :: password = {}", userName, password);

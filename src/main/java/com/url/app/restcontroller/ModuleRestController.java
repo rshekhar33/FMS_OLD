@@ -29,7 +29,7 @@ public class ModuleRestController {
 	/**
 	 * Fetch data of Modules Listing.
 	 */
-	@PostMapping(value = AppUrlView.URL_FETCH_DETAILS, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@PostMapping(value = AppUrlView.URL_FETCH_DETAILS, produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<Module> fetchDetails() {
 		return appModuleService.fetchDetailsModules();
 	}
@@ -37,7 +37,7 @@ public class ModuleRestController {
 	/**
 	 * Fetch data of on add/update module screen.
 	 */
-	@PostMapping(value = AppUrlView.URL_FETCH_DATA, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@PostMapping(value = AppUrlView.URL_FETCH_DATA, produces = MediaType.APPLICATION_JSON_VALUE)
 	public Map<String, Object> fetchData(@RequestParam(value = "moduleId", required = false) final String moduleIdStr) {
 		return appModuleService.fetchDataModule(moduleIdStr);
 	}
@@ -45,7 +45,7 @@ public class ModuleRestController {
 	/**
 	 * Validate and save data of on add/update module screen.
 	 */
-	@PostMapping(value = AppUrlView.URL_VALIDATE_SAVE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@PostMapping(value = AppUrlView.URL_VALIDATE_SAVE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public Map<String, Object> validateSave(@RequestParam final Map<String, String> allRequestParams) {
 		return appModuleService.validateSaveModule(allRequestParams);
 	}
@@ -53,7 +53,7 @@ public class ModuleRestController {
 	/**
 	 * Validate and save data of on module activation screen.
 	 */
-	@PostMapping(value = AppUrlView.URL_ACTIVATION, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@PostMapping(value = AppUrlView.URL_ACTIVATION, produces = MediaType.APPLICATION_JSON_VALUE)
 	public Map<String, Object> validateUpdateActivation(@RequestParam final Map<String, String> allRequestParams) {
 		return appModuleService.validateUpdateActivation(allRequestParams);
 	}
