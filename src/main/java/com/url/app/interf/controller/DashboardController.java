@@ -18,5 +18,5 @@ public interface DashboardController {
 	 * Dashboard of Application.
 	 */
 	@GetMapping(value = AppUrlView.URL_DASHBOARD)
-	public String dashboard(final ModelMap modelMap);
+	String dashboard(ModelMap modelMap);
 }

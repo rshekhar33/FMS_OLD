@@ -22,23 +22,23 @@ public interface UserController {
 	 * Users Listing Screen.
 	 */
 	@GetMapping(value = AppUrlView.URL_LIST)
-	public String list(final HttpSession httpSess, final ModelMap modelMap);
+	String list(HttpSession httpSess, ModelMap modelMap);
 
 	/**
 	 * Add user screen.
 	 */
 	@GetMapping(value = AppUrlView.URL_ADD)
-	public String add(final HttpSession httpSess, final ModelMap modelMap);
+	String add(HttpSession httpSess, ModelMap modelMap);
 
 	/**
 	 * Action to get userId on update user screen.
 	 */
 	@PostMapping(value = AppUrlView.URL_UPDATE)
-	public String update(final HttpSession httpSess, @RequestParam("linkId") final String linkId);
+	String update(HttpSession httpSess, @RequestParam("linkId") String linkId);
 
 	/**
 	 * Update user screen.
 	 */
 	@GetMapping(value = AppUrlView.URL_UPDATE)
-	public String updateScreen(final HttpSession httpSess, final ModelMap modelMap);
+	public String updateScreen(HttpSession httpSess, ModelMap modelMap);
 }

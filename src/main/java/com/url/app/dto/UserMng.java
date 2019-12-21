@@ -112,6 +112,7 @@ public class UserMng implements Serializable {
 			return false;
 		}
 		UserMng other = (UserMng) obj;
+
 		return Objects.equals(this.getUserId(), other.getUserId());
 	}
 }

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 
 import com.url.app.interf.controller.CourseTypeController;
-import com.url.app.utility.AppConstant;
+import com.url.app.utility.AppCommon;
 import com.url.app.utility.AppCssActiveClass;
 import com.url.app.utility.AppHttpSessionKey;
 import com.url.app.utility.AppUrlView;
@@ -51,7 +51,7 @@ public class CourseTypeControllerImpl implements CourseTypeController {
 		logger.debug("courseTypeId = {}", courseTypeId);
 
 		String url = AppUrlView.REDIRECT_URL_COURSE_TYPE_LIST;
-		if (courseTypeId != null && !AppConstant.BLANK_STRING.equals(courseTypeId)) {
+		if (!AppCommon.isEmpty(courseTypeId)) {
 			modelMap.addAttribute(AppCssActiveClass.COURSE_TYPE_CRUD_ACTIVE_CLS, AppCssActiveClass.ACTIVE_CLASS);
 			url = AppUrlView.VIEW_COURSE_TYPE_CRUD;
 		}

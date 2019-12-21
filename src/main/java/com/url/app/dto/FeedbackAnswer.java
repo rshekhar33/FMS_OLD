@@ -154,6 +154,7 @@ public class FeedbackAnswer implements Serializable {
 			return false;
 		}
 		FeedbackAnswer other = (FeedbackAnswer) obj;
+
 		return Objects.equals(this.getFeedbackAnswerId(), other.getFeedbackAnswerId());
 	}
 }

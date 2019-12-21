@@ -176,6 +176,7 @@ public class Privilege implements Serializable {
 			return false;
 		}
 		Privilege other = (Privilege) obj;
+
 		return Objects.equals(this.getPrivilegeId(), other.getPrivilegeId());
 	}
 }

@@ -23,23 +23,23 @@ public interface RoleRestController {
 	 * Fetch data of Roles Listing.
 	 */
 	@PostMapping(value = AppUrlView.URL_FETCH_DETAILS, produces = MediaType.APPLICATION_JSON_VALUE)
-	public List<Role> fetchDetails();
+	List<Role> fetchDetails();
 
 	/**
 	 * Fetch data of on add/update role screen.
 	 */
 	@PostMapping(value = AppUrlView.URL_FETCH_DATA, produces = MediaType.APPLICATION_JSON_VALUE)
-	public Map<String, Role> fetchData(@RequestParam(value = "roleId", required = false) final String roleIdStr);
+	Map<String, Role> fetchData(@RequestParam(value = "roleId", required = false) String roleIdStr);
 
 	/**
 	 * Validate and save data of on add/update role screen.
 	 */
 	@PostMapping(value = AppUrlView.URL_VALIDATE_SAVE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public Map<String, String> validateSave(@RequestParam final Map<String, String> allRequestParams);
+	Map<String, String> validateSave(@RequestParam Map<String, String> allRequestParams);
 
 	/**
 	 * Validate and save data of on role activation screen.
 	 */
 	@PostMapping(value = AppUrlView.URL_ACTIVATION, produces = MediaType.APPLICATION_JSON_VALUE)
-	public Map<String, String> validateUpdateActivation(@RequestParam final Map<String, String> allRequestParams);
+	Map<String, String> validateUpdateActivation(@RequestParam Map<String, String> allRequestParams);
 }

@@ -23,23 +23,23 @@ public interface FacultySkillsetRestController {
 	 * Fetch data of Faculty Skillsets listing.
 	 */
 	@PostMapping(value = AppUrlView.URL_FETCH_DETAILS, produces = MediaType.APPLICATION_JSON_VALUE)
-	public List<FacultySkillsetMng> fetchDetails();
+	List<FacultySkillsetMng> fetchDetails();
 
 	/**
 	 * Fetch data of on add/update faculty skillset screen.
 	 */
 	@PostMapping(value = AppUrlView.URL_FETCH_DATA, produces = MediaType.APPLICATION_JSON_VALUE)
-	public Map<String, Object> fetchData(@RequestParam(value = "userId", required = false) final String userIdStr);
+	Map<String, Object> fetchData(@RequestParam(value = "userId", required = false) String userIdStr);
 
 	/**
 	 * Validate and save data of on add/update faculty skillset screen.
 	 */
 	@PostMapping(value = AppUrlView.URL_VALIDATE_SAVE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public Map<String, String> validateSave(@RequestParam final Map<String, String> allRequestParams);
+	Map<String, String> validateSave(@RequestParam Map<String, String> allRequestParams);
 
 	/**
 	 * Validate and save data of on faculty skillset activation screen.
 	 */
 	@PostMapping(value = AppUrlView.URL_ACTIVATION, produces = MediaType.APPLICATION_JSON_VALUE)
-	public Map<String, Object> validateUpdateActivation(@RequestParam final Map<String, String> allRequestParams);
+	Map<String, Object> validateUpdateActivation(@RequestParam Map<String, String> allRequestParams);
 }

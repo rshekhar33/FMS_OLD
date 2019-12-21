@@ -144,6 +144,7 @@ public class RolePrivilegeRelation implements Serializable {
 			return false;
 		}
 		RolePrivilegeRelation other = (RolePrivilegeRelation) obj;
+
 		return Objects.equals(id, other.id);
 	}
 }

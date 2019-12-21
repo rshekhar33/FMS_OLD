@@ -62,6 +62,7 @@ public class UserRoleRelationPK implements Serializable {
 			return false;
 		}
 		UserRoleRelationPK other = (UserRoleRelationPK) obj;
+
 		return Objects.equals(role, other.role) && Objects.equals(user, other.user);
 	}
 }

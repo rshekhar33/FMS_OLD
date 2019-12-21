@@ -225,6 +225,7 @@ public class Course implements Serializable {
 			return false;
 		}
 		Course other = (Course) obj;
+
 		return Objects.equals(this.getCourseId(), other.getCourseId());
 	}
 }

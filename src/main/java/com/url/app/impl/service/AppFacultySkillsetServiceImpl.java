@@ -22,6 +22,7 @@ import com.url.app.interf.dao.ModuleRepository;
 import com.url.app.interf.dao.UserRepository;
 import com.url.app.interf.service.AppFacultySkillsetService;
 import com.url.app.interf.service.AppUserService;
+import com.url.app.utility.AppCommon;
 import com.url.app.utility.AppConstant;
 import com.url.app.utility.AppResponseKey;
 
@@ -58,10 +59,10 @@ public class AppFacultySkillsetServiceImpl implements AppFacultySkillsetService 
 
 	@Override
 	@Transactional(readOnly = true)
-	public Map<String, Object> fetchDataFacultySkillset(String userIdStr) {
+	public Map<String, Object> fetchDataFacultySkillset(final String userIdStr) {
 		final Map<String, Object> json = new ConcurrentHashMap<>();
 
-		if (userIdStr != null && !AppConstant.BLANK_STRING.equals(userIdStr)) {
+		if (!AppCommon.isEmpty(userIdStr)) {
 			final Integer userId = Integer.parseInt(userIdStr);
 			final User user = appDao.fetchUserWithModules(userId);
 			json.put(AppResponseKey.USER, user);
@@ -78,27 +79,22 @@ public class AppFacultySkillsetServiceImpl implements AppFacultySkillsetService 
 
 	@Override
 	@Transactional
-	public Map<String, String> validateSaveFacultySkillset(Map<String, String> allRequestParams) {
+	public Map<String, String> validateSaveFacultySkillset(final Map<String, String> allRequestParams) {
 		final String hidUserIdStr = allRequestParams.getOrDefault("hidUserId", "0");
-		final String modulesStr = allRequestParams.getOrDefault("modulesStr", AppConstant.BLANK_STRING);
+		final String modulesStr = allRequestParams.get("modulesStr");
 
-		Integer hidUserId = 0;
-		try {
-			hidUserId = Integer.parseInt(hidUserIdStr);
-		} catch (Exception e) {
-			hidUserId = 0;
-		}
+		Integer hidUserId = AppCommon.toInteger(hidUserIdStr);
 
 		String status = AppConstant.BLANK_STRING;
 		String msg = AppConstant.BLANK_STRING;
 		String modulesError = AppConstant.BLANK_STRING;
 
-		if (AppConstant.BLANK_STRING.equals(modulesStr)) {
+		if (AppCommon.isEmpty(modulesStr)) {
 			status = AppConstant.FAIL;
-			modulesError = appMessage.getMessage("mandatory.field.error");
+			modulesError = appMessage.mandatoryFieldError;
 		}
 
-		if (AppConstant.BLANK_STRING.equals(status)) {
+		if (AppCommon.isEmpty(status)) {
 			final Integer loggedInUserId = appUserService.getPrincipalUserUserId();
 
 			User user = new User();
@@ -107,34 +103,32 @@ public class AppFacultySkillsetServiceImpl implements AppFacultySkillsetService 
 			}
 			user.setModifiedBy(loggedInUserId);
 
-			if (!AppConstant.BLANK_STRING.equals(modulesStr)) {
-				final Set<FacultySkillset> removedFacultySkillsets = new HashSet<>(user.getFacultySkillsets());
-				final List<Integer> moduleIdList = Arrays.asList(modulesStr.split(",")).stream().map(Integer::parseInt).collect(Collectors.toList());
-				for (Integer moduleId : moduleIdList) {
-					final Module module = new Module();
-					module.setModuleId(moduleId);
+			final Set<FacultySkillset> removedFacultySkillsets = new HashSet<>(user.getFacultySkillsets());
+			final List<Integer> moduleIdList = Arrays.asList(modulesStr.split(",")).stream().map(Integer::parseInt).collect(Collectors.toList());
+			for (Integer moduleId : moduleIdList) {
+				final Module module = new Module();
+				module.setModuleId(moduleId);
 
-					final FacultySkillset facultySkillset = new FacultySkillset();
-					facultySkillset.setModule(module);
-					facultySkillset.setIsActive(AppConstant.ACTIVE);
-					facultySkillset.setCreatedBy(loggedInUserId);
-					facultySkillset.setModifiedBy(loggedInUserId);
+				final FacultySkillset facultySkillset = new FacultySkillset();
+				facultySkillset.setModule(module);
+				facultySkillset.setIsActive(AppConstant.ACTIVE);
+				facultySkillset.setCreatedBy(loggedInUserId);
+				facultySkillset.setModifiedBy(loggedInUserId);
 
-					user.addFacultySkillset(facultySkillset);
-					removedFacultySkillsets.remove(facultySkillset);
-				}
-				for (FacultySkillset facultySkillset : removedFacultySkillsets) {
-					user.removeFacultySkillset(facultySkillset);
-				}
+				user.addFacultySkillset(facultySkillset);
+				removedFacultySkillsets.remove(facultySkillset);
+			}
+			for (FacultySkillset facultySkillset : removedFacultySkillsets) {
+				user.removeFacultySkillset(facultySkillset);
 			}
 
 			userRepository.save(user);
 			final Integer userId = user.getUserId();
 
-			if (userId != null && userId > 0) {
+			if (AppCommon.isPositiveInteger(userId)) {
 				status = AppConstant.SUCCESS;
 				if (hidUserId > 0) {
-					msg = appMessage.getMessage("facultyskillsets.update.success");
+					msg = appMessage.facultyskillsetsUpdateSuccess;
 				}
 			}
 		}
@@ -149,7 +143,7 @@ public class AppFacultySkillsetServiceImpl implements AppFacultySkillsetService 
 
 	@Override
 	@Transactional
-	public Map<String, Object> validateUpdateActivation(Map<String, String> allRequestParams) {
+	public Map<String, Object> validateUpdateActivation(final Map<String, String> allRequestParams) {
 
 		final Map<String, Object> json = new ConcurrentHashMap<>();
 

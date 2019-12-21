@@ -62,6 +62,7 @@ public class FacultySkillsetPK implements Serializable {
 			return false;
 		}
 		FacultySkillsetPK other = (FacultySkillsetPK) obj;
+
 		return Objects.equals(module, other.module) && Objects.equals(user, other.user);
 	}
 }

@@ -17,6 +17,7 @@ import com.url.app.dto.User;
 import com.url.app.dto.UserMng;
 import com.url.app.interf.dao.AppDao;
 import com.url.app.utility.AppCommon;
+import com.url.app.utility.AppSQL;
 
 /**
  * Dao implementation of application.
@@ -32,40 +33,21 @@ public class AppDaoImpl implements AppDao {
 
 	@Override
 	public List<UrlRolesBean> fetchUrlRoleIds() {
-		//@formatter:off
-		final String jpql = "select distinct new com.url.app.dto.UrlRolesBean(a.actionPath, r.roleId) "
-				+ "from RolePrivilegeRelation rpr "
-				+ "inner join rpr.id.role r "
-				+ "inner join rpr.id.privilege p "
-				+ "inner join p.actions a "
-				+ "where rpr.isActive=1 and r.isActive=1 and p.isActive=1 and a.isSkip=0 and a.isActive=1"
-				+ "order by a.actionPath asc";
-		//@formatter:on
-		final TypedQuery<UrlRolesBean> typedQuery = entityManager.createQuery(jpql, UrlRolesBean.class);
+		final TypedQuery<UrlRolesBean> typedQuery = entityManager.createQuery(AppSQL.QRY_SELECT_URL_ROLE_ID, UrlRolesBean.class);
 
 		return typedQuery.getResultList();
 	}
 
 	@Override
 	public List<Action> fetchActions() {
-		//@formatter:off
-		final String jpql = "from Action a "
-				+ "order by a.isSkip, a.actionPath asc";
-		//@formatter:on
-		final TypedQuery<Action> typedQuery = entityManager.createQuery(jpql, Action.class);
+		final TypedQuery<Action> typedQuery = entityManager.createQuery(AppSQL.QRY_SELECT_ACTIONS, Action.class);
 
 		return typedQuery.getResultList();
 	}
 
 	@Override
 	public User fetchUser(final String userName) {
-		//@formatter:off
-		final String jpql = "from User u "
-				+ "join fetch u.userRoleRelations urr "
-				+ "where u.userName=:userName "
-				+ "order by u.userId asc";
-		//@formatter:on
-		final TypedQuery<User> typedQuery = entityManager.createQuery(jpql, User.class);
+		final TypedQuery<User> typedQuery = entityManager.createQuery(AppSQL.QRY_SELECT_USER_ROLES_BY_USERNAME, User.class);
 		typedQuery.setParameter("userName", userName);
 
 		User user = null;
@@ -79,13 +61,7 @@ public class AppDaoImpl implements AppDao {
 
 	@Override
 	public int userUpdateLastLoginSuccess(final Integer userId) {
-		//@formatter:off
-		final String jpql = "update User "
-				+ "set failedAttemptCnt=:failedAttemptCnt, "
-				+ "lastSuccessfulLoginDate=:lastSuccessfulLoginDate "
-				+ "where userId=:userId";
-		//@formatter:on
-		final Query query = entityManager.createQuery(jpql);
+		final Query query = entityManager.createQuery(AppSQL.QRY_UPDATE_USER_LAST_SUCCESS_LOGIN_DATE);
 		query.setParameter("failedAttemptCnt", 0);
 		query.setParameter("lastSuccessfulLoginDate", AppCommon.currentDateTime());
 		query.setParameter("userId", userId);
@@ -95,13 +71,7 @@ public class AppDaoImpl implements AppDao {
 
 	@Override
 	public int userUpdateLastLoginFailure(final String userName) {
-		//@formatter:off
-		final String jpql = "update User "
-				+ "set failedAttemptCnt=failedAttemptCnt+1, "
-				+ "lastFailedLoginDate=:lastFailedLoginDate "
-				+ "where userName=:userName";
-		//@formatter:on
-		final Query query = entityManager.createQuery(jpql);
+		final Query query = entityManager.createQuery(AppSQL.QRY_UPDATE_USER_LAST_FAILED_LOGIN_DATE);
 		query.setParameter("lastFailedLoginDate", AppCommon.currentDateTime());
 		query.setParameter("userName", userName);
 
@@ -111,20 +81,14 @@ public class AppDaoImpl implements AppDao {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<UserMng> fetchUsersListing() {
-		final StoredProcedureQuery query = entityManager.createStoredProcedureQuery("get_all_users", UserMng.class);
+		final StoredProcedureQuery query = entityManager.createStoredProcedureQuery(AppSQL.PROC_ALL_USERS, UserMng.class);
 
 		return query.getResultList();
 	}
 
 	@Override
 	public User fetchUserWithRoles(final Integer userId) {
-		//@formatter:off
-		final String jpql = "from User u "
-				+ "left join fetch u.userRoleRelations urr "
-				+ "where u.userId=:userId "
-				+ "order by u.userId asc";
-		//@formatter:on
-		final TypedQuery<User> typedQuery = entityManager.createQuery(jpql, User.class);
+		final TypedQuery<User> typedQuery = entityManager.createQuery(AppSQL.QRY_SELECT_USER_ROLES_BY_USERID, User.class);
 		typedQuery.setParameter("userId", userId);
 
 		User user = null;
@@ -138,13 +102,7 @@ public class AppDaoImpl implements AppDao {
 
 	@Override
 	public User fetchUserWithModules(final Integer userId) {
-		//@formatter:off
-		final String jpql = "from User u "
-				+ "left join fetch u.facultySkillsets fs "
-				+ "where u.userId=:userId "
-				+ "order by u.userId asc";
-		//@formatter:on
-		final TypedQuery<User> typedQuery = entityManager.createQuery(jpql, User.class);
+		final TypedQuery<User> typedQuery = entityManager.createQuery(AppSQL.QRY_SELECT_USER_SKILLSETS, User.class);
 		typedQuery.setParameter("userId", userId);
 
 		User user = null;
@@ -157,24 +115,13 @@ public class AppDaoImpl implements AppDao {
 	}
 
 	@Override
-	public String generateNewCode(String commonSettingsType) {
-		//@formatter:off
-		final String jpql = "select cs.value "
-				+ "from CommonSetting cs "
-				+ "where cs.type=:type "
-				+ "order by cs.orderNumber asc";
-		//@formatter:on
-		final TypedQuery<String> typedQuery = entityManager.createQuery(jpql, String.class);
+	public String generateNewCode(final String commonSettingsType) {
+		final TypedQuery<String> typedQuery = entityManager.createQuery(AppSQL.QRY_SELECT_COMMON_SETTING_VALUE, String.class);
 		typedQuery.setParameter("type", commonSettingsType);
 
 		final String value = typedQuery.getSingleResult();
 
-		//@formatter:off
-		final String updateJpql = "update CommonSetting "
-				+ "set value=value+1 "
-				+ "where type=:type";
-		//@formatter:on
-		final Query query = entityManager.createQuery(updateJpql);
+		final Query query = entityManager.createQuery(AppSQL.QRY_UPDATE_COMMON_SETTING_VALUE);
 		query.setParameter("type", commonSettingsType);
 
 		query.executeUpdate();
@@ -185,7 +132,7 @@ public class AppDaoImpl implements AppDao {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<FacultySkillsetMng> fetchFacultySkillsetsListing() {
-		final StoredProcedureQuery query = entityManager.createStoredProcedureQuery("get_faculty_skillsets", FacultySkillsetMng.class);
+		final StoredProcedureQuery query = entityManager.createStoredProcedureQuery(AppSQL.PROC_FACULTY_SKILLSETS, FacultySkillsetMng.class);
 
 		return query.getResultList();
 	}

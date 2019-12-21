@@ -68,6 +68,7 @@ public class FacultySkillsetMng implements Serializable {
 			return false;
 		}
 		FacultySkillsetMng other = (FacultySkillsetMng) obj;
+
 		return Objects.equals(this.getUserId(), other.getUserId());
 	}
 }

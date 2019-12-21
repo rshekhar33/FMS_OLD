@@ -291,6 +291,7 @@ public class User implements Serializable {
 			return false;
 		}
 		User other = (User) obj;
+
 		return Objects.equals(this.getUserId(), other.getUserId());
 	}
 }

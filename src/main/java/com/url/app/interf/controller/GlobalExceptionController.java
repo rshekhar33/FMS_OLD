@@ -22,7 +22,7 @@ public interface GlobalExceptionController {
 	 */
 	@ExceptionHandler(value = NoHandlerFoundException.class)
 	@ResponseStatus(value = HttpStatus.NOT_FOUND)
-	public ModelAndView handleNoHandlerException(HttpServletRequest request, NoHandlerFoundException e);
+	ModelAndView handleNoHandlerException(HttpServletRequest request, NoHandlerFoundException e);
 
 	/**
 	 * HttpRequestMethodNotSupportedException
@@ -30,7 +30,7 @@ public interface GlobalExceptionController {
 	 */
 	@ExceptionHandler(value = HttpRequestMethodNotSupportedException.class)
 	@ResponseStatus(value = HttpStatus.METHOD_NOT_ALLOWED)
-	public ModelAndView handleMethodNotSupportedException(HttpServletRequest request, HttpRequestMethodNotSupportedException e);
+	ModelAndView handleMethodNotSupportedException(HttpServletRequest request, HttpRequestMethodNotSupportedException e);
 
 	/**
 	 * Exception
@@ -38,11 +38,11 @@ public interface GlobalExceptionController {
 	 */
 	@ExceptionHandler(value = Exception.class)
 	@ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
-	public ModelAndView handleAllException(HttpServletRequest request, Exception e);
+	ModelAndView handleAllException(HttpServletRequest request, Exception e);
 
 	/**
 	 * Return error page based on user login status.
 	 * @return the view name.
 	 */
-	public String errorPage();
+	String errorPage();
 }

@@ -89,6 +89,7 @@ public class CommonSetting implements Serializable {
 			return false;
 		}
 		CommonSetting other = (CommonSetting) obj;
+
 		return Objects.equals(this.getCommonSettingId(), other.getCommonSettingId());
 	}
 }

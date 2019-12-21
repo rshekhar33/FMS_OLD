@@ -34,37 +34,37 @@ public class GlobalExceptionRestControllerImpl implements GlobalExceptionRestCon
 	private AppMessage appMessage;
 
 	@Override
-	public Map<String, Object> handleNoHandlerException(HttpServletRequest request, NoHandlerFoundException e) {
+	public Map<String, Object> handleNoHandlerException(final HttpServletRequest request, final NoHandlerFoundException e) {
 		logger.error("Global NoHandlerFoundException at Location : {} with Exception : {}", request.getRequestURL(), e.getMessage());
 
 		final Map<String, Object> json = new ConcurrentHashMap<>();
 		json.put(AppResponseKey.STATUS, HttpStatus.NOT_FOUND.value());
-		json.put(AppResponseKey.EXCEPTION_HEADER, appMessage.getMessage("exception.header"));
-		json.put(AppResponseKey.EXCEPTION_DESC, appMessage.getMessage("exception.desc"));
+		json.put(AppResponseKey.EXCEPTION_HEADER, appMessage.exceptionHeader);
+		json.put(AppResponseKey.EXCEPTION_DESC, appMessage.exceptionDesc);
 
 		return json;
 	}
 
 	@Override
-	public Map<String, Object> handleMethodNotSupportedException(HttpServletRequest request, HttpRequestMethodNotSupportedException e) {
+	public Map<String, Object> handleMethodNotSupportedException(final HttpServletRequest request, final HttpRequestMethodNotSupportedException e) {
 		logger.error("Global HttpRequestMethodNotSupportedException at Location : {} with Exception : {}", request.getRequestURL(), e.getMessage());
 
 		final Map<String, Object> json = new ConcurrentHashMap<>();
 		json.put(AppResponseKey.STATUS, HttpStatus.METHOD_NOT_ALLOWED.value());
-		json.put(AppResponseKey.EXCEPTION_HEADER, appMessage.getMessage("exception.header"));
-		json.put(AppResponseKey.EXCEPTION_DESC, appMessage.getMessage("exception.desc2"));
+		json.put(AppResponseKey.EXCEPTION_HEADER, appMessage.exceptionHeader);
+		json.put(AppResponseKey.EXCEPTION_DESC, appMessage.exceptionDesc2);
 
 		return json;
 	}
 
 	@Override
-	public Map<String, Object> handleAllException(HttpServletRequest request, Exception e) {
+	public Map<String, Object> handleAllException(final HttpServletRequest request, final Exception e) {
 		logger.error("Global Exception at Location : " + request.getRequestURL(), e);
 
 		final Map<String, Object> json = new ConcurrentHashMap<>();
 		json.put(AppResponseKey.STATUS, HttpStatus.INTERNAL_SERVER_ERROR.value());
-		json.put(AppResponseKey.EXCEPTION_HEADER, appMessage.getMessage("exception.header2"));
-		json.put(AppResponseKey.EXCEPTION_DESC, appMessage.getMessage("exception.desc3"));
+		json.put(AppResponseKey.EXCEPTION_HEADER, appMessage.exceptionHeader2);
+		json.put(AppResponseKey.EXCEPTION_DESC, appMessage.exceptionDesc3);
 
 		return json;
 	}

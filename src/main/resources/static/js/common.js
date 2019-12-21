@@ -7,7 +7,7 @@ $(function() {
 	});
 });
 
-function isBlank(fieldVar) {
+function isEmpty(fieldVar) {
 	if (typeof fieldVar === 'undefined')
 		return true;
 	else if ((typeof fieldVar === 'string' || fieldVar instanceof String) && fieldVar.trim() == "")

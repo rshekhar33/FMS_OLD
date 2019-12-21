@@ -153,7 +153,7 @@ public class MultipleEntryPointsSecurityConfig {
 		}
 
 		public AffirmativeBased accessDecisionManager() throws Exception {
-			final List<AccessDecisionVoter<? extends Object>> voters = new ArrayList<AccessDecisionVoter<? extends Object>>();
+			final List<AccessDecisionVoter<? extends Object>> voters = new ArrayList<>();
 			final RoleVoter voter = new RoleVoter();
 			voter.setRolePrefix(AppConstant.BLANK_STRING);
 			voters.add(voter);

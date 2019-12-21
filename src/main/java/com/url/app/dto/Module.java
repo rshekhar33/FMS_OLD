@@ -165,6 +165,7 @@ public class Module implements Serializable {
 			return false;
 		}
 		Module other = (Module) obj;
+
 		return Objects.equals(this.getModuleId(), other.getModuleId());
 	}
 }

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 
 import com.url.app.interf.controller.UserController;
-import com.url.app.utility.AppConstant;
+import com.url.app.utility.AppCommon;
 import com.url.app.utility.AppCssActiveClass;
 import com.url.app.utility.AppHttpSessionKey;
 import com.url.app.utility.AppUrlView;
@@ -51,7 +51,7 @@ public class UserControllerImpl implements UserController {
 		logger.debug("userId = {}", userId);
 
 		String url = AppUrlView.REDIRECT_URL_USER_LIST;
-		if (userId != null && !AppConstant.BLANK_STRING.equals(userId)) {
+		if (!AppCommon.isEmpty(userId)) {
 			modelMap.addAttribute(AppCssActiveClass.USER_CRUD_ACTIVE_CLS, AppCssActiveClass.ACTIVE_CLASS);
 			url = AppUrlView.VIEW_USER_CRUD;
 		}

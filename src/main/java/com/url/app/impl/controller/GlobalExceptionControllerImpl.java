@@ -19,6 +19,7 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 import com.url.app.config.AppMessage;
 import com.url.app.interf.controller.GlobalExceptionController;
 import com.url.app.interf.service.AppUserService;
+import com.url.app.utility.AppCommon;
 import com.url.app.utility.AppResponseKey;
 import com.url.app.utility.AppUrlView;
 
@@ -39,37 +40,37 @@ public class GlobalExceptionControllerImpl implements GlobalExceptionController 
 	private AppMessage appMessage;
 
 	@Override
-	public ModelAndView handleNoHandlerException(HttpServletRequest request, NoHandlerFoundException e) {
+	public ModelAndView handleNoHandlerException(final HttpServletRequest request, final NoHandlerFoundException e) {
 		logger.error("Global NoHandlerFoundException at Location : {} with Exception : {}", request.getRequestURL(), e.getMessage());
 
 		final ModelAndView mav = new ModelAndView(errorPage());
 		mav.addObject(AppResponseKey.EXCEPTION_MSG, e.getMessage());
-		mav.addObject(AppResponseKey.EXCEPTION_HEADER, appMessage.getMessage("exception.header"));
-		mav.addObject(AppResponseKey.EXCEPTION_DESC, appMessage.getMessage("exception.desc"));
+		mav.addObject(AppResponseKey.EXCEPTION_HEADER, appMessage.exceptionHeader);
+		mav.addObject(AppResponseKey.EXCEPTION_DESC, appMessage.exceptionDesc);
 
 		return mav;
 	}
 
 	@Override
-	public ModelAndView handleMethodNotSupportedException(HttpServletRequest request, HttpRequestMethodNotSupportedException e) {
+	public ModelAndView handleMethodNotSupportedException(final HttpServletRequest request, final HttpRequestMethodNotSupportedException e) {
 		logger.error("Global HttpRequestMethodNotSupportedException at Location : {} with Exception : {}", request.getRequestURL(), e.getMessage());
 
 		final ModelAndView mav = new ModelAndView(errorPage());
 		mav.addObject(AppResponseKey.EXCEPTION_MSG, e.getMessage());
-		mav.addObject(AppResponseKey.EXCEPTION_HEADER, appMessage.getMessage("exception.header"));
-		mav.addObject(AppResponseKey.EXCEPTION_DESC, appMessage.getMessage("exception.desc2"));
+		mav.addObject(AppResponseKey.EXCEPTION_HEADER, appMessage.exceptionHeader);
+		mav.addObject(AppResponseKey.EXCEPTION_DESC, appMessage.exceptionDesc2);
 
 		return mav;
 	}
 
 	@Override
-	public ModelAndView handleAllException(HttpServletRequest request, Exception e) {
+	public ModelAndView handleAllException(final HttpServletRequest request, final Exception e) {
 		logger.error("Global Exception at Location : " + request.getRequestURL(), e);
 
 		final ModelAndView mav = new ModelAndView(errorPage());
 		mav.addObject(AppResponseKey.EXCEPTION_MSG, e.getMessage());
-		mav.addObject(AppResponseKey.EXCEPTION_HEADER, appMessage.getMessage("exception.header2"));
-		mav.addObject(AppResponseKey.EXCEPTION_DESC, appMessage.getMessage("exception.desc3"));
+		mav.addObject(AppResponseKey.EXCEPTION_HEADER, appMessage.exceptionHeader2);
+		mav.addObject(AppResponseKey.EXCEPTION_DESC, appMessage.exceptionDesc3);
 		final StringWriter stringWriter = new StringWriter();
 		e.printStackTrace(new PrintWriter(stringWriter));
 		mav.addObject(AppResponseKey.EXCEPTION_STACK, stringWriter.toString());
@@ -82,7 +83,7 @@ public class GlobalExceptionControllerImpl implements GlobalExceptionController 
 		String view = AppUrlView.VIEW_GLOBAL_ERROR_PAGE;
 		try {
 			final Integer userId = appUserService.getPrincipalUserUserId();
-			if (userId != null && userId > 0) {
+			if (AppCommon.isPositiveInteger(userId)) {
 				view = AppUrlView.VIEW_APP_ERROR_PAGE;
 			}
 		} catch (Exception e) {

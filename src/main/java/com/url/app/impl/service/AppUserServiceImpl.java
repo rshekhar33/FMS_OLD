@@ -61,7 +61,7 @@ public class AppUserServiceImpl implements AppUserService {
 		try {
 			final Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-			if ((principal != null) && (principal instanceof LoggedUser)) {
+			if (principal != null && principal instanceof LoggedUser) {
 				loggedUser = (LoggedUser) principal;
 			}
 		} catch (Exception e) {
@@ -74,17 +74,9 @@ public class AppUserServiceImpl implements AppUserService {
 	@Override
 	public User getPrincipalUser() {
 		User user = null;
-		try {
-			final Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-			if ((principal != null) && (principal instanceof LoggedUser)) {
-				final LoggedUser loggedUser = (LoggedUser) principal;
-				if (loggedUser != null) {
-					user = loggedUser.getUser();
-				}
-			}
-		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
+		final LoggedUser loggedUser = getPrincipal();
+		if (loggedUser != null) {
+			user = loggedUser.getUser();
 		}
 
 		return user;
@@ -93,17 +85,9 @@ public class AppUserServiceImpl implements AppUserService {
 	@Override
 	public Integer getPrincipalUserUserId() {
 		Integer userId = null;
-		try {
-			final Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-			if ((principal != null) && (principal instanceof LoggedUser)) {
-				final LoggedUser loggedUser = (LoggedUser) principal;
-				if (loggedUser != null) {
-					userId = loggedUser.getUser().getUserId();
-				}
-			}
-		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
+		final User user = getPrincipalUser();
+		if (user != null) {
+			userId = user.getUserId();
 		}
 
 		return userId;
@@ -111,7 +95,7 @@ public class AppUserServiceImpl implements AppUserService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public User fetchValidUser(String userName) {
+	public User fetchValidUser(final String userName) {
 		return appDao.fetchUser(userName);
 	}
 
@@ -138,7 +122,7 @@ public class AppUserServiceImpl implements AppUserService {
 	public Map<String, Object> fetchDataUser(final String userIdStr) {
 		final Map<String, Object> json = new ConcurrentHashMap<>();
 
-		if (userIdStr != null && !AppConstant.BLANK_STRING.equals(userIdStr)) {
+		if (!AppCommon.isEmpty(userIdStr)) {
 			final Integer userId = Integer.parseInt(userIdStr);
 			final User user = appDao.fetchUserWithRoles(userId);
 			json.put(AppResponseKey.USER, user);
@@ -157,20 +141,15 @@ public class AppUserServiceImpl implements AppUserService {
 	@Transactional
 	public Map<String, String> validateSaveUser(final Map<String, String> allRequestParams) {
 		final String hidUserIdStr = allRequestParams.getOrDefault("hidUserId", "0");
-		final String userName = allRequestParams.getOrDefault("userName", AppConstant.BLANK_STRING);
-		final String firstName = allRequestParams.getOrDefault("firstName", AppConstant.BLANK_STRING);
+		final String userName = allRequestParams.get("userName");
+		final String firstName = allRequestParams.get("firstName");
 		final String middleName = allRequestParams.get("middleName");
 		final String lastName = allRequestParams.get("lastName");
-		final String emailId = allRequestParams.getOrDefault("emailId", AppConstant.BLANK_STRING);
-		final String mobileNo = allRequestParams.getOrDefault("mobileNo", AppConstant.BLANK_STRING);
-		final String rolesStr = allRequestParams.getOrDefault("rolesStr", AppConstant.BLANK_STRING);
+		final String emailId = allRequestParams.get("emailId");
+		final String mobileNo = allRequestParams.get("mobileNo");
+		final String rolesStr = allRequestParams.get("rolesStr");
 
-		Integer hidUserId = 0;
-		try {
-			hidUserId = Integer.parseInt(hidUserIdStr);
-		} catch (Exception e) {
-			hidUserId = 0;
-		}
+		Integer hidUserId = AppCommon.toInteger(hidUserIdStr);
 
 		String status = AppConstant.BLANK_STRING;
 		String msg = AppConstant.BLANK_STRING;
@@ -183,73 +162,73 @@ public class AppUserServiceImpl implements AppUserService {
 		String rolesError = AppConstant.BLANK_STRING;
 
 		if (hidUserId == 0) {
-			if (AppConstant.BLANK_STRING.equals(userName)) {
+			if (AppCommon.isEmpty(userName)) {
 				status = AppConstant.FAIL;
-				userNameError = appMessage.getMessage("mandatory.field.error");
+				userNameError = appMessage.mandatoryFieldError;
 			} else if (AppCommon.hasRestrictedChar2(userName)) {
 				status = AppConstant.FAIL;
-				userNameError = appMessage.getMessage("user.username.restrictedchar2.error");
+				userNameError = appMessage.userUsernameRestrictedchar2Error;
 			}
 		}
-		if (AppConstant.BLANK_STRING.equals(firstName)) {
+		if (AppCommon.isEmpty(firstName)) {
 			status = AppConstant.FAIL;
-			firstNameError = appMessage.getMessage("mandatory.field.error");
+			firstNameError = appMessage.mandatoryFieldError;
 		} else if (!AppCommon.hasOnlyAlphabets(firstName)) {
 			status = AppConstant.FAIL;
-			firstNameError = appMessage.getMessage("user.firstname.onlyalphabets.error");
+			firstNameError = appMessage.userFirstnameOnlyalphabetsError;
 		}
-		if (!AppConstant.BLANK_STRING.equals(middleName) && !AppCommon.hasOnlyAlphabets(middleName)) {
+		if (!AppCommon.isEmpty(middleName) && !AppCommon.hasOnlyAlphabets(middleName)) {
 			status = AppConstant.FAIL;
-			middleNameError = appMessage.getMessage("user.middlename.onlyalphabets.error");
+			middleNameError = appMessage.userMiddlenameOnlyalphabetsError;
 		}
-		if (!AppConstant.BLANK_STRING.equals(lastName) && !AppCommon.hasOnlyAlphabets(lastName)) {
+		if (!AppCommon.isEmpty(lastName) && !AppCommon.hasOnlyAlphabets(lastName)) {
 			status = AppConstant.FAIL;
-			lastNameError = appMessage.getMessage("user.lastname.onlyalphabets.error");
+			lastNameError = appMessage.userLastnameOnlyalphabetsError;
 		}
-		if (AppConstant.BLANK_STRING.equals(emailId)) {
+		if (AppCommon.isEmpty(emailId)) {
 			status = AppConstant.FAIL;
-			emailIdError = appMessage.getMessage("mandatory.field.error");
+			emailIdError = appMessage.mandatoryFieldError;
 		} else if (AppCommon.isNotValidEmail(emailId)) {
 			status = AppConstant.FAIL;
-			emailIdError = appMessage.getMessage("invalid.email.error");
+			emailIdError = appMessage.invalidEmailError;
 		}
-		if (AppConstant.BLANK_STRING.equals(mobileNo)) {
+		if (AppCommon.isEmpty(mobileNo)) {
 			status = AppConstant.FAIL;
-			mobileNoError = appMessage.getMessage("mandatory.field.error");
+			mobileNoError = appMessage.mandatoryFieldError;
 		} else if (AppCommon.isNotNumber(mobileNo)) {
 			status = AppConstant.FAIL;
-			mobileNoError = appMessage.getMessage("only.number.error");
+			mobileNoError = appMessage.onlyNumberError;
 		} else if (mobileNo.length() != 10) {
 			status = AppConstant.FAIL;
-			mobileNoError = appMessage.getMessage("user.mobile.length.error");
+			mobileNoError = appMessage.userMobileLengthError;
 		}
-		if (AppConstant.BLANK_STRING.equals(rolesStr)) {
+		if (AppCommon.isEmpty(rolesStr)) {
 			status = AppConstant.FAIL;
-			rolesError = appMessage.getMessage("mandatory.field.error");
+			rolesError = appMessage.mandatoryFieldError;
 		}
 
-		if (AppConstant.BLANK_STRING.equals(status)) {
+		if (AppCommon.isEmpty(status)) {
 			if (hidUserId == 0) {
 				final Long userNameCount = userRepository.countByUserName(userName);
 				if (userNameCount > 0) {
 					status = AppConstant.FAIL;
-					userNameError = appMessage.getMessage("user.username.exists.error");
+					userNameError = appMessage.userUsernameExistsError;
 				}
 				final Long emailIdCount = userRepository.countByEmailId(emailId);
 				if (emailIdCount > 0) {
 					status = AppConstant.FAIL;
-					emailIdError = appMessage.getMessage("user.email.exists.error");
+					emailIdError = appMessage.userEmailExistsError;
 				}
 			} else {
 				final Long emailIdCount = userRepository.countByEmailIdAndUserIdNot(emailId, hidUserId);
 				if (emailIdCount > 0) {
 					status = AppConstant.FAIL;
-					emailIdError = appMessage.getMessage("user.email.exists.error");
+					emailIdError = appMessage.userEmailExistsError;
 				}
 			}
 		}
 
-		if (AppConstant.BLANK_STRING.equals(status)) {
+		if (AppCommon.isEmpty(status)) {
 			final Integer loggedInUserId = getPrincipalUserUserId();
 
 			User user = new User();
@@ -268,36 +247,34 @@ public class AppUserServiceImpl implements AppUserService {
 			user.setMobileNo(mobileNo);
 			user.setModifiedBy(loggedInUserId);
 
-			if (!AppConstant.BLANK_STRING.equals(rolesStr)) {
-				final Set<UserRoleRelation> removedUserRoleRelations = new HashSet<>(user.getUserRoleRelations());
-				final List<Integer> roleIdList = Arrays.asList(rolesStr.split(",")).stream().map(Integer::parseInt).collect(Collectors.toList());
-				for (Integer roleId : roleIdList) {
-					final Role role = new Role();
-					role.setRoleId(roleId);
+			final Set<UserRoleRelation> removedUserRoleRelations = new HashSet<>(user.getUserRoleRelations());
+			final List<Integer> roleIdList = Arrays.asList(rolesStr.split(",")).stream().map(Integer::parseInt).collect(Collectors.toList());
+			for (Integer roleId : roleIdList) {
+				final Role role = new Role();
+				role.setRoleId(roleId);
 
-					final UserRoleRelation userRoleRelation = new UserRoleRelation();
-					userRoleRelation.setRole(role);
-					userRoleRelation.setIsActive(AppConstant.ACTIVE);
-					userRoleRelation.setCreatedBy(loggedInUserId);
-					userRoleRelation.setModifiedBy(loggedInUserId);
+				final UserRoleRelation userRoleRelation = new UserRoleRelation();
+				userRoleRelation.setRole(role);
+				userRoleRelation.setIsActive(AppConstant.ACTIVE);
+				userRoleRelation.setCreatedBy(loggedInUserId);
+				userRoleRelation.setModifiedBy(loggedInUserId);
 
-					user.addUserRoleRelation(userRoleRelation);
-					removedUserRoleRelations.remove(userRoleRelation);
-				}
-				for (UserRoleRelation userRoleRelation : removedUserRoleRelations) {
-					user.removeUserRoleRelation(userRoleRelation);
-				}
+				user.addUserRoleRelation(userRoleRelation);
+				removedUserRoleRelations.remove(userRoleRelation);
+			}
+			for (UserRoleRelation userRoleRelation : removedUserRoleRelations) {
+				user.removeUserRoleRelation(userRoleRelation);
 			}
 
 			userRepository.save(user);
 			final Integer userId = user.getUserId();
 
-			if (userId != null && userId > 0) {
+			if (AppCommon.isPositiveInteger(userId)) {
 				status = AppConstant.SUCCESS;
 				if (hidUserId > 0) {
-					msg = appMessage.getMessage("user.update.success");
+					msg = appMessage.userUpdateSuccess;
 				} else {
-					msg = appMessage.getMessage("user.add.success");
+					msg = appMessage.userAddSuccess;
 				}
 			}
 		}
@@ -318,45 +295,34 @@ public class AppUserServiceImpl implements AppUserService {
 
 	@Override
 	@Transactional
-	public Map<String, String> validateUpdateActivation(Map<String, String> allRequestParams) {
+	public Map<String, String> validateUpdateActivation(final Map<String, String> allRequestParams) {
 		final String userIdStr = allRequestParams.getOrDefault("userId", "0");
-		final String isActiveStr = allRequestParams.getOrDefault("isActive", AppConstant.BLANK_STRING);
+		final String isActiveStr = allRequestParams.get("isActive");
 
-		Integer userId = 0;
-		Integer isActive = AppConstant.ACTIVE;
 		String status = AppConstant.BLANK_STRING;
 		String msg = AppConstant.BLANK_STRING;
 
-		try {
-			userId = Integer.parseInt(userIdStr);
-		} catch (Exception e) {
-			userId = 0;
-		}
-
-		try {
-			isActive = Integer.parseInt(isActiveStr);
-		} catch (Exception e) {
-			isActive = 0;
-		}
+		Integer userId = AppCommon.toInteger(userIdStr);
+		Integer isActive = AppCommon.toIntegerOrNull(isActiveStr);
 
 		if (userId == 0 || (!AppConstant.ACTIVE.equals(isActive) && !AppConstant.INACTIVE.equals(isActive))) {
 			status = AppConstant.FAIL;
-			msg = appMessage.getMessage("update.failed.error");
+			msg = appMessage.updateFailedError;
 		}
 
-		if (AppConstant.BLANK_STRING.equals(status)) {
+		if (AppCommon.isEmpty(status)) {
 			User user = userRepository.getOne(userId);
 			user.setIsActive(isActive);
 
 			userRepository.save(user);
 			final Integer userIdUpdate = user.getUserId();
 
-			if (userIdUpdate != null && userIdUpdate > 0) {
+			if (AppCommon.isPositiveInteger(userIdUpdate)) {
 				status = AppConstant.SUCCESS;
 				if (AppConstant.ACTIVE.equals(isActive)) {
-					msg = appMessage.getMessage("user.active.success");
+					msg = appMessage.userActiveSuccess;
 				} else if (AppConstant.INACTIVE.equals(isActive)) {
-					msg = appMessage.getMessage("user.inactive.success");
+					msg = appMessage.userInactiveSuccess;
 				}
 			}
 		}

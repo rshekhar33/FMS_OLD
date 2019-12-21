@@ -22,19 +22,19 @@ public interface LoginController {
 	 * Index/Login Page of application.
 	 */
 	@GetMapping(value = { AppUrlView.URL_ROOT, AppUrlView.URL_LOGIN })
-	public String index(final Locale locale, final Principal principal);
+	String index(Locale locale, Principal principal);
 
 	/**
 	 * HomePage/Dashboard of Application.
 	 */
 	@GetMapping(value = AppUrlView.URL_HOME)
-	public String home();
+	String home();
 
 	/**
 	 * SignUp/Registration URL for Users.
 	 */
 	@GetMapping(value = AppUrlView.URL_SIGN_UP)
-	public String signUp();
+	String signUp();
 
 	/**
 	 * View when access is denied.
@@ -43,7 +43,7 @@ public interface LoginController {
 	 */
 	@RequestMapping(value = AppUrlView.URL_ACCESS_DENIED, method = { RequestMethod.GET, RequestMethod.POST })
 	@ResponseStatus(code = HttpStatus.FORBIDDEN)
-	public String accessDeniedPage();
+	String accessDeniedPage();
 
 	/**
 	 * View when application is accessed using invalid session id.
@@ -52,7 +52,7 @@ public interface LoginController {
 	 */
 	@RequestMapping(value = AppUrlView.URL_INVALID_SESSION, method = { RequestMethod.GET, RequestMethod.POST })
 	@ResponseStatus(code = HttpStatus.UNAUTHORIZED)
-	public String invalidSessionPage();
+	String invalidSessionPage();
 
 	/**
 	 * View when session has expired.
@@ -61,5 +61,5 @@ public interface LoginController {
 	 */
 	@RequestMapping(value = AppUrlView.URL_SESSION_EXPIRED, method = { RequestMethod.GET, RequestMethod.POST })
 	@ResponseStatus(code = HttpStatus.UNAUTHORIZED)
-	public String sessionExpiredPage();
+	String sessionExpiredPage();
 }

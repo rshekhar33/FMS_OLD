@@ -38,10 +38,11 @@ public class LoggedUser implements UserDetails {
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		List<SimpleGrantedAuthority> authorities = new ArrayList<SimpleGrantedAuthority>();
+		final List<SimpleGrantedAuthority> authorities = new ArrayList<>();
 		for (UserRoleRelation userRoleRelation : getUser().getUserRoleRelations()) {
 			authorities.add(new SimpleGrantedAuthority(String.valueOf(userRoleRelation.getRole().getRoleId())));
 		}
+
 		return authorities;
 	}
 
@@ -92,6 +93,7 @@ public class LoggedUser implements UserDetails {
 			return false;
 		}
 		LoggedUser other = (LoggedUser) obj;
+
 		return Objects.equals(user, other.user);
 	}
 }

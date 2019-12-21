@@ -18,7 +18,7 @@ function showErrorMsg(selector, errorMsg) {
 function loadDataFun() {
 	showLoaderRight(true);
 	var hidUserId = $("#hidUserId").val();
-	if (!isBlank(hidUserId)) {
+	if (!isEmpty(hidUserId)) {
 		$("#userName").prop("disabled", true);
 	}
 	$.ajax({
@@ -42,7 +42,7 @@ function loadDataFun() {
 					});
 				}
 			}
-			if (!isBlank(hidUserId) && user != null) {
+			if (!isEmpty(hidUserId) && user != null) {
 				$("#userName").val(user.userName);
 				$("#firstName").val(user.firstName);
 				$("#middleName").val(user.middleName);
@@ -54,7 +54,7 @@ function loadDataFun() {
 				placeholder : "Select an option",
 				data : dropdownData
 			});
-			if (!isBlank(hidUserId) && userRoleIds != null) {
+			if (!isEmpty(hidUserId) && userRoleIds != null) {
 				$("#roles").val(userRoleIds);
 				$("#roles").trigger("change");
 			}
@@ -96,65 +96,65 @@ function validateSubmitFun() {
 	var mobileNoError = "";
 	var rolesError = "";
 
-	if (isBlank(hidUserId)) {
-		if (isBlank(userName)) {
+	if (isEmpty(hidUserId)) {
+		if (isEmpty(userName)) {
 			userNameError = "Mandatory Field!";
 		} else if (hasRestrictedChar2(userName)) {
 			userNameError = "UserName can only have alphanumeric characters and special characters like '_ @ .'";
 		}
 	}
-	if (isBlank(firstName)) {
+	if (isEmpty(firstName)) {
 		firstNameError = "Mandatory Field!";
 	} else if (!hasOnlyAlphabets(firstName)) {
 		firstNameError = "First Name can only have alphabets!";
 	}
-	if (!isBlank(middleName) && !hasOnlyAlphabets(middleName)) {
+	if (!isEmpty(middleName) && !hasOnlyAlphabets(middleName)) {
 		middleNameError = "Middle Name can only have alphabets!";
 	}
-	if (!isBlank(lastName) && !hasOnlyAlphabets(lastName)) {
+	if (!isEmpty(lastName) && !hasOnlyAlphabets(lastName)) {
 		lastNameError = "Last Name can only have alphabets!";
 	}
-	if (isBlank(emailId)) {
+	if (isEmpty(emailId)) {
 		emailIdError = "Mandatory Field!";
 	} else if (isNotValidEmail(emailId)) {
 		emailIdError = "Invalid Email!";
 	}
-	if (isBlank(mobileNo)) {
+	if (isEmpty(mobileNo)) {
 		mobileNoError = "Mandatory Field!";
 	} else if (isNotNumber(mobileNo)) {
 		mobileNoError = "Must be a number!";
 	} else if (mobileNo.length != 10) {
 		mobileNoError = "Must be 10 digit!";
 	}
-	if (isBlank(rolesStr)) {
+	if (isEmpty(rolesStr)) {
 		rolesError = "Mandatory Field!";
 	}
 
-	if (!isBlank(userNameError)) {
+	if (!isEmpty(userNameError)) {
 		validation = false;
 		showErrorMsg("#userNameError", userNameError);
 	}
-	if (!isBlank(firstNameError)) {
+	if (!isEmpty(firstNameError)) {
 		validation = false;
 		showErrorMsg("#firstNameError", firstNameError);
 	}
-	if (!isBlank(middleNameError)) {
+	if (!isEmpty(middleNameError)) {
 		validation = false;
 		showErrorMsg("#middleNameError", middleNameError);
 	}
-	if (!isBlank(lastNameError)) {
+	if (!isEmpty(lastNameError)) {
 		validation = false;
 		showErrorMsg("#lastNameError", lastNameError);
 	}
-	if (!isBlank(emailIdError)) {
+	if (!isEmpty(emailIdError)) {
 		validation = false;
 		showErrorMsg("#emailIdError", emailIdError);
 	}
-	if (!isBlank(mobileNoError)) {
+	if (!isEmpty(mobileNoError)) {
 		validation = false;
 		showErrorMsg("#mobileNoError", mobileNoError);
 	}
-	if (!isBlank(rolesError)) {
+	if (!isEmpty(rolesError)) {
 		validation = false;
 		showErrorMsg("#rolesError", rolesError);
 	}
@@ -174,25 +174,25 @@ function validateSubmitFun() {
 						}
 					});
 				} else {
-					if (!isBlank(responseObj.userNameError)) {
+					if (!isEmpty(responseObj.userNameError)) {
 						showErrorMsg("#userNameError", responseObj.userNameError);
 					}
-					if (!isBlank(responseObj.firstNameError)) {
+					if (!isEmpty(responseObj.firstNameError)) {
 						showErrorMsg("#firstNameError", responseObj.firstNameError);
 					}
-					if (!isBlank(responseObj.middleNameError)) {
+					if (!isEmpty(responseObj.middleNameError)) {
 						showErrorMsg("#middleNameError", responseObj.middleNameError);
 					}
-					if (!isBlank(responseObj.lastNameError)) {
+					if (!isEmpty(responseObj.lastNameError)) {
 						showErrorMsg("#lastNameError", responseObj.lastNameError);
 					}
-					if (!isBlank(responseObj.emailIdError)) {
+					if (!isEmpty(responseObj.emailIdError)) {
 						showErrorMsg("#emailIdError", responseObj.emailIdError);
 					}
-					if (!isBlank(responseObj.mobileNoError)) {
+					if (!isEmpty(responseObj.mobileNoError)) {
 						showErrorMsg("#mobileNoError", responseObj.mobileNoError);
 					}
-					if (!isBlank(responseObj.rolesError)) {
+					if (!isEmpty(responseObj.rolesError)) {
 						showErrorMsg("#rolesError", responseObj.rolesError);
 					}
 

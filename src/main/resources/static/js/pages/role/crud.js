@@ -15,7 +15,7 @@ function showErrorMsg(selector, errorMsg) {
 function loadDataFun() {
 	showLoaderRight(true);
 	var hidRoleId = $("#hidRoleId").val();
-	if (!isBlank(hidRoleId)) {
+	if (!isEmpty(hidRoleId)) {
 		$.ajax({
 			type : "POST",
 			url : contextPath + "role/fetchData",
@@ -53,12 +53,12 @@ function validateSubmitFun() {
 
 	var roleNameError = "";
 
-	if (isBlank(roleName)) {
+	if (isEmpty(roleName)) {
 		roleNameError = "Mandatory Field!";
 	} else if (hasRestrictedChar3(roleName)) {
 		roleNameError = "Role Name can only have alphanumeric characters, spaces and special characters like '_ @ .'";
 	}
-	if (!isBlank(roleNameError)) {
+	if (!isEmpty(roleNameError)) {
 		validation = false;
 		showErrorMsg("#roleNameError", roleNameError);
 	}
@@ -78,7 +78,7 @@ function validateSubmitFun() {
 						}
 					});
 				} else {
-					if (!isBlank(responseObj.roleNameError)) {
+					if (!isEmpty(responseObj.roleNameError)) {
 						showErrorMsg("#roleNameError", responseObj.roleNameError);
 					}
 

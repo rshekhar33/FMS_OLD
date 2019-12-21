@@ -34,7 +34,7 @@ public class AuthenticationService implements UserDetailsService {
 	public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
 		final User user = appUserService.fetchValidUser(username);
 		if (user == null) {
-			throw new UsernameNotFoundException(appMessage.getMessage("user.does.not.exist"));
+			throw new UsernameNotFoundException(appMessage.userDoesNotExist);
 		}
 
 		logger.debug("User found with username : {}", username);

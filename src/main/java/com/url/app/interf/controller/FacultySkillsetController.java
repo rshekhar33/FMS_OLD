@@ -22,23 +22,23 @@ public interface FacultySkillsetController {
 	 * Faculty Skillsets Listing Screen.
 	 */
 	@GetMapping(value = AppUrlView.URL_LIST)
-	public String list(final HttpSession httpSess, final ModelMap modelMap);
+	String list(HttpSession httpSess, ModelMap modelMap);
 
 	/**
 	 * Add faculty skillset screen.
 	 */
 	@GetMapping(value = AppUrlView.URL_ADD)
-	public String add(final HttpSession httpSess, final ModelMap modelMap);
+	String add(HttpSession httpSess, ModelMap modelMap);
 
 	/**
 	 * Action to get facultySkillsetId on update faculty skillset screen.
 	 */
 	@PostMapping(value = AppUrlView.URL_UPDATE)
-	public String update(final HttpSession httpSess, @RequestParam("linkId") final String linkId, @RequestParam("linkId2") final String linkId2);
+	String update(HttpSession httpSess, @RequestParam("linkId") String linkId, @RequestParam("linkId2") String linkId2);
 
 	/**
 	 * Update faculty skillset screen.
 	 */
 	@GetMapping(value = AppUrlView.URL_UPDATE)
-	public String updateScreen(final HttpSession httpSess, final ModelMap modelMap);
+	String updateScreen(HttpSession httpSess, ModelMap modelMap);
 }

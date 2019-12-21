@@ -48,10 +48,10 @@ public class AppCourseTypeServiceImpl implements AppCourseTypeService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public Map<String, CourseType> fetchDataCourseType(String courseTypeIdStr) {
+	public Map<String, CourseType> fetchDataCourseType(final String courseTypeIdStr) {
 		final Map<String, CourseType> json = new ConcurrentHashMap<>();
 
-		if (courseTypeIdStr != null && !AppConstant.BLANK_STRING.equals(courseTypeIdStr)) {
+		if (!AppCommon.isEmpty(courseTypeIdStr)) {
 			final Integer courseTypeId = Integer.parseInt(courseTypeIdStr);
 			final CourseType courseType = courseTypeRepository.getOne(courseTypeId);
 			json.put(AppResponseKey.COURSE_TYPE, courseType);
@@ -62,43 +62,34 @@ public class AppCourseTypeServiceImpl implements AppCourseTypeService {
 
 	@Override
 	@Transactional
-	public Map<String, String> validateSaveCourseType(Map<String, String> allRequestParams) {
+	public Map<String, String> validateSaveCourseType(final Map<String, String> allRequestParams) {
 		final String hidCourseTypeIdStr = allRequestParams.getOrDefault("hidCourseTypeId", "0");
-		final String courseTypeName = allRequestParams.getOrDefault("courseTypeName", AppConstant.BLANK_STRING);
-		final String noOfDaysStr = allRequestParams.getOrDefault("noOfDays", AppConstant.BLANK_STRING);
+		final String courseTypeName = allRequestParams.get("courseTypeName");
+		final String noOfDaysStr = allRequestParams.get("noOfDays");
 
-		Integer hidCourseTypeId = 0;
 		Integer noOfDays = 0;
-		try {
-			hidCourseTypeId = Integer.parseInt(hidCourseTypeIdStr);
-		} catch (Exception e) {
-			hidCourseTypeId = 0;
-		}
+		Integer hidCourseTypeId = AppCommon.toInteger(hidCourseTypeIdStr);
 
 		String status = AppConstant.BLANK_STRING;
 		String msg = AppConstant.BLANK_STRING;
 		String courseTypeNameError = AppConstant.BLANK_STRING;
 		String noOfDaysError = AppConstant.BLANK_STRING;
 
-		if (AppConstant.BLANK_STRING.equals(courseTypeName)) {
+		if (AppCommon.isEmpty(courseTypeName)) {
 			status = AppConstant.FAIL;
-			courseTypeNameError = appMessage.getMessage("mandatory.field.error");
+			courseTypeNameError = appMessage.mandatoryFieldError;
 		} else if (AppCommon.hasRestrictedChar3(courseTypeName)) {
 			status = AppConstant.FAIL;
-			courseTypeNameError = appMessage.getMessage("coursetype.coursetypename.restrictedchar3.error");
+			courseTypeNameError = appMessage.coursetypeCoursetypenameRestrictedchar3Error;
 		}
-		if (AppConstant.BLANK_STRING.equals(noOfDaysStr) && AppCommon.isNotNumber(noOfDaysStr)) {
+		if (!AppCommon.isEmpty(noOfDaysStr) && AppCommon.isNotNumber(noOfDaysStr)) {
 			status = AppConstant.FAIL;
-			noOfDaysError = appMessage.getMessage("only.number.error");
+			noOfDaysError = appMessage.onlyNumberError;
 		} else {
-			try {
-				noOfDays = Integer.parseInt(noOfDaysStr);
-			} catch (Exception e) {
-				noOfDays = 0;
-			}
+			noOfDays = AppCommon.toInteger(noOfDaysStr);
 		}
 
-		if (AppConstant.BLANK_STRING.equals(status)) {
+		if (AppCommon.isEmpty(status)) {
 			final Integer loggedInUserId = appUserService.getPrincipalUserUserId();
 
 			CourseType courseType = new CourseType();
@@ -117,12 +108,12 @@ public class AppCourseTypeServiceImpl implements AppCourseTypeService {
 			courseTypeRepository.save(courseType);
 			final Integer courseTypeId = courseType.getCourseTypeId();
 
-			if (courseTypeId != null && courseTypeId > 0) {
+			if (AppCommon.isPositiveInteger(courseTypeId)) {
 				status = AppConstant.SUCCESS;
 				if (hidCourseTypeId > 0) {
-					msg = appMessage.getMessage("coursetype.update.success");
+					msg = appMessage.coursetypeUpdateSuccess;
 				} else {
-					msg = appMessage.getMessage("coursetype.add.success");
+					msg = appMessage.coursetypeAddSuccess;
 				}
 			}
 		}
@@ -138,45 +129,34 @@ public class AppCourseTypeServiceImpl implements AppCourseTypeService {
 
 	@Override
 	@Transactional
-	public Map<String, String> validateUpdateActivation(Map<String, String> allRequestParams) {
+	public Map<String, String> validateUpdateActivation(final Map<String, String> allRequestParams) {
 		final String courseTypeIdStr = allRequestParams.getOrDefault("courseTypeId", "0");
-		final String isActiveStr = allRequestParams.getOrDefault("isActive", AppConstant.BLANK_STRING);
+		final String isActiveStr = allRequestParams.get("isActive");
 
-		Integer courseTypeId = 0;
-		Integer isActive = AppConstant.ACTIVE;
 		String status = AppConstant.BLANK_STRING;
 		String msg = AppConstant.BLANK_STRING;
 
-		try {
-			courseTypeId = Integer.parseInt(courseTypeIdStr);
-		} catch (Exception e) {
-			courseTypeId = 0;
-		}
-
-		try {
-			isActive = Integer.parseInt(isActiveStr);
-		} catch (Exception e) {
-			isActive = 0;
-		}
+		Integer courseTypeId = AppCommon.toInteger(courseTypeIdStr);
+		Integer isActive = AppCommon.toIntegerOrNull(isActiveStr);
 
 		if (courseTypeId == 0 || (!AppConstant.ACTIVE.equals(isActive) && !AppConstant.INACTIVE.equals(isActive))) {
 			status = AppConstant.FAIL;
-			msg = appMessage.getMessage("update.failed.error");
+			msg = appMessage.updateFailedError;
 		}
 
-		if (AppConstant.BLANK_STRING.equals(status)) {
+		if (AppCommon.isEmpty(status)) {
 			CourseType courseType = courseTypeRepository.getOne(courseTypeId);
 			courseType.setIsActive(isActive);
 
 			courseTypeRepository.save(courseType);
 			final Integer courseTypeIdUpdate = courseType.getCourseTypeId();
 
-			if (courseTypeIdUpdate != null && courseTypeIdUpdate > 0) {
+			if (AppCommon.isPositiveInteger(courseTypeIdUpdate)) {
 				status = AppConstant.SUCCESS;
 				if (AppConstant.ACTIVE.equals(isActive)) {
-					msg = appMessage.getMessage("coursetype.active.success");
+					msg = appMessage.coursetypeActiveSuccess;
 				} else if (AppConstant.INACTIVE.equals(isActive)) {
-					msg = appMessage.getMessage("coursetype.inactive.success");
+					msg = appMessage.coursetypeInactiveSuccess;
 				}
 			}
 		}

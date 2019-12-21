@@ -18,42 +18,42 @@ $(function() {
 		var emailId = $("#emailId").val();
 		var mobileNo = $("#mobileNo").val();
 
-		if (isBlank(userName)) {
+		if (isEmpty(userName)) {
 			validation = false;
 			$("#userNameError").text("Mandatory Field!");
 		}
-		if (isBlank(firstName)) {
+		if (isEmpty(firstName)) {
 			validation = false;
 			$("#firstNameError").text("Mandatory Field!");
 		}
-		if (isBlank(middleName)) {
+		if (isEmpty(middleName)) {
 			validation = false;
 			$("#middleNameError").text("Mandatory Field!");
 		}
-		if (isBlank(lastName)) {
+		if (isEmpty(lastName)) {
 			validation = false;
 			$("#lastNameError").text("Mandatory Field!");
 		}
-		if (isBlank(password)) {
+		if (isEmpty(password)) {
 			validation = false;
 			$("#passwordError").text("Mandatory Field!");
 		}
-		if (isBlank(passwordRepeat)) {
+		if (isEmpty(passwordRepeat)) {
 			validation = false;
 			$("#passwordRepeatError").text("Mandatory Field!");
 		}
-		if (!isBlank(password) && !isBlank(passwordRepeat) && password != passwordRepeat) {
+		if (!isEmpty(password) && !isEmpty(passwordRepeat) && password != passwordRepeat) {
 			validation = false;
 			$("#passwordRepeatError").text("Password Not Matching!");
 		}
-		if (isBlank(emailId)) {
+		if (isEmpty(emailId)) {
 			validation = false;
 			$("#emailIdError").text("Mandatory Field!");
 		} else if (isNotValidEmail(emailId)) {
 			validation = false;
 			$("#emailIdError").text("Invalid Email!");
 		}
-		if (isBlank(mobileNo)) {
+		if (isEmpty(mobileNo)) {
 			validation = false;
 			$("#mobileNoError").text("Mandatory Field!");
 		} else if (isNotNumber(mobileNo)) {

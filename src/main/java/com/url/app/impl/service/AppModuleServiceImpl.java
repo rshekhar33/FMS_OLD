@@ -44,10 +44,10 @@ public class AppModuleServiceImpl implements AppModuleService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public Map<String, Module> fetchDataModule(String moduleIdStr) {
+	public Map<String, Module> fetchDataModule(final String moduleIdStr) {
 		final Map<String, Module> json = new ConcurrentHashMap<>();
 
-		if (moduleIdStr != null && !AppConstant.BLANK_STRING.equals(moduleIdStr)) {
+		if (!AppCommon.isEmpty(moduleIdStr)) {
 			final Integer moduleId = Integer.parseInt(moduleIdStr);
 			final Module module = moduleRepository.getOne(moduleId);
 			json.put(AppResponseKey.MODULE, module);
@@ -58,46 +58,41 @@ public class AppModuleServiceImpl implements AppModuleService {
 
 	@Override
 	@Transactional
-	public Map<String, String> validateSaveModule(Map<String, String> allRequestParams) {
+	public Map<String, String> validateSaveModule(final Map<String, String> allRequestParams) {
 		final String hidModuleIdStr = allRequestParams.getOrDefault("hidModuleId", "0");
-		final String moduleName = allRequestParams.getOrDefault("moduleName", AppConstant.BLANK_STRING);
+		final String moduleName = allRequestParams.get("moduleName");
 
-		Integer hidModuleId = 0;
-		try {
-			hidModuleId = Integer.parseInt(hidModuleIdStr);
-		} catch (Exception e) {
-			hidModuleId = 0;
-		}
+		Integer hidModuleId = AppCommon.toInteger(hidModuleIdStr);
 
 		String status = AppConstant.BLANK_STRING;
 		String msg = AppConstant.BLANK_STRING;
 		String moduleNameError = AppConstant.BLANK_STRING;
 
-		if (AppConstant.BLANK_STRING.equals(moduleName)) {
+		if (AppCommon.isEmpty(moduleName)) {
 			status = AppConstant.FAIL;
-			moduleNameError = appMessage.getMessage("mandatory.field.error");
+			moduleNameError = appMessage.mandatoryFieldError;
 		} else if (AppCommon.hasRestrictedChar3(moduleName)) {
 			status = AppConstant.FAIL;
-			moduleNameError = appMessage.getMessage("module.modulename.restrictedchar3.error");
+			moduleNameError = appMessage.moduleModulenameRestrictedchar3Error;
 		}
 
-		if (AppConstant.BLANK_STRING.equals(status)) {
+		if (AppCommon.isEmpty(status)) {
 			if (hidModuleId == 0) {
 				final Long moduleNameCount = moduleRepository.countByModuleName(moduleName);
 				if (moduleNameCount > 0) {
 					status = AppConstant.FAIL;
-					moduleNameError = appMessage.getMessage("module.modulename.exists.error");
+					moduleNameError = appMessage.moduleModulenameExistsError;
 				}
 			} else {
 				final Long moduleNameCount = moduleRepository.countByModuleNameAndModuleIdNot(moduleName, hidModuleId);
 				if (moduleNameCount > 0) {
 					status = AppConstant.FAIL;
-					moduleNameError = appMessage.getMessage("module.modulename.exists.error");
+					moduleNameError = appMessage.moduleModulenameExistsError;
 				}
 			}
 		}
 
-		if (AppConstant.BLANK_STRING.equals(status)) {
+		if (AppCommon.isEmpty(status)) {
 			final Integer loggedInUserId = appUserService.getPrincipalUserUserId();
 
 			Module module = new Module();
@@ -113,12 +108,12 @@ public class AppModuleServiceImpl implements AppModuleService {
 			moduleRepository.save(module);
 			final Integer moduleId = module.getModuleId();
 
-			if (moduleId != null && moduleId > 0) {
+			if (AppCommon.isPositiveInteger(moduleId)) {
 				status = AppConstant.SUCCESS;
 				if (hidModuleId > 0) {
-					msg = appMessage.getMessage("module.update.success");
+					msg = appMessage.moduleUpdateSuccess;
 				} else {
-					msg = appMessage.getMessage("module.add.success");
+					msg = appMessage.moduleAddSuccess;
 				}
 			}
 		}
@@ -133,45 +128,34 @@ public class AppModuleServiceImpl implements AppModuleService {
 
 	@Override
 	@Transactional
-	public Map<String, String> validateUpdateActivation(Map<String, String> allRequestParams) {
+	public Map<String, String> validateUpdateActivation(final Map<String, String> allRequestParams) {
 		final String moduleIdStr = allRequestParams.getOrDefault("moduleId", "0");
-		final String isActiveStr = allRequestParams.getOrDefault("isActive", AppConstant.BLANK_STRING);
+		final String isActiveStr = allRequestParams.get("isActive");
 
-		Integer moduleId = 0;
-		Integer isActive = AppConstant.ACTIVE;
 		String status = AppConstant.BLANK_STRING;
 		String msg = AppConstant.BLANK_STRING;
 
-		try {
-			moduleId = Integer.parseInt(moduleIdStr);
-		} catch (Exception e) {
-			moduleId = 0;
-		}
-
-		try {
-			isActive = Integer.parseInt(isActiveStr);
-		} catch (Exception e) {
-			isActive = 0;
-		}
+		Integer moduleId = AppCommon.toInteger(moduleIdStr);
+		Integer isActive = AppCommon.toIntegerOrNull(isActiveStr);
 
 		if (moduleId == 0 || (!AppConstant.ACTIVE.equals(isActive) && !AppConstant.INACTIVE.equals(isActive))) {
 			status = AppConstant.FAIL;
-			msg = appMessage.getMessage("update.failed.error");
+			msg = appMessage.updateFailedError;
 		}
 
-		if (AppConstant.BLANK_STRING.equals(status)) {
+		if (AppCommon.isEmpty(status)) {
 			Module module = moduleRepository.getOne(moduleId);
 			module.setIsActive(isActive);
 
 			moduleRepository.save(module);
 			final Integer moduleIdUpdate = module.getModuleId();
 
-			if (moduleIdUpdate != null && moduleIdUpdate > 0) {
+			if (AppCommon.isPositiveInteger(moduleIdUpdate)) {
 				status = AppConstant.SUCCESS;
 				if (AppConstant.ACTIVE.equals(isActive)) {
-					msg = appMessage.getMessage("module.active.success");
+					msg = appMessage.moduleActiveSuccess;
 				} else if (AppConstant.INACTIVE.equals(isActive)) {
-					msg = appMessage.getMessage("module.inactive.success");
+					msg = appMessage.moduleInactiveSuccess;
 				}
 			}
 		}

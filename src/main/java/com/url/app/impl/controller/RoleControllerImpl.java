@@ -8,7 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 
 import com.url.app.interf.controller.RoleController;
-import com.url.app.utility.AppConstant;
+import com.url.app.utility.AppCommon;
 import com.url.app.utility.AppCssActiveClass;
 import com.url.app.utility.AppHttpSessionKey;
 import com.url.app.utility.AppUrlView;
@@ -51,7 +51,7 @@ public class RoleControllerImpl implements RoleController {
 		logger.debug("roleId = {}", roleId);
 
 		String url = AppUrlView.REDIRECT_URL_ROLE_LIST;
-		if (roleId != null && !AppConstant.BLANK_STRING.equals(roleId)) {
+		if (!AppCommon.isEmpty(roleId)) {
 			modelMap.addAttribute(AppCssActiveClass.ROLE_CRUD_ACTIVE_CLS, AppCssActiveClass.ACTIVE_CLASS);
 			url = AppUrlView.VIEW_ROLE_CRUD;
 		}

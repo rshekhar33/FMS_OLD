@@ -108,6 +108,7 @@ public class Action implements Serializable {
 			return false;
 		}
 		Action other = (Action) obj;
+
 		return Objects.equals(this.getActionId(), other.getActionId());
 	}
 }

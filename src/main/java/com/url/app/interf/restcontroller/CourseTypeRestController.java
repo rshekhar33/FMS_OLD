@@ -18,23 +18,23 @@ public interface CourseTypeRestController {
 	 * Fetch data of Course Types listing.
 	 */
 	@PostMapping(value = AppUrlView.URL_FETCH_DETAILS, produces = MediaType.APPLICATION_JSON_VALUE)
-	public List<CourseType> fetchDetails();
+	List<CourseType> fetchDetails();
 
 	/**
 	 * Fetch data of on add/update course type screen.
 	 */
 	@PostMapping(value = AppUrlView.URL_FETCH_DATA, produces = MediaType.APPLICATION_JSON_VALUE)
-	public Map<String, CourseType> fetchData(@RequestParam(value = "courseTypeId", required = false) final String courseTypeIdStr);
+	Map<String, CourseType> fetchData(@RequestParam(value = "courseTypeId", required = false) String courseTypeIdStr);
 
 	/**
 	 * Validate and save data of on add/update course type screen.
 	 */
 	@PostMapping(value = AppUrlView.URL_VALIDATE_SAVE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public Map<String, String> validateSave(@RequestParam final Map<String, String> allRequestParams);
+	Map<String, String> validateSave(@RequestParam Map<String, String> allRequestParams);
 
 	/**
 	 * Validate and save data of on course type activation screen.
 	 */
 	@PostMapping(value = AppUrlView.URL_ACTIVATION, produces = MediaType.APPLICATION_JSON_VALUE)
-	public Map<String, String> validateUpdateActivation(@RequestParam final Map<String, String> allRequestParams);
+	Map<String, String> validateUpdateActivation(@RequestParam Map<String, String> allRequestParams);
 }

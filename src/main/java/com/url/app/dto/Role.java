@@ -190,6 +190,7 @@ public class Role implements Serializable {
 			return false;
 		}
 		Role other = (Role) obj;
+
 		return Objects.equals(this.getRoleId(), other.getRoleId());
 	}
 }

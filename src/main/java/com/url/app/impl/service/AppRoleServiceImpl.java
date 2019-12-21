@@ -44,10 +44,10 @@ public class AppRoleServiceImpl implements AppRoleService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public Map<String, Role> fetchDataRole(String roleIdStr) {
+	public Map<String, Role> fetchDataRole(final String roleIdStr) {
 		final Map<String, Role> json = new ConcurrentHashMap<>();
 
-		if (roleIdStr != null && !AppConstant.BLANK_STRING.equals(roleIdStr)) {
+		if (!AppCommon.isEmpty(roleIdStr)) {
 			final Integer roleId = Integer.parseInt(roleIdStr);
 			final Role role = roleRepository.getOne(roleId);
 			json.put(AppResponseKey.ROLE, role);
@@ -58,46 +58,41 @@ public class AppRoleServiceImpl implements AppRoleService {
 
 	@Override
 	@Transactional
-	public Map<String, String> validateSaveRole(Map<String, String> allRequestParams) {
+	public Map<String, String> validateSaveRole(final Map<String, String> allRequestParams) {
 		final String hidRoleIdStr = allRequestParams.getOrDefault("hidRoleId", "0");
-		final String roleName = allRequestParams.getOrDefault("roleName", AppConstant.BLANK_STRING);
+		final String roleName = allRequestParams.get("roleName");
 
-		Integer hidRoleId = 0;
-		try {
-			hidRoleId = Integer.parseInt(hidRoleIdStr);
-		} catch (Exception e) {
-			hidRoleId = 0;
-		}
+		Integer hidRoleId = AppCommon.toInteger(hidRoleIdStr);
 
 		String status = AppConstant.BLANK_STRING;
 		String msg = AppConstant.BLANK_STRING;
 		String roleNameError = AppConstant.BLANK_STRING;
 
-		if (AppConstant.BLANK_STRING.equals(roleName)) {
+		if (AppCommon.isEmpty(roleName)) {
 			status = AppConstant.FAIL;
-			roleNameError = appMessage.getMessage("mandatory.field.error");
+			roleNameError = appMessage.mandatoryFieldError;
 		} else if (AppCommon.hasRestrictedChar3(roleName)) {
 			status = AppConstant.FAIL;
-			roleNameError = appMessage.getMessage("role.rolename.restrictedchar3.error");
+			roleNameError = appMessage.roleRolenameRestrictedchar3Error;
 		}
 
-		if (AppConstant.BLANK_STRING.equals(status)) {
+		if (AppCommon.isEmpty(status)) {
 			if (hidRoleId == 0) {
 				final Long roleNameCount = roleRepository.countByRoleName(roleName);
 				if (roleNameCount > 0) {
 					status = AppConstant.FAIL;
-					roleNameError = appMessage.getMessage("role.rolename.exists.error");
+					roleNameError = appMessage.roleRolenameExistsError;
 				}
 			} else {
 				final Long roleNameCount = roleRepository.countByRoleNameAndRoleIdNot(roleName, hidRoleId);
 				if (roleNameCount > 0) {
 					status = AppConstant.FAIL;
-					roleNameError = appMessage.getMessage("role.rolename.exists.error");
+					roleNameError = appMessage.roleRolenameExistsError;
 				}
 			}
 		}
 
-		if (AppConstant.BLANK_STRING.equals(status)) {
+		if (AppCommon.isEmpty(status)) {
 			final Integer loggedInUserId = appUserService.getPrincipalUserUserId();
 
 			Role role = new Role();
@@ -113,12 +108,12 @@ public class AppRoleServiceImpl implements AppRoleService {
 			roleRepository.save(role);
 			final Integer roleId = role.getRoleId();
 
-			if (roleId != null && roleId > 0) {
+			if (AppCommon.isPositiveInteger(roleId)) {
 				status = AppConstant.SUCCESS;
 				if (hidRoleId > 0) {
-					msg = appMessage.getMessage("role.update.success");
+					msg = appMessage.roleUpdateSuccess;
 				} else {
-					msg = appMessage.getMessage("role.add.success");
+					msg = appMessage.roleAddSuccess;
 				}
 			}
 		}
@@ -133,45 +128,34 @@ public class AppRoleServiceImpl implements AppRoleService {
 
 	@Override
 	@Transactional
-	public Map<String, String> validateUpdateActivation(Map<String, String> allRequestParams) {
+	public Map<String, String> validateUpdateActivation(final Map<String, String> allRequestParams) {
 		final String roleIdStr = allRequestParams.getOrDefault("roleId", "0");
-		final String isActiveStr = allRequestParams.getOrDefault("isActive", AppConstant.BLANK_STRING);
+		final String isActiveStr = allRequestParams.get("isActive");
 
-		Integer roleId = 0;
-		Integer isActive = AppConstant.ACTIVE;
 		String status = AppConstant.BLANK_STRING;
 		String msg = AppConstant.BLANK_STRING;
 
-		try {
-			roleId = Integer.parseInt(roleIdStr);
-		} catch (Exception e) {
-			roleId = 0;
-		}
-
-		try {
-			isActive = Integer.parseInt(isActiveStr);
-		} catch (Exception e) {
-			isActive = 0;
-		}
+		Integer roleId = AppCommon.toInteger(roleIdStr);
+		Integer isActive = AppCommon.toIntegerOrNull(isActiveStr);
 
 		if (roleId == 0 || (!AppConstant.ACTIVE.equals(isActive) && !AppConstant.INACTIVE.equals(isActive))) {
 			status = AppConstant.FAIL;
-			msg = appMessage.getMessage("update.failed.error");
+			msg = appMessage.updateFailedError;
 		}
 
-		if (AppConstant.BLANK_STRING.equals(status)) {
+		if (AppCommon.isEmpty(status)) {
 			Role role = roleRepository.getOne(roleId);
 			role.setIsActive(isActive);
 
 			roleRepository.save(role);
 			final Integer roleIdUpdate = role.getRoleId();
 
-			if (roleIdUpdate != null && roleIdUpdate > 0) {
+			if (AppCommon.isPositiveInteger(roleIdUpdate)) {
 				status = AppConstant.SUCCESS;
 				if (AppConstant.ACTIVE.equals(isActive)) {
-					msg = appMessage.getMessage("role.active.success");
+					msg = appMessage.roleActiveSuccess;
 				} else if (AppConstant.INACTIVE.equals(isActive)) {
-					msg = appMessage.getMessage("role.inactive.success");
+					msg = appMessage.roleInactiveSuccess;
 				}
 			}
 		}

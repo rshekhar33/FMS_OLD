@@ -8,7 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 
 import com.url.app.interf.controller.FacultySkillsetController;
-import com.url.app.utility.AppConstant;
+import com.url.app.utility.AppCommon;
 import com.url.app.utility.AppCssActiveClass;
 import com.url.app.utility.AppHttpSessionKey;
 import com.url.app.utility.AppUrlView;
@@ -55,7 +55,7 @@ public class FacultySkillsetControllerImpl implements FacultySkillsetController 
 		logger.debug("userId = {}, moduleId = {}", userId, moduleId);
 
 		String url = AppUrlView.REDIRECT_URL_FACULTY_SKILLSET_LIST;
-		if (userId != null && !AppConstant.BLANK_STRING.equals(userId) && moduleId != null && !AppConstant.BLANK_STRING.equals(moduleId)) {
+		if (!AppCommon.isEmpty(userId) && !AppCommon.isEmpty(moduleId)) {
 			modelMap.addAttribute(AppCssActiveClass.FACULTY_SKILLSET_CRUD_ACTIVE_CLS, AppCssActiveClass.ACTIVE_CLASS);
 			url = AppUrlView.VIEW_FACULTY_SKILLSET_CRUD;
 		}

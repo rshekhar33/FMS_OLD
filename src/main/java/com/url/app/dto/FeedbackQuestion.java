@@ -183,6 +183,7 @@ public class FeedbackQuestion implements Serializable {
 			return false;
 		}
 		FeedbackQuestion other = (FeedbackQuestion) obj;
+
 		return Objects.equals(this.getFeedbackQuestionId(), other.getFeedbackQuestionId());
 	}
 }

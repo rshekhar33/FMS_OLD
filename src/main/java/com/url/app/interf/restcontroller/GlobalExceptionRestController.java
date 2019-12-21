@@ -23,7 +23,7 @@ public interface GlobalExceptionRestController {
 	 */
 	@ExceptionHandler(value = NoHandlerFoundException.class)
 	@ResponseStatus(value = HttpStatus.NOT_FOUND)
-	public Map<String, Object> handleNoHandlerException(HttpServletRequest request, NoHandlerFoundException e);
+	Map<String, Object> handleNoHandlerException(HttpServletRequest request, NoHandlerFoundException e);
 
 	/**
 	 * HttpRequestMethodNotSupportedException
@@ -31,7 +31,7 @@ public interface GlobalExceptionRestController {
 	 */
 	@ExceptionHandler(value = HttpRequestMethodNotSupportedException.class)
 	@ResponseStatus(value = HttpStatus.METHOD_NOT_ALLOWED)
-	public Map<String, Object> handleMethodNotSupportedException(HttpServletRequest request, HttpRequestMethodNotSupportedException e);
+	Map<String, Object> handleMethodNotSupportedException(HttpServletRequest request, HttpRequestMethodNotSupportedException e);
 
 	/**
 	 * Exception
@@ -39,5 +39,5 @@ public interface GlobalExceptionRestController {
 	 */
 	@ExceptionHandler(value = Exception.class)
 	@ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
-	public Map<String, Object> handleAllException(HttpServletRequest request, Exception e);
+	Map<String, Object> handleAllException(HttpServletRequest request, Exception e);
 }

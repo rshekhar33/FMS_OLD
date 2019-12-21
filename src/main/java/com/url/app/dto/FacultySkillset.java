@@ -174,6 +174,7 @@ public class FacultySkillset implements Serializable {
 			return false;
 		}
 		FacultySkillset other = (FacultySkillset) obj;
+
 		return Objects.equals(id, other.id);
 	}
 }

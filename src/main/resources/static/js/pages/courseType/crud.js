@@ -15,7 +15,7 @@ function showErrorMsg(selector, errorMsg) {
 function loadDataFun() {
 	showLoaderRight(true);
 	var hidCourseTypeId = $("#hidCourseTypeId").val();
-	if (!isBlank(hidCourseTypeId)) {
+	if (!isEmpty(hidCourseTypeId)) {
 		$.ajax({
 			type : "POST",
 			url : contextPath + "courseType/fetchData",
@@ -57,20 +57,20 @@ function validateSubmitFun() {
 	var courseTypeNameError = "";
 	var noOfDaysError = "";
 
-	if (isBlank(courseTypeName)) {
+	if (isEmpty(courseTypeName)) {
 		courseTypeNameError = "Mandatory Field!";
 	} else if (hasRestrictedChar3(courseTypeName)) {
 		courseTypeNameError = "Course Type Name can only have alphanumeric characters, spaces and special characters like '_ @ .'";
 	}
-	if (!isBlank(noOfDays) && isNotNumber(noOfDays)) {
+	if (!isEmpty(noOfDays) && isNotNumber(noOfDays)) {
 		noOfDaysError = "Must be a number!";
 	}
 
-	if (!isBlank(courseTypeNameError)) {
+	if (!isEmpty(courseTypeNameError)) {
 		validation = false;
 		showErrorMsg("#courseTypeNameError", courseTypeNameError);
 	}
-	if (!isBlank(noOfDaysError)) {
+	if (!isEmpty(noOfDaysError)) {
 		validation = false;
 		showErrorMsg("#noOfDaysError", noOfDaysError);
 	}
@@ -90,10 +90,10 @@ function validateSubmitFun() {
 						}
 					});
 				} else {
-					if (!isBlank(responseObj.courseTypeNameError)) {
+					if (!isEmpty(responseObj.courseTypeNameError)) {
 						showErrorMsg("#courseTypeNameError", responseObj.courseTypeNameError);
 					}
-					if (!isBlank(responseObj.noOfDaysError)) {
+					if (!isEmpty(responseObj.noOfDaysError)) {
 						showErrorMsg("#noOfDaysError", responseObj.noOfDaysError);
 					}
 

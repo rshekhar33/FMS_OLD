@@ -15,7 +15,7 @@ function showErrorMsg(selector, errorMsg) {
 function loadDataFun() {
 	showLoaderRight(true);
 	var hidModuleId = $("#hidModuleId").val();
-	if (!isBlank(hidModuleId)) {
+	if (!isEmpty(hidModuleId)) {
 		$.ajax({
 			type : "POST",
 			url : contextPath + "module/fetchData",
@@ -53,12 +53,12 @@ function validateSubmitFun() {
 
 	var moduleNameError = "";
 
-	if (isBlank(moduleName)) {
+	if (isEmpty(moduleName)) {
 		moduleNameError = "Mandatory Field!";
 	} else if (hasRestrictedChar3(moduleName)) {
 		moduleNameError = "Module Name can only have alphanumeric characters, spaces and special characters like '_ @ .'";
 	}
-	if (!isBlank(moduleNameError)) {
+	if (!isEmpty(moduleNameError)) {
 		validation = false;
 		showErrorMsg("#moduleNameError", moduleNameError);
 	}
@@ -78,7 +78,7 @@ function validateSubmitFun() {
 						}
 					});
 				} else {
-					if (!isBlank(responseObj.moduleNameError)) {
+					if (!isEmpty(responseObj.moduleNameError)) {
 						showErrorMsg("#moduleNameError", responseObj.moduleNameError);
 					}
 

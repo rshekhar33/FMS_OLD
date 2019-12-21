@@ -144,6 +144,7 @@ public class UserRoleRelation implements Serializable {
 			return false;
 		}
 		UserRoleRelation other = (UserRoleRelation) obj;
+
 		return Objects.equals(id, other.id);
 	}
 }

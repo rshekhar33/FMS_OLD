@@ -187,6 +187,7 @@ public class CourseType implements Serializable {
 			return false;
 		}
 		CourseType other = (CourseType) obj;
+
 		return Objects.equals(this.getCourseTypeId(), other.getCourseTypeId());
 	}
 }
