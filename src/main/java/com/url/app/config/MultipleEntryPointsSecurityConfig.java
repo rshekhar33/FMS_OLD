@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.access.AccessDecisionVoter;
 import org.springframework.security.access.vote.AffirmativeBased;
@@ -44,6 +45,7 @@ public class MultipleEntryPointsSecurityConfig {
 	private AuthenticationService authenticationService;
 
 	@Autowired
+	@Lazy
 	private PasswordEncoder passwordEncoder;
 
 	@Bean
