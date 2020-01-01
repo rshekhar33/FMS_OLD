@@ -44,7 +44,7 @@ public class Action implements Serializable {
 
 	//bi-directional many-to-one association to Privilege
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinColumn(name = "privilege_id", nullable = false)
+	@JoinColumn(name = "privilege_id")
 	@JsonManagedReference
 	private Privilege privilege;
 

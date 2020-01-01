@@ -1,6 +1,8 @@
 spring:
-  datasource:
-    jndi-name: java:comp/env/jdbc/fmsdb
+  datasource:    driver-class-name: com.mysql.cj.jdbc.Driver
+    password: fms
+    url: jdbc:mysql://localhost:3306/fmsdb?useSSL=false
+    username: fms
   jackson:
     default-property-inclusion: non-null
     serialization:
@@ -14,4 +16,4 @@ spring:
         format_sql: true
     show-sql: false
   main:
-    allow-bean-definition-overriding: true
+    allow-bean-definition-overriding: true  profiles:    active:    - package
