@@ -26,6 +26,7 @@
 		<hibernate.validator.version>6.1.0.Final</hibernate.validator.version>
 		<commons.fileupload.version>1.4</commons.fileupload.version>
 		<javax.servlet.jsp.version>2.3.3</javax.servlet.jsp.version>
+		<jasypt.version>3.0.1</jasypt.version>
 	</properties>
 
 	<dependencies>
@@ -96,6 +97,11 @@
 			<groupId>commons-fileupload</groupId>
 			<artifactId>commons-fileupload</artifactId>
 			<version>${commons.fileupload.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.github.ulisesbocchio</groupId>
+			<artifactId>jasypt-spring-boot-starter</artifactId>
+			<version>${jasypt.version}</version>
 		</dependency>
 
 		<!-- <dependency>

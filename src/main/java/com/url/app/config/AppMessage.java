@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 
 @Configuration
-@PropertySource("classpath:app-message.properties")
+@PropertySource("classpath:messages/app-message.properties")
 public class AppMessage {
 	/**
 	 * exceptions

@@ -1,10 +1,11 @@
+jasypt:  encryptor:    bean: encryptorBean
 logging:
-  config: classpath:log4j2-default.xml
+  config: classpath:env-config/default/log4j2.xml
 spring:
   datasource:    driver-class-name: com.mysql.cj.jdbc.Driver
-    password: fms
+    password: ENC(ftEDigclRA+AvqPdTumuXw==)
     url: jdbc:mysql://localhost:3306/fmsdb?useSSL=false
-    username: fms
+    username: ENC(ftEDigclRA+AvqPdTumuXw==)
   jackson:
     default-property-inclusion: non-null
     serialization:
@@ -18,4 +19,5 @@ spring:
         format_sql: true
     show-sql: false
   main:
-    allow-bean-definition-overriding: true  profiles:    active:    - package
+    allow-bean-definition-overriding: true  profiles:    active:#    - default
+    - package

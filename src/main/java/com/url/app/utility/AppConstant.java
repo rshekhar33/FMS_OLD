@@ -37,7 +37,7 @@ public class AppConstant {
 	public static final int MAX_UPLOAD_SIZE_IN_BYTES = 2 * MAX_UPLOAD_SIZE_PER_FILE_IN_BYTES;
 
 	/* Spring settings */
-	public static final String SPRING_SECURITY_MSG_FILE_BASENAME = "springsecurity-messages";
+	public static final String SPRING_SECURITY_MSG_FILE_BASENAME = "messages/springsecurity-messages";
 	public static final String SPRING_VIEW_RESOLVER_PREFIX = "/WEB-INF/views/";
 	public static final String SPRING_VIEW_RESOLVER_SUFFIX = ".jsp";
 
