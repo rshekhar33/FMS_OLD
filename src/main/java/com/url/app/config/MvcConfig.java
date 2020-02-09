@@ -1,10 +1,6 @@
 package com.url.app.config;
 
-import org.springframework.context.MessageSource;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.support.ResourceBundleMessageSource;
-import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
@@ -28,22 +24,5 @@ public class MvcConfig implements WebMvcConfigurer {
 		resolver.setSuffix(AppConstant.SPRING_VIEW_RESOLVER_SUFFIX);
 		resolver.setExposedContextBeanNames("appAuthorization");
 		registry.viewResolver(resolver);
-	}
-
-	@Bean
-	public CommonsMultipartResolver multipartResolver() {
-		final CommonsMultipartResolver commonsMultipartResolver = new CommonsMultipartResolver();
-		commonsMultipartResolver.setMaxUploadSize(AppConstant.MAX_UPLOAD_SIZE_IN_BYTES);
-		commonsMultipartResolver.setMaxUploadSizePerFile(AppConstant.MAX_UPLOAD_SIZE_PER_FILE_IN_BYTES);
-
-		return commonsMultipartResolver;
-	}
-
-	@Bean
-	public MessageSource messageSource() {
-		final ResourceBundleMessageSource resourceBundleMessageSource = new ResourceBundleMessageSource();
-		resourceBundleMessageSource.setBasename(AppConstant.SPRING_SECURITY_MSG_FILE_BASENAME);
-
-		return resourceBundleMessageSource;
 	}
 }

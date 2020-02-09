@@ -27,9 +27,9 @@ $(function() {
 
 function loadData() {
 	showLoaderRight(true);
-	$.ajax({
-		type : "POST",
+	$.post({
 		url : contextPath + "role/fetchDetails",
+		contentType : "application/json",
 		success : function(data) {
 			var roles = data;
 			var rolesData = [];
@@ -55,8 +55,9 @@ function loadData() {
 			showLoaderRight(false);
 		},
 		error : function(jqXHR, textStatus, errorThrown) {
-			if (jqXHR.status == 403)
+			if (jqXHR.status == 403) {
 				location.reload();
+			}
 			return;
 		}
 	});
@@ -72,13 +73,14 @@ function editFun(roleId) {
 
 function activationFun(roleId, checkBoxObj) {
 	showLoaderRight(true);
-	var isActive = "0";
-	if (checkBoxObj.checked)
-		isActive = "1";
+	var isActive = 0;
+	if (checkBoxObj.checked) {
+		isActive = 1;
+	}
 
-	$.ajax({
-		type : "POST",
+	$.post({
 		url : contextPath + "role/activation",
+		contentType : "application/json",
 		data : {
 			roleId : roleId,
 			isActive : isActive
@@ -93,8 +95,9 @@ function activationFun(roleId, checkBoxObj) {
 			showLoaderRight(false);
 		},
 		error : function(jqXHR, textStatus, errorThrown) {
-			if (jqXHR.status == 403)
+			if (jqXHR.status == 403) {
 				location.reload();
+			}
 			return;
 		}
 	});

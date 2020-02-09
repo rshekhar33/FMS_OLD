@@ -6,21 +6,15 @@ function goToListModules() {
 	location.href = contextPath + "module/list";
 }
 
-function showErrorMsg(selector, errorMsg) {
-	$(selector).html("<i class='fa fa-times-circle-o'></i> " + errorMsg);
-	$(selector).removeClass("hidden");
-	$(selector).parent("div").parent(".form-group").addClass("has-error");
-}
-
 function loadDataFun() {
 	showLoaderRight(true);
-	var hidModuleId = $("#hidModuleId").val();
-	if (!isEmpty(hidModuleId)) {
-		$.ajax({
-			type : "POST",
+	var moduleId = $("#moduleId").val();
+	if (!isEmpty(moduleId)) {
+		$.post({
 			url : contextPath + "module/fetchData",
+			contentType : "application/json",
 			data : {
-				moduleId : hidModuleId
+				moduleId : moduleId
 			},
 			success : function(responseObj) {
 				var module = responseObj.module;
@@ -31,66 +25,76 @@ function loadDataFun() {
 				showLoaderRight(false);
 			},
 			error : function(jqXHR, textStatus, errorThrown) {
-				if (jqXHR.status == 403)
+				if (jqXHR.status == 403) {
 					location.reload();
+				}
 				return;
 			}
 		});
 	}
 }
 
-function validateSubmitFun() {
-	showLoaderRight(true);
-	var validation = true;
-
+function validateFun(dataObj) {
 	$(".errMsgCls").html("");
 	$(".errMsgCls").addClass("hidden");
 
 	$(".has-error").removeClass("has-error");
 
-	var hidModuleId = $("#hidModuleId").val();
-	var moduleName = $("#moduleName").val();
+	var errorObj = {
+		moduleName : ""
+	};
 
-	var moduleNameError = "";
-
-	if (isEmpty(moduleName)) {
-		moduleNameError = "Mandatory Field!";
-	} else if (hasRestrictedChar3(moduleName)) {
-		moduleNameError = "Module Name can only have alphanumeric characters, spaces and special characters like '_ @ .'";
-	}
-	if (!isEmpty(moduleNameError)) {
-		validation = false;
-		showErrorMsg("#moduleNameError", moduleNameError);
+	if (isEmpty(dataObj.moduleName)) {
+		errorObj.moduleName = "Mandatory Field!";
+	} else if (hasRestrictedChar3(dataObj.moduleName)) {
+		errorObj.moduleName = "Module Name can only have alphanumeric characters, spaces and special characters like '_ @ .'";
 	}
 
-	if (validation) {
-		$.ajax({
-			type : "POST",
-			url : contextPath + "module/validateSave",
-			data : $("#moduleForm").serialize(),
-			success : function(responseObj) {
-				if (responseObj.status == "success") {
-					bootbox.alert({
-						message : responseObj.msg,
-						backdrop : true,
-						callback : function() {
-							goToListModules();
-						}
-					});
-				} else {
-					if (!isEmpty(responseObj.moduleNameError)) {
-						showErrorMsg("#moduleNameError", responseObj.moduleNameError);
+	return showErrors(errorObj);
+}
+
+function submitFun(dataObj) {
+	$.post({
+		url : contextPath + "module/validateSave",
+		contentType : "application/json",
+		data : dataObj,
+		success : function(responseObj) {
+			if (responseObj.status == "success") {
+				bootbox.alert({
+					message : responseObj.msg,
+					backdrop : true,
+					callback : function() {
+						goToListModules();
 					}
-
-					showLoaderRight(false);
-				}
-			},
-			error : function(jqXHR, textStatus, errorThrown) {
-				if (jqXHR.status == 403)
-					location.reload();
-				return;
+				});
+			} else {
+				showLoaderRight(false);
 			}
-		});
+		},
+		error : function(jqXHR, textStatus, errorThrown) {
+			if (jqXHR.status == 403) {
+				location.reload();
+			} else {
+				var errorObj = jqXHR.responseJSON;
+				if (errorObj.status == "fail") {
+					showErrors(errorObj);
+				}
+				showLoaderRight(false);
+			}
+			return;
+		}
+	});
+}
+
+function validateSubmitFun() {
+	showLoaderRight(true);
+
+	var moduleFormData = $("#moduleForm").serializeToJSON({});
+
+	var isValid = validateFun(moduleFormData);
+
+	if (isValid) {
+		submitFun(moduleFormData);
 	} else {
 		showLoaderRight(false);
 	}

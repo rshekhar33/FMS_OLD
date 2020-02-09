@@ -27,9 +27,9 @@ $(function() {
 
 function loadData() {
 	showLoaderRight(true);
-	$.ajax({
-		type : "POST",
+	$.post({
 		url : contextPath + "module/fetchDetails",
+		contentType : "application/json",
 		success : function(data) {
 			var modules = data;
 			var modulesData = [];
@@ -55,8 +55,9 @@ function loadData() {
 			showLoaderRight(false);
 		},
 		error : function(jqXHR, textStatus, errorThrown) {
-			if (jqXHR.status == 403)
+			if (jqXHR.status == 403) {
 				location.reload();
+			}
 			return;
 		}
 	});
@@ -72,13 +73,14 @@ function editFun(moduleId) {
 
 function activationFun(moduleId, checkBoxObj) {
 	showLoaderRight(true);
-	var isActive = "0";
-	if (checkBoxObj.checked)
-		isActive = "1";
+	var isActive = 0;
+	if (checkBoxObj.checked) {
+		isActive = 1;
+	}
 
-	$.ajax({
-		type : "POST",
+	$.post({
 		url : contextPath + "module/activation",
+		contentType : "application/json",
 		data : {
 			moduleId : moduleId,
 			isActive : isActive
@@ -93,8 +95,9 @@ function activationFun(moduleId, checkBoxObj) {
 			showLoaderRight(false);
 		},
 		error : function(jqXHR, textStatus, errorThrown) {
-			if (jqXHR.status == 403)
+			if (jqXHR.status == 403) {
 				location.reload();
+			}
 			return;
 		}
 	});

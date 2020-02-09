@@ -69,7 +69,7 @@
 							<!-- form start -->
 							<form method="post" id="roleForm" name="roleForm" onsubmit="return false;" class="form-horizontal">
 								<div class="box-body">
-									<input type="hidden" id="hidRoleId" name="hidRoleId" value="${hidRoleId}" />
+									<input type="hidden" id="roleId" name="roleId" value="${hidRoleId}" />
 									<div class="form-group">
 										<label for="roleName" class="col-sm-2 control-label">Role Name*</label>
 
@@ -113,6 +113,8 @@
 	<script src="${contextPath}resources/bootbox/bootbox.min.js"></script>
 	<!-- FastClick -->
 	<script src="${contextPath}resources/fastclick/fastclick.js"></script>
+	<!-- SerializeToJSON -->
+	<script src="${contextPath}resources/serialize/jquery.serializeToJSON.min.js"></script>
 	<!-- AdminLTE App -->
 	<script src="${contextPath}js/adminlte.min.js"></script>
 	<!-- AdminLTE for demo purposes -->

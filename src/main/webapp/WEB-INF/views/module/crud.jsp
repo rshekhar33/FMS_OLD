@@ -69,7 +69,7 @@
 							<!-- form start -->
 							<form method="post" id="moduleForm" name="moduleForm" onsubmit="return false;" class="form-horizontal">
 								<div class="box-body">
-									<input type="hidden" id="hidModuleId" name="hidModuleId" value="${hidModuleId}" />
+									<input type="hidden" id="moduleId" name="moduleId" value="${hidModuleId}" />
 									<div class="form-group">
 										<label for="moduleName" class="col-sm-2 control-label">Module Name*</label>
 
@@ -113,6 +113,8 @@
 	<script src="${contextPath}resources/bootbox/bootbox.min.js"></script>
 	<!-- FastClick -->
 	<script src="${contextPath}resources/fastclick/fastclick.js"></script>
+	<!-- SerializeToJSON -->
+	<script src="${contextPath}resources/serialize/jquery.serializeToJSON.min.js"></script>
 	<!-- AdminLTE App -->
 	<script src="${contextPath}js/adminlte.min.js"></script>
 	<!-- AdminLTE for demo purposes -->

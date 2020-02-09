@@ -2,26 +2,35 @@
 <!DOCTYPE xml>
 <Configuration>
 	<Properties>
-		<Property name="InfoFileName">/DevTools/Development/FMS_FILES/logs/infolog.log
-		</Property>
-		<Property name="WarnFileName">/DevTools/Development/FMS_FILES/logs/warnlog.log
-		</Property>
+		<Property name="rootFilePath" value="/DevTools/Development/FMS_FILES/logs" />
+		<Property name="infoFileName" value="${rootFilePath}/infolog.log" />
+		<Property name="warnFileName" value="${rootFilePath}/warnlog.log" />
+		<Property name="infoFilePattern" value="${rootFilePath}/$${date:yyyy-MM-dd}/infolog-%d{yyyy-MM-dd}-%i.log.zip" />
+		<Property name="warnFilePattern" value="${rootFilePath}/$${date:yyyy-MM-dd}/warnlog-%d{yyyy-MM-dd}-%i.log.zip" />
 	</Properties>
 	<Appenders>
 		<Console name="STDOUT" target="SYSTEM_OUT">
-			<PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} - %-5p %c :%L - %m%n" />
+			<PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} - %-5p %c :%L - %m%n" />
 		</Console>
-		<File name="InfoFile" fileName="${InfoFileName}">
-			<Filters>
-				<ThresholdFilter level="WARN" onMatch="DENY" onMismatch="NEUTRAL" />
-				<ThresholdFilter level="ERROR" onMatch="DENY" onMismatch="NEUTRAL" />
-				<ThresholdFilter level="FATAL" onMatch="DENY" onMismatch="NEUTRAL" />
-			</Filters>
-			<PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} - %-5p %c :%L - %m%n" />
-		</File>
-		<File name="WarnFile" fileName="${WarnFileName}">
-			<PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} - %-5p %c :%L - %m%n" />
-		</File>
+		<RollingFile name="InfoFile" fileName="${infoFileName}" filePattern="${infoFilePattern}">
+			<LevelRangeFilter minLevel="INFO" maxLevel="DEBUG" onMatch="ACCEPT" onMismatch="DENY" />
+			<PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} - %-5p %c :%L - %m%n" />
+			<Policies>
+				<OnStartupTriggeringPolicy />
+				<TimeBasedTriggeringPolicy />
+				<SizeBasedTriggeringPolicy size="10 MB" />
+			</Policies>
+			<DefaultRolloverStrategy fileIndex="nomax" />
+		</RollingFile>
+		<RollingFile name="WarnFile" fileName="${warnFileName}" filePattern="${warnFilePattern}">
+			<PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} - %-5p %c :%L - %m%n" />
+			<Policies>
+				<OnStartupTriggeringPolicy />
+				<TimeBasedTriggeringPolicy />
+				<SizeBasedTriggeringPolicy size="10 MB" />
+			</Policies>
+			<DefaultRolloverStrategy fileIndex="nomax" />
+		</RollingFile>
 	</Appenders>
 	<Loggers>
 		<Logger name="com.url.app" level="DEBUG" additivity="false">

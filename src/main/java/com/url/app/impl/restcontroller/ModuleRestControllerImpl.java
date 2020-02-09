@@ -27,17 +27,17 @@ public class ModuleRestControllerImpl implements ModuleRestController {
 	}
 
 	@Override
-	public Map<String, Module> fetchData(final String moduleIdStr) {
-		return appModuleService.fetchDataModule(moduleIdStr);
+	public Map<String, Module> fetchData(final Module module) {
+		return appModuleService.fetchDataModule(module);
 	}
 
 	@Override
-	public Map<String, String> validateSave(final Map<String, String> allRequestParams) {
-		return appModuleService.validateSaveModule(allRequestParams);
+	public Map<String, String> validateSave(final Module module) {
+		return appModuleService.validateSaveModule(module);
 	}
 
 	@Override
-	public Map<String, String> validateUpdateActivation(final Map<String, String> allRequestParams) {
-		return appModuleService.validateUpdateActivation(allRequestParams);
+	public Map<String, String> validateUpdateActivation(final Module module) {
+		return appModuleService.validateUpdateActivation(module);
 	}
 }

@@ -39,9 +39,9 @@ $(function() {
 
 function loadData() {
 	showLoaderRight(true);
-	$.ajax({
-		type : "POST",
+	$.post({
 		url : contextPath + "user/fetchDetails",
+		contentType : "application/json",
 		success : function(data) {
 			var users = data;
 			var usersData = [];
@@ -71,8 +71,9 @@ function loadData() {
 			showLoaderRight(false);
 		},
 		error : function(jqXHR, textStatus, errorThrown) {
-			if (jqXHR.status == 403)
+			if (jqXHR.status == 403) {
 				location.reload();
+			}
 			return;
 		}
 	});
@@ -88,13 +89,14 @@ function editFun(userId) {
 
 function activationFun(userId, checkBoxObj) {
 	showLoaderRight(true);
-	var isActive = "0";
-	if (checkBoxObj.checked)
-		isActive = "1";
+	var isActive = 0;
+	if (checkBoxObj.checked) {
+		isActive = 1;
+	}
 
-	$.ajax({
-		type : "POST",
+	$.post({
 		url : contextPath + "user/activation",
+		contentType : "application/json",
 		data : {
 			userId : userId,
 			isActive : isActive
@@ -109,8 +111,9 @@ function activationFun(userId, checkBoxObj) {
 			showLoaderRight(false);
 		},
 		error : function(jqXHR, textStatus, errorThrown) {
-			if (jqXHR.status == 403)
+			if (jqXHR.status == 403) {
 				location.reload();
+			}
 			return;
 		}
 	});

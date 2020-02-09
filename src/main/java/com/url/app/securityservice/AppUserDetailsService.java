@@ -21,8 +21,8 @@ import com.url.app.interf.service.AppUserService;
  */
 @Service
 @Transactional
-public class AuthenticationService implements UserDetailsService {
-	private static final Logger logger = LoggerFactory.getLogger(AuthenticationService.class);
+public class AppUserDetailsService implements UserDetailsService {
+	private static final Logger logger = LoggerFactory.getLogger(AppUserDetailsService.class);
 
 	@Autowired
 	private AppUserService appUserService;

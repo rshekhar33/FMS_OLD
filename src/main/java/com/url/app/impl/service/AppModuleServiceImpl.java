@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,6 +18,7 @@ import com.url.app.interf.service.AppUserService;
 import com.url.app.utility.AppCommon;
 import com.url.app.utility.AppConstant;
 import com.url.app.utility.AppResponseKey;
+import com.url.app.validation.AppModuleValidationService;
 
 /**
  * Service implementation of application for Module.
@@ -25,7 +28,7 @@ import com.url.app.utility.AppResponseKey;
  */
 @Service(value = "appModuleServiceImpl")
 public class AppModuleServiceImpl implements AppModuleService {
-	//private static final Logger logger = LoggerFactory.getLogger(AppModuleServiceImpl.class);
+	private static final Logger logger = LoggerFactory.getLogger(AppModuleServiceImpl.class);
 
 	@Autowired
 	private AppUserService appUserService;
@@ -36,6 +39,9 @@ public class AppModuleServiceImpl implements AppModuleService {
 	@Autowired
 	private AppMessage appMessage;
 
+	@Autowired
+	private AppModuleValidationService appModuleValidationService;
+
 	@Override
 	@Transactional(readOnly = true)
 	public List<Module> fetchDetailsModules() {
@@ -44,12 +50,11 @@ public class AppModuleServiceImpl implements AppModuleService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public Map<String, Module> fetchDataModule(final String moduleIdStr) {
+	public Map<String, Module> fetchDataModule(final Module formModule) {
 		final Map<String, Module> json = new ConcurrentHashMap<>();
 
-		if (!AppCommon.isEmpty(moduleIdStr)) {
-			final Integer moduleId = Integer.parseInt(moduleIdStr);
-			final Module module = moduleRepository.getOne(moduleId);
+		if (AppCommon.isPositiveInteger(formModule.getModuleId())) {
+			final Module module = moduleRepository.getOne(formModule.getModuleId());
 			json.put(AppResponseKey.MODULE, module);
 		}
 
@@ -58,105 +63,68 @@ public class AppModuleServiceImpl implements AppModuleService {
 
 	@Override
 	@Transactional
-	public Map<String, String> validateSaveModule(final Map<String, String> allRequestParams) {
-		final String hidModuleIdStr = allRequestParams.getOrDefault("hidModuleId", "0");
-		final String moduleName = allRequestParams.get("moduleName");
+	public Map<String, String> validateSaveModule(final Module formModule) {
+		logger.info("module : {}", formModule);
 
-		Integer hidModuleId = AppCommon.toInteger(hidModuleIdStr);
+		if (AppCommon.isPositiveInteger(formModule.getModuleId())) {
+			appModuleValidationService.validateForUpdate(formModule);
+		} else {
+			appModuleValidationService.validateForCreate(formModule);
+		}
 
 		String status = AppConstant.BLANK_STRING;
 		String msg = AppConstant.BLANK_STRING;
-		String moduleNameError = AppConstant.BLANK_STRING;
+		final Integer loggedInUserId = appUserService.getPrincipalUserUserId();
 
-		if (AppCommon.isEmpty(moduleName)) {
-			status = AppConstant.FAIL;
-			moduleNameError = appMessage.mandatoryFieldError;
-		} else if (AppCommon.hasRestrictedChar3(moduleName)) {
-			status = AppConstant.FAIL;
-			moduleNameError = appMessage.moduleModulenameRestrictedchar3Error;
+		Module module = new Module();
+		if (AppCommon.isPositiveInteger(formModule.getModuleId())) {
+			module = moduleRepository.getOne(formModule.getModuleId());
+		} else {
+			module.setIsActive(AppConstant.ACTIVE);
+			module.setCreatedBy(loggedInUserId);
 		}
+		module.setModuleName(formModule.getModuleName());
+		module.setModifiedBy(loggedInUserId);
 
-		if (AppCommon.isEmpty(status)) {
-			if (hidModuleId == 0) {
-				final Long moduleNameCount = moduleRepository.countByModuleName(moduleName);
-				if (moduleNameCount > 0) {
-					status = AppConstant.FAIL;
-					moduleNameError = appMessage.moduleModulenameExistsError;
-				}
+		moduleRepository.save(module);
+		final Integer moduleId = module.getModuleId();
+
+		if (AppCommon.isPositiveInteger(moduleId)) {
+			status = AppConstant.SUCCESS;
+			if (AppCommon.isPositiveInteger(formModule.getModuleId())) {
+				msg = appMessage.moduleUpdateSuccess;
 			} else {
-				final Long moduleNameCount = moduleRepository.countByModuleNameAndModuleIdNot(moduleName, hidModuleId);
-				if (moduleNameCount > 0) {
-					status = AppConstant.FAIL;
-					moduleNameError = appMessage.moduleModulenameExistsError;
-				}
-			}
-		}
-
-		if (AppCommon.isEmpty(status)) {
-			final Integer loggedInUserId = appUserService.getPrincipalUserUserId();
-
-			Module module = new Module();
-			if (hidModuleId > 0) {
-				module = moduleRepository.getOne(hidModuleId);
-			} else {
-				module.setIsActive(AppConstant.ACTIVE);
-				module.setCreatedBy(loggedInUserId);
-			}
-			module.setModuleName(moduleName);
-			module.setModifiedBy(loggedInUserId);
-
-			moduleRepository.save(module);
-			final Integer moduleId = module.getModuleId();
-
-			if (AppCommon.isPositiveInteger(moduleId)) {
-				status = AppConstant.SUCCESS;
-				if (hidModuleId > 0) {
-					msg = appMessage.moduleUpdateSuccess;
-				} else {
-					msg = appMessage.moduleAddSuccess;
-				}
+				msg = appMessage.moduleAddSuccess;
 			}
 		}
 
 		final Map<String, String> json = new ConcurrentHashMap<>();
 		json.put(AppResponseKey.STATUS, status);
 		json.put(AppResponseKey.MSG, msg);
-		json.put(AppResponseKey.MODULE_NAME_ERROR, moduleNameError);
 
 		return json;
 	}
 
 	@Override
 	@Transactional
-	public Map<String, String> validateUpdateActivation(final Map<String, String> allRequestParams) {
-		final String moduleIdStr = allRequestParams.getOrDefault("moduleId", "0");
-		final String isActiveStr = allRequestParams.get("isActive");
+	public Map<String, String> validateUpdateActivation(final Module formModule) {
+		appModuleValidationService.validateForActivate(formModule);
 
 		String status = AppConstant.BLANK_STRING;
 		String msg = AppConstant.BLANK_STRING;
 
-		Integer moduleId = AppCommon.toInteger(moduleIdStr);
-		Integer isActive = AppCommon.toIntegerOrNull(isActiveStr);
+		final Module module = moduleRepository.getOne(formModule.getModuleId());
+		module.setIsActive(formModule.getIsActive());
 
-		if (moduleId == 0 || (!AppConstant.ACTIVE.equals(isActive) && !AppConstant.INACTIVE.equals(isActive))) {
-			status = AppConstant.FAIL;
-			msg = appMessage.updateFailedError;
-		}
+		moduleRepository.save(module);
+		final Integer moduleIdUpdate = module.getModuleId();
 
-		if (AppCommon.isEmpty(status)) {
-			Module module = moduleRepository.getOne(moduleId);
-			module.setIsActive(isActive);
-
-			moduleRepository.save(module);
-			final Integer moduleIdUpdate = module.getModuleId();
-
-			if (AppCommon.isPositiveInteger(moduleIdUpdate)) {
-				status = AppConstant.SUCCESS;
-				if (AppConstant.ACTIVE.equals(isActive)) {
-					msg = appMessage.moduleActiveSuccess;
-				} else if (AppConstant.INACTIVE.equals(isActive)) {
-					msg = appMessage.moduleInactiveSuccess;
-				}
+		if (AppCommon.isPositiveInteger(moduleIdUpdate)) {
+			status = AppConstant.SUCCESS;
+			if (AppConstant.ACTIVE.equals(formModule.getIsActive())) {
+				msg = appMessage.moduleActiveSuccess;
+			} else if (AppConstant.INACTIVE.equals(formModule.getIsActive())) {
+				msg = appMessage.moduleInactiveSuccess;
 			}
 		}
 

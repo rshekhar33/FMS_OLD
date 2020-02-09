@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.url.app.dto.User;
 import com.url.app.dto.UserMng;
 import com.url.app.interf.restcontroller.UserRestController;
 import com.url.app.interf.service.AppUserService;
@@ -27,17 +28,17 @@ public class UserRestControllerImpl implements UserRestController {
 	}
 
 	@Override
-	public Map<String, Object> fetchData(final String userIdStr) {
-		return appUserService.fetchDataUser(userIdStr);
+	public Map<String, Object> fetchData(final User user) {
+		return appUserService.fetchDataUser(user);
 	}
 
 	@Override
-	public Map<String, String> validateSave(final Map<String, String> allRequestParams) {
-		return appUserService.validateSaveUser(allRequestParams);
+	public Map<String, String> validateSave(final User user) {
+		return appUserService.validateSaveUser(user);
 	}
 
 	@Override
-	public Map<String, String> validateUpdateActivation(final Map<String, String> allRequestParams) {
-		return appUserService.validateUpdateActivation(allRequestParams);
+	public Map<String, String> validateUpdateActivation(final User user) {
+		return appUserService.validateUpdateActivation(user);
 	}
 }

@@ -33,9 +33,9 @@ $(function() {
 
 function loadData() {
 	showLoaderRight(true);
-	$.ajax({
-		type : "POST",
+	$.post({
 		url : contextPath + "courseType/fetchDetails",
+		contentType : "application/json",
 		success : function(data) {
 			var courseTypes = data;
 			var courseTypesData = [];
@@ -63,8 +63,9 @@ function loadData() {
 			showLoaderRight(false);
 		},
 		error : function(jqXHR, textStatus, errorThrown) {
-			if (jqXHR.status == 403)
+			if (jqXHR.status == 403) {
 				location.reload();
+			}
 			return;
 		}
 	});
@@ -80,13 +81,14 @@ function editFun(courseTypeId) {
 
 function activationFun(courseTypeId, checkBoxObj) {
 	showLoaderRight(true);
-	var isActive = "0";
-	if (checkBoxObj.checked)
-		isActive = "1";
+	var isActive = 0;
+	if (checkBoxObj.checked) {
+		isActive = 1;
+	}
 
-	$.ajax({
-		type : "POST",
+	$.post({
 		url : contextPath + "courseType/activation",
+		contentType : "application/json",
 		data : {
 			courseTypeId : courseTypeId,
 			isActive : isActive
@@ -101,8 +103,9 @@ function activationFun(courseTypeId, checkBoxObj) {
 			showLoaderRight(false);
 		},
 		error : function(jqXHR, textStatus, errorThrown) {
-			if (jqXHR.status == 403)
+			if (jqXHR.status == 403) {
 				location.reload();
+			}
 			return;
 		}
 	});

@@ -30,7 +30,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 /**
  * The persistent class for the course database table.
@@ -82,19 +81,17 @@ public class Course implements Serializable {
 	//bi-directional many-to-one association to CourseType
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "course_type_id", nullable = false)
-	@JsonManagedReference
 	private CourseType courseType;
 
 	//bi-directional many-to-one association to FacultySkillset
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumns({ @JoinColumn(name = "module_id", referencedColumnName = "module_id", nullable = false),
 			@JoinColumn(name = "user_id", referencedColumnName = "user_id", nullable = false) })
-	@JsonManagedReference
 	private FacultySkillset facultySkillset;
 
 	//bi-directional many-to-one association to FeedbackQuestion
 	@OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
-	@JsonBackReference
+	@JsonBackReference(value = "course_feedbackQuestion")
 	private Set<FeedbackQuestion> feedbackQuestions = new HashSet<>(0);
 
 	public Course() {

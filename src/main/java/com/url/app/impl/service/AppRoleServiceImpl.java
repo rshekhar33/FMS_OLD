@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,6 +18,7 @@ import com.url.app.interf.service.AppUserService;
 import com.url.app.utility.AppCommon;
 import com.url.app.utility.AppConstant;
 import com.url.app.utility.AppResponseKey;
+import com.url.app.validation.AppRoleValidationService;
 
 /**
  * Service implementation of application for Role.
@@ -25,7 +28,7 @@ import com.url.app.utility.AppResponseKey;
  */
 @Service(value = "appRoleServiceImpl")
 public class AppRoleServiceImpl implements AppRoleService {
-	//private static final Logger logger = LoggerFactory.getLogger(AppRoleServiceImpl.class);
+	private static final Logger logger = LoggerFactory.getLogger(AppRoleServiceImpl.class);
 
 	@Autowired
 	private AppUserService appUserService;
@@ -36,6 +39,9 @@ public class AppRoleServiceImpl implements AppRoleService {
 	@Autowired
 	private AppMessage appMessage;
 
+	@Autowired
+	private AppRoleValidationService appRoleValidationService;
+
 	@Override
 	@Transactional(readOnly = true)
 	public List<Role> fetchDetailsRoles() {
@@ -44,12 +50,11 @@ public class AppRoleServiceImpl implements AppRoleService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public Map<String, Role> fetchDataRole(final String roleIdStr) {
+	public Map<String, Role> fetchDataRole(final Role formRole) {
 		final Map<String, Role> json = new ConcurrentHashMap<>();
 
-		if (!AppCommon.isEmpty(roleIdStr)) {
-			final Integer roleId = Integer.parseInt(roleIdStr);
-			final Role role = roleRepository.getOne(roleId);
+		if (AppCommon.isPositiveInteger(formRole.getRoleId())) {
+			final Role role = roleRepository.getOne(formRole.getRoleId());
 			json.put(AppResponseKey.ROLE, role);
 		}
 
@@ -58,105 +63,68 @@ public class AppRoleServiceImpl implements AppRoleService {
 
 	@Override
 	@Transactional
-	public Map<String, String> validateSaveRole(final Map<String, String> allRequestParams) {
-		final String hidRoleIdStr = allRequestParams.getOrDefault("hidRoleId", "0");
-		final String roleName = allRequestParams.get("roleName");
+	public Map<String, String> validateSaveRole(final Role formRole) {
+		logger.info("role : {}", formRole);
 
-		Integer hidRoleId = AppCommon.toInteger(hidRoleIdStr);
+		if (AppCommon.isPositiveInteger(formRole.getRoleId())) {
+			appRoleValidationService.validateForUpdate(formRole);
+		} else {
+			appRoleValidationService.validateForCreate(formRole);
+		}
 
 		String status = AppConstant.BLANK_STRING;
 		String msg = AppConstant.BLANK_STRING;
-		String roleNameError = AppConstant.BLANK_STRING;
+		final Integer loggedInUserId = appUserService.getPrincipalUserUserId();
 
-		if (AppCommon.isEmpty(roleName)) {
-			status = AppConstant.FAIL;
-			roleNameError = appMessage.mandatoryFieldError;
-		} else if (AppCommon.hasRestrictedChar3(roleName)) {
-			status = AppConstant.FAIL;
-			roleNameError = appMessage.roleRolenameRestrictedchar3Error;
+		Role role = new Role();
+		if (AppCommon.isPositiveInteger(formRole.getRoleId())) {
+			role = roleRepository.getOne(formRole.getRoleId());
+		} else {
+			role.setIsActive(AppConstant.ACTIVE);
+			role.setCreatedBy(loggedInUserId);
 		}
+		role.setRoleName(formRole.getRoleName());
+		role.setModifiedBy(loggedInUserId);
 
-		if (AppCommon.isEmpty(status)) {
-			if (hidRoleId == 0) {
-				final Long roleNameCount = roleRepository.countByRoleName(roleName);
-				if (roleNameCount > 0) {
-					status = AppConstant.FAIL;
-					roleNameError = appMessage.roleRolenameExistsError;
-				}
+		roleRepository.save(role);
+		final Integer roleId = role.getRoleId();
+
+		if (AppCommon.isPositiveInteger(roleId)) {
+			status = AppConstant.SUCCESS;
+			if (AppCommon.isPositiveInteger(formRole.getRoleId())) {
+				msg = appMessage.roleUpdateSuccess;
 			} else {
-				final Long roleNameCount = roleRepository.countByRoleNameAndRoleIdNot(roleName, hidRoleId);
-				if (roleNameCount > 0) {
-					status = AppConstant.FAIL;
-					roleNameError = appMessage.roleRolenameExistsError;
-				}
-			}
-		}
-
-		if (AppCommon.isEmpty(status)) {
-			final Integer loggedInUserId = appUserService.getPrincipalUserUserId();
-
-			Role role = new Role();
-			if (hidRoleId > 0) {
-				role = roleRepository.getOne(hidRoleId);
-			} else {
-				role.setIsActive(AppConstant.ACTIVE);
-				role.setCreatedBy(loggedInUserId);
-			}
-			role.setRoleName(roleName);
-			role.setModifiedBy(loggedInUserId);
-
-			roleRepository.save(role);
-			final Integer roleId = role.getRoleId();
-
-			if (AppCommon.isPositiveInteger(roleId)) {
-				status = AppConstant.SUCCESS;
-				if (hidRoleId > 0) {
-					msg = appMessage.roleUpdateSuccess;
-				} else {
-					msg = appMessage.roleAddSuccess;
-				}
+				msg = appMessage.roleAddSuccess;
 			}
 		}
 
 		final Map<String, String> json = new ConcurrentHashMap<>();
 		json.put(AppResponseKey.STATUS, status);
 		json.put(AppResponseKey.MSG, msg);
-		json.put(AppResponseKey.ROLE_NAME_ERROR, roleNameError);
 
 		return json;
 	}
 
 	@Override
 	@Transactional
-	public Map<String, String> validateUpdateActivation(final Map<String, String> allRequestParams) {
-		final String roleIdStr = allRequestParams.getOrDefault("roleId", "0");
-		final String isActiveStr = allRequestParams.get("isActive");
+	public Map<String, String> validateUpdateActivation(final Role formRole) {
+		appRoleValidationService.validateForActivate(formRole);
 
 		String status = AppConstant.BLANK_STRING;
 		String msg = AppConstant.BLANK_STRING;
 
-		Integer roleId = AppCommon.toInteger(roleIdStr);
-		Integer isActive = AppCommon.toIntegerOrNull(isActiveStr);
+		final Role role = roleRepository.getOne(formRole.getRoleId());
+		role.setIsActive(formRole.getIsActive());
 
-		if (roleId == 0 || (!AppConstant.ACTIVE.equals(isActive) && !AppConstant.INACTIVE.equals(isActive))) {
-			status = AppConstant.FAIL;
-			msg = appMessage.updateFailedError;
-		}
+		roleRepository.save(role);
+		final Integer roleIdUpdate = role.getRoleId();
 
-		if (AppCommon.isEmpty(status)) {
-			Role role = roleRepository.getOne(roleId);
-			role.setIsActive(isActive);
-
-			roleRepository.save(role);
-			final Integer roleIdUpdate = role.getRoleId();
-
-			if (AppCommon.isPositiveInteger(roleIdUpdate)) {
-				status = AppConstant.SUCCESS;
-				if (AppConstant.ACTIVE.equals(isActive)) {
-					msg = appMessage.roleActiveSuccess;
-				} else if (AppConstant.INACTIVE.equals(isActive)) {
-					msg = appMessage.roleInactiveSuccess;
-				}
+		if (AppCommon.isPositiveInteger(roleIdUpdate)) {
+			status = AppConstant.SUCCESS;
+			if (AppConstant.ACTIVE.equals(formRole.getIsActive())) {
+				msg = appMessage.roleActiveSuccess;
+			} else if (AppConstant.INACTIVE.equals(formRole.getIsActive())) {
+				msg = appMessage.roleInactiveSuccess;
 			}
 		}
 

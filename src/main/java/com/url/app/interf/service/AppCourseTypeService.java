@@ -23,28 +23,28 @@ public interface AppCourseTypeService {
 	/**
 	 * Fetch course type data in case courseTypeId is sent else data required on add course type screen.
 	 * 
-	 * @param courseTypeIdStr the courseTypeId of course type.
+	 * @param courseType contains the courseTypeId of course type.
 	 * @return course type data in json format.
 	 */
-	Map<String, CourseType> fetchDataCourseType(String courseTypeIdStr);
+	Map<String, CourseType> fetchDataCourseType(CourseType courseType);
 
 	/**
 	 * Validates add/update course type data.
 	 * If data is valid then it adds or updates the course type,
 	 * if data is invalid then proper error messages are returned in JSON format.
 	 * 
-	 * @param allRequestParams all the parameters of add/update screen.
+	 * @param courseType all the parameters of add/update screen.
 	 * @return status as success if data is valid or else all the validation messages with status as failure in JSON.
 	 */
-	Map<String, String> validateSaveCourseType(Map<String, String> allRequestParams);
+	Map<String, String> validateSaveCourseType(CourseType courseType);
 
 	/**
 	 * Validates course type activation data.
 	 * If data is valid then it updates the course type's isActive flag,
 	 * if data is invalid then proper error messages are returned in JSON format.
 	 * 
-	 * @param allRequestParams all the parameters of activation.
+	 * @param courseType all the parameters of activation.
 	 * @return status as success if data is valid or else all the validation messages with status as failure in JSON.
 	 */
-	Map<String, String> validateUpdateActivation(Map<String, String> allRequestParams);
+	Map<String, String> validateUpdateActivation(CourseType courseType);
 }

@@ -18,6 +18,13 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.Size;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -25,6 +32,13 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.url.app.validation.BasicActivateGroup;
+import com.url.app.validation.BasicCreateGroup;
+import com.url.app.validation.BasicUpdateGroup;
+import com.url.app.validation.DBCreateGroup;
+import com.url.app.validation.DBUpdateGroup;
+import com.url.app.validation.RoleNameNotExists;
+import com.url.app.validation.RoleNameNotExistsUpdate;
 
 /**
  * The persistent class for the role database table.
@@ -34,12 +48,15 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @EntityListeners(AuditingEntityListener.class)
 @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 @NamedQuery(name = "Role.findAll", query = "SELECT r FROM Role r")
+@RoleNameNotExistsUpdate(groups = DBUpdateGroup.class, message = "{role.rolename.exists.error}")
 public class Role implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "role_id", unique = true, nullable = false)
+	@NotNull(groups = BasicActivateGroup.class, message = "{update.failed.error}")
+	@Positive(groups = BasicActivateGroup.class, message = "{update.failed.error}")
 	private Integer roleId;
 
 	@Column(name = "created_by", updatable = false, nullable = false)
@@ -51,6 +68,9 @@ public class Role implements Serializable {
 	private Date createdDate;
 
 	@Column(name = "is_active", nullable = false)
+	@NotNull(groups = BasicActivateGroup.class, message = "{update.failed.error}")
+	@Min(groups = BasicActivateGroup.class, value = 0, message = "{update.failed.error}")
+	@Max(groups = BasicActivateGroup.class, value = 1, message = "{update.failed.error}")
 	private Integer isActive;
 
 	@Column(name = "modified_by", nullable = false)
@@ -62,16 +82,20 @@ public class Role implements Serializable {
 	private Date modifiedDate;
 
 	@Column(name = "role_name", unique = true, nullable = false, length = 50)
+	@NotBlank(groups = { BasicCreateGroup.class, BasicUpdateGroup.class }, message = "{mandatory.field.error}")
+	@Pattern(groups = { BasicCreateGroup.class, BasicUpdateGroup.class }, regexp = "^[\\w\\.@ ]+$", message = "{role.rolename.restrictedchar3.error}")
+	@Size(groups = { BasicCreateGroup.class, BasicUpdateGroup.class }, max = 50, message = "{length.error}")
+	@RoleNameNotExists(groups = DBCreateGroup.class, message = "{role.rolename.exists.error}")
 	private String roleName;
 
 	//bi-directional many-to-one association to RolePrivilegeRelation
 	@OneToMany(mappedBy = "id.role", cascade = CascadeType.ALL, orphanRemoval = true)
-	@JsonBackReference
+	@JsonBackReference(value = "role_rolePrivilegeRelation")
 	private Set<RolePrivilegeRelation> rolePrivilegeRelations = new HashSet<>(0);
 
 	//bi-directional many-to-one association to UserRoleRelation
 	@OneToMany(mappedBy = "id.role", cascade = CascadeType.ALL, orphanRemoval = true)
-	@JsonBackReference
+	@JsonBackReference(value = "role_userRoleRelation")
 	private Set<UserRoleRelation> userRoleRelations = new HashSet<>(0);
 
 	public Role() {

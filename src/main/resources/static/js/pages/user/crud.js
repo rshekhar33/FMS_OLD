@@ -9,23 +9,17 @@ function goToListUsers() {
 	location.href = contextPath + "user/list";
 }
 
-function showErrorMsg(selector, errorMsg) {
-	$(selector).html("<i class='fa fa-times-circle-o'></i> " + errorMsg);
-	$(selector).removeClass("hidden");
-	$(selector).parent("div").parent(".form-group").addClass("has-error");
-}
-
 function loadDataFun() {
 	showLoaderRight(true);
-	var hidUserId = $("#hidUserId").val();
-	if (!isEmpty(hidUserId)) {
+	var userId = $("#userId").val();
+	if (!isEmpty(userId)) {
 		$("#userName").prop("disabled", true);
 	}
-	$.ajax({
-		type : "POST",
+	$.post({
 		url : contextPath + "user/fetchData",
+		contentType : "application/json",
 		data : {
-			userId : hidUserId
+			userId : userId
 		},
 		success : function(responseObj) {
 			var user = responseObj.user;
@@ -42,7 +36,7 @@ function loadDataFun() {
 					});
 				}
 			}
-			if (!isEmpty(hidUserId) && user != null) {
+			if (!isEmpty(userId) && user != null) {
 				$("#userName").val(user.userName);
 				$("#firstName").val(user.firstName);
 				$("#middleName").val(user.middleName);
@@ -54,15 +48,102 @@ function loadDataFun() {
 				placeholder : "Select an option",
 				data : dropdownData
 			});
-			if (!isEmpty(hidUserId) && userRoleIds != null) {
+			if (!isEmpty(userId) && userRoleIds != null) {
 				$("#roles").val(userRoleIds);
 				$("#roles").trigger("change");
 			}
 			showLoaderRight(false);
 		},
 		error : function(jqXHR, textStatus, errorThrown) {
-			if (jqXHR.status == 403)
+			if (jqXHR.status == 403) {
 				location.reload();
+			}
+			return;
+		}
+	});
+}
+
+function validateFun(dataObj) {
+	$(".errMsgCls").html("");
+	$(".errMsgCls").addClass("hidden");
+
+	$(".has-error").removeClass("has-error");
+
+	var errorObj = {
+		userName : "",
+		firstName : "",
+		middleName : "",
+		lastName : "",
+		emailId : "",
+		mobileNo : "",
+		roles : ""
+	};
+
+	if (isEmpty(dataObj.userId)) {
+		if (isEmpty(dataObj.userName)) {
+			errorObj.userName = "Mandatory Field!";
+		} else if (hasRestrictedChar2(dataObj.userName)) {
+			errorObj.userName = "UserName can only have alphanumeric characters and special characters like '_ @ .'";
+		}
+	}
+	if (isEmpty(dataObj.firstName)) {
+		errorObj.firstName = "Mandatory Field!";
+	} else if (!hasOnlyAlphabets(dataObj.firstName)) {
+		errorObj.firstName = "First Name can only have alphabets!";
+	}
+	if (!isEmpty(dataObj.middleName) && !hasOnlyAlphabets(dataObj.middleName)) {
+		errorObj.middleName = "Middle Name can only have alphabets!";
+	}
+	if (!isEmpty(dataObj.lastName) && !hasOnlyAlphabets(dataObj.lastName)) {
+		errorObj.lastName = "Last Name can only have alphabets!";
+	}
+	if (isEmpty(dataObj.emailId)) {
+		errorObj.emailId = "Mandatory Field!";
+	} else if (isNotValidEmail(dataObj.emailId)) {
+		errorObj.emailId = "Invalid Email!";
+	}
+	if (isEmpty(dataObj.mobileNo)) {
+		errorObj.mobileNo = "Mandatory Field!";
+	} else if (isNotNumber(dataObj.mobileNo)) {
+		errorObj.mobileNo = "Must be a number!";
+	} else if (dataObj.mobileNo.length != 10) {
+		errorObj.mobileNo = "Must be 10 digit!";
+	}
+	if (isEmpty(dataObj.roles)) {
+		errorObj.roles = "Mandatory Field!";
+	}
+
+	return showErrors(errorObj);
+}
+
+function submitFun(dataObj) {
+	$.post({
+		url : contextPath + "user/validateSave",
+		contentType : "application/json",
+		data : dataObj,
+		success : function(responseObj) {
+			if (responseObj.status == "success") {
+				bootbox.alert({
+					message : responseObj.msg,
+					backdrop : true,
+					callback : function() {
+						goToListUsers();
+					}
+				});
+			} else {
+				showLoaderRight(false);
+			}
+		},
+		error : function(jqXHR, textStatus, errorThrown) {
+			if (jqXHR.status == 403) {
+				location.reload();
+			} else {
+				var errorObj = jqXHR.responseJSON;
+				if (errorObj.status == "fail") {
+					showErrors(errorObj);
+				}
+				showLoaderRight(false);
+			}
 			return;
 		}
 	});
@@ -70,141 +151,13 @@ function loadDataFun() {
 
 function validateSubmitFun() {
 	showLoaderRight(true);
-	var validation = true;
 
-	$(".errMsgCls").html("");
-	$(".errMsgCls").addClass("hidden");
+	var userFormData = $("#userForm").serializeToJSON({});
 
-	$(".has-error").removeClass("has-error");
+	var isValid = validateFun(userFormData);
 
-	$("#rolesStr").val($("#roles").val().toString());
-
-	var hidUserId = $("#hidUserId").val();
-	var userName = $("#userName").val();
-	var firstName = $("#firstName").val();
-	var middleName = $("#middleName").val();
-	var lastName = $("#lastName").val();
-	var emailId = $("#emailId").val();
-	var mobileNo = $("#mobileNo").val();
-	var rolesStr = $("#rolesStr").val();
-
-	var userNameError = "";
-	var firstNameError = "";
-	var middleNameError = "";
-	var lastNameError = "";
-	var emailIdError = "";
-	var mobileNoError = "";
-	var rolesError = "";
-
-	if (isEmpty(hidUserId)) {
-		if (isEmpty(userName)) {
-			userNameError = "Mandatory Field!";
-		} else if (hasRestrictedChar2(userName)) {
-			userNameError = "UserName can only have alphanumeric characters and special characters like '_ @ .'";
-		}
-	}
-	if (isEmpty(firstName)) {
-		firstNameError = "Mandatory Field!";
-	} else if (!hasOnlyAlphabets(firstName)) {
-		firstNameError = "First Name can only have alphabets!";
-	}
-	if (!isEmpty(middleName) && !hasOnlyAlphabets(middleName)) {
-		middleNameError = "Middle Name can only have alphabets!";
-	}
-	if (!isEmpty(lastName) && !hasOnlyAlphabets(lastName)) {
-		lastNameError = "Last Name can only have alphabets!";
-	}
-	if (isEmpty(emailId)) {
-		emailIdError = "Mandatory Field!";
-	} else if (isNotValidEmail(emailId)) {
-		emailIdError = "Invalid Email!";
-	}
-	if (isEmpty(mobileNo)) {
-		mobileNoError = "Mandatory Field!";
-	} else if (isNotNumber(mobileNo)) {
-		mobileNoError = "Must be a number!";
-	} else if (mobileNo.length != 10) {
-		mobileNoError = "Must be 10 digit!";
-	}
-	if (isEmpty(rolesStr)) {
-		rolesError = "Mandatory Field!";
-	}
-
-	if (!isEmpty(userNameError)) {
-		validation = false;
-		showErrorMsg("#userNameError", userNameError);
-	}
-	if (!isEmpty(firstNameError)) {
-		validation = false;
-		showErrorMsg("#firstNameError", firstNameError);
-	}
-	if (!isEmpty(middleNameError)) {
-		validation = false;
-		showErrorMsg("#middleNameError", middleNameError);
-	}
-	if (!isEmpty(lastNameError)) {
-		validation = false;
-		showErrorMsg("#lastNameError", lastNameError);
-	}
-	if (!isEmpty(emailIdError)) {
-		validation = false;
-		showErrorMsg("#emailIdError", emailIdError);
-	}
-	if (!isEmpty(mobileNoError)) {
-		validation = false;
-		showErrorMsg("#mobileNoError", mobileNoError);
-	}
-	if (!isEmpty(rolesError)) {
-		validation = false;
-		showErrorMsg("#rolesError", rolesError);
-	}
-
-	if (validation) {
-		$.ajax({
-			type : "POST",
-			url : contextPath + "user/validateSave",
-			data : $("#userForm").serialize(),
-			success : function(responseObj) {
-				if (responseObj.status == "success") {
-					bootbox.alert({
-						message : responseObj.msg,
-						backdrop : true,
-						callback : function() {
-							goToListUsers();
-						}
-					});
-				} else {
-					if (!isEmpty(responseObj.userNameError)) {
-						showErrorMsg("#userNameError", responseObj.userNameError);
-					}
-					if (!isEmpty(responseObj.firstNameError)) {
-						showErrorMsg("#firstNameError", responseObj.firstNameError);
-					}
-					if (!isEmpty(responseObj.middleNameError)) {
-						showErrorMsg("#middleNameError", responseObj.middleNameError);
-					}
-					if (!isEmpty(responseObj.lastNameError)) {
-						showErrorMsg("#lastNameError", responseObj.lastNameError);
-					}
-					if (!isEmpty(responseObj.emailIdError)) {
-						showErrorMsg("#emailIdError", responseObj.emailIdError);
-					}
-					if (!isEmpty(responseObj.mobileNoError)) {
-						showErrorMsg("#mobileNoError", responseObj.mobileNoError);
-					}
-					if (!isEmpty(responseObj.rolesError)) {
-						showErrorMsg("#rolesError", responseObj.rolesError);
-					}
-
-					showLoaderRight(false);
-				}
-			},
-			error : function(jqXHR, textStatus, errorThrown) {
-				if (jqXHR.status == 403)
-					location.reload();
-				return;
-			}
-		});
+	if (isValid) {
+		submitFun(userFormData);
 	} else {
 		showLoaderRight(false);
 	}

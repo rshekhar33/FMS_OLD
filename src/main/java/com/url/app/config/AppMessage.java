@@ -29,19 +29,10 @@ public class AppMessage {
 	public String loginError;
 
 	/**
-	 * messages
+	 * common messages
 	 */
 	@Value("${mandatory.field.error}")
 	public String mandatoryFieldError;
-
-	@Value("${invalid.email.error}")
-	public String invalidEmailError;
-
-	@Value("${only.number.error}")
-	public String onlyNumberError;
-
-	@Value("${update.failed.error}")
-	public String updateFailedError;
 
 	/**
 	 * user
@@ -51,24 +42,6 @@ public class AppMessage {
 
 	@Value("${user.username.restrictedchar2.error}")
 	public String userUsernameRestrictedchar2Error;
-
-	@Value("${user.firstname.onlyalphabets.error}")
-	public String userFirstnameOnlyalphabetsError;
-
-	@Value("${user.middlename.onlyalphabets.error}")
-	public String userMiddlenameOnlyalphabetsError;
-
-	@Value("${user.lastname.onlyalphabets.error}")
-	public String userLastnameOnlyalphabetsError;
-
-	@Value("${user.mobile.length.error}")
-	public String userMobileLengthError;
-
-	@Value("${user.username.exists.error}")
-	public String userUsernameExistsError;
-
-	@Value("${user.email.exists.error}")
-	public String userEmailExistsError;
 
 	@Value("${user.update.success}")
 	public String userUpdateSuccess;
@@ -88,12 +61,6 @@ public class AppMessage {
 	/**
 	 * module
 	 */
-	@Value("${module.modulename.restrictedchar3.error}")
-	public String moduleModulenameRestrictedchar3Error;
-
-	@Value("${module.modulename.exists.error}")
-	public String moduleModulenameExistsError;
-
 	@Value("${module.update.success}")
 	public String moduleUpdateSuccess;
 
@@ -112,9 +79,6 @@ public class AppMessage {
 	/**
 	 * courseType
 	 */
-	@Value("${coursetype.coursetypename.restrictedchar3.error}")
-	public String coursetypeCoursetypenameRestrictedchar3Error;
-
 	@Value("${coursetype.update.success}")
 	public String coursetypeUpdateSuccess;
 
@@ -133,12 +97,6 @@ public class AppMessage {
 	/**
 	 * role
 	 */
-	@Value("${role.rolename.restrictedchar3.error}")
-	public String roleRolenameRestrictedchar3Error;
-
-	@Value("${role.rolename.exists.error}")
-	public String roleRolenameExistsError;
-
 	@Value("${role.update.success}")
 	public String roleUpdateSuccess;
 

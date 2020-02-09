@@ -31,7 +31,8 @@ public class AppLogger {
 	@Autowired
 	private AppUserService appUserService;
 
-	@Around("(within(@org.springframework.stereotype.Controller *) || within(@org.springframework.web.bind.annotation.RestController *)) && (execution(* com.url.app.interf.controller.*.*(..)) || execution(* com.url.app.interf.restcontroller.*.*(..)))")
+	@Around("(within(@org.springframework.stereotype.Controller *) || within(@org.springframework.web.bind.annotation.RestController *)) "
+			+ "&& (execution(* com.url.app.interf.controller.*.*(..)) || execution(* com.url.app.interf.restcontroller.*.*(..)))")
 	public Object logMethod(final ProceedingJoinPoint joinPoint) throws Throwable {
 		try {
 			final User user = principalUser();

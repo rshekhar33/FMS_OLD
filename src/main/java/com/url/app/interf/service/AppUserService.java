@@ -66,28 +66,28 @@ public interface AppUserService {
 	/**
 	 * Fetch user data in case userId is sent else data required on add user screen.
 	 * 
-	 * @param userIdStr the userId of user.
+	 * @param user contains the userId of user.
 	 * @return user data in json format.
 	 */
-	Map<String, Object> fetchDataUser(String userIdStr);
+	Map<String, Object> fetchDataUser(User user);
 
 	/**
 	 * Validates add/update user data.
 	 * If data is valid then it adds or updates the user,
 	 * if data is invalid then proper error messages are returned in JSON format.
 	 * 
-	 * @param allRequestParams all the parameters of add/update screen.
+	 * @param user all the parameters of add/update screen.
 	 * @return status as success if data is valid or else all the validation messages with status as failure in JSON.
 	 */
-	Map<String, String> validateSaveUser(Map<String, String> allRequestParams);
+	Map<String, String> validateSaveUser(User user);
 
 	/**
 	 * Validates user activation data.
 	 * If data is valid then it updates the user's isActive flag,
 	 * if data is invalid then proper error messages are returned in JSON format.
 	 * 
-	 * @param allRequestParams all the parameters of activation.
+	 * @param user all the parameters of activation.
 	 * @return status as success if data is valid or else all the validation messages with status as failure in JSON.
 	 */
-	Map<String, String> validateUpdateActivation(Map<String, String> allRequestParams);
+	Map<String, String> validateUpdateActivation(User user);
 }

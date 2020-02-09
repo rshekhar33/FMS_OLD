@@ -27,17 +27,17 @@ public class CourseTypeRestControllerImpl implements CourseTypeRestController {
 	}
 
 	@Override
-	public Map<String, CourseType> fetchData(final String courseTypeIdStr) {
-		return appCourseTypeService.fetchDataCourseType(courseTypeIdStr);
+	public Map<String, CourseType> fetchData(final CourseType courseType) {
+		return appCourseTypeService.fetchDataCourseType(courseType);
 	}
 
 	@Override
-	public Map<String, String> validateSave(final Map<String, String> allRequestParams) {
-		return appCourseTypeService.validateSaveCourseType(allRequestParams);
+	public Map<String, String> validateSave(final CourseType courseType) {
+		return appCourseTypeService.validateSaveCourseType(courseType);
 	}
 
 	@Override
-	public Map<String, String> validateUpdateActivation(final Map<String, String> allRequestParams) {
-		return appCourseTypeService.validateUpdateActivation(allRequestParams);
+	public Map<String, String> validateUpdateActivation(final CourseType courseType) {
+		return appCourseTypeService.validateUpdateActivation(courseType);
 	}
 }

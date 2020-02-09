@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,6 +19,7 @@ import com.url.app.interf.service.AppUserService;
 import com.url.app.utility.AppCommon;
 import com.url.app.utility.AppConstant;
 import com.url.app.utility.AppResponseKey;
+import com.url.app.validation.AppCourseTypeValidationService;
 
 /**
  * Service implementation of application for Course Type.
@@ -26,7 +29,7 @@ import com.url.app.utility.AppResponseKey;
  */
 @Service(value = "appCourseTypeServiceImpl")
 public class AppCourseTypeServiceImpl implements AppCourseTypeService {
-	//private static final Logger logger = LoggerFactory.getLogger(AppCourseTypeServiceImpl.class);
+	private static final Logger logger = LoggerFactory.getLogger(AppCourseTypeServiceImpl.class);
 
 	@Autowired
 	private AppDao appDao;
@@ -40,6 +43,9 @@ public class AppCourseTypeServiceImpl implements AppCourseTypeService {
 	@Autowired
 	private AppMessage appMessage;
 
+	@Autowired
+	private AppCourseTypeValidationService appCourseTypeValidationService;
+
 	@Override
 	@Transactional(readOnly = true)
 	public List<CourseType> fetchDetailsCourseTypes() {
@@ -48,12 +54,11 @@ public class AppCourseTypeServiceImpl implements AppCourseTypeService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public Map<String, CourseType> fetchDataCourseType(final String courseTypeIdStr) {
+	public Map<String, CourseType> fetchDataCourseType(final CourseType formCourseType) {
 		final Map<String, CourseType> json = new ConcurrentHashMap<>();
 
-		if (!AppCommon.isEmpty(courseTypeIdStr)) {
-			final Integer courseTypeId = Integer.parseInt(courseTypeIdStr);
-			final CourseType courseType = courseTypeRepository.getOne(courseTypeId);
+		if (AppCommon.isPositiveInteger(formCourseType.getCourseTypeId())) {
+			final CourseType courseType = courseTypeRepository.getOne(formCourseType.getCourseTypeId());
 			json.put(AppResponseKey.COURSE_TYPE, courseType);
 		}
 
@@ -62,102 +67,72 @@ public class AppCourseTypeServiceImpl implements AppCourseTypeService {
 
 	@Override
 	@Transactional
-	public Map<String, String> validateSaveCourseType(final Map<String, String> allRequestParams) {
-		final String hidCourseTypeIdStr = allRequestParams.getOrDefault("hidCourseTypeId", "0");
-		final String courseTypeName = allRequestParams.get("courseTypeName");
-		final String noOfDaysStr = allRequestParams.get("noOfDays");
+	public Map<String, String> validateSaveCourseType(final CourseType formCourseType) {
+		logger.info("courseType : {}", formCourseType);
 
-		Integer noOfDays = 0;
-		Integer hidCourseTypeId = AppCommon.toInteger(hidCourseTypeIdStr);
+		if (AppCommon.isPositiveInteger(formCourseType.getCourseTypeId())) {
+			appCourseTypeValidationService.validateForUpdate(formCourseType);
+		} else {
+			appCourseTypeValidationService.validateForCreate(formCourseType);
+		}
 
 		String status = AppConstant.BLANK_STRING;
 		String msg = AppConstant.BLANK_STRING;
-		String courseTypeNameError = AppConstant.BLANK_STRING;
-		String noOfDaysError = AppConstant.BLANK_STRING;
 
-		if (AppCommon.isEmpty(courseTypeName)) {
-			status = AppConstant.FAIL;
-			courseTypeNameError = appMessage.mandatoryFieldError;
-		} else if (AppCommon.hasRestrictedChar3(courseTypeName)) {
-			status = AppConstant.FAIL;
-			courseTypeNameError = appMessage.coursetypeCoursetypenameRestrictedchar3Error;
-		}
-		if (!AppCommon.isEmpty(noOfDaysStr) && AppCommon.isNotNumber(noOfDaysStr)) {
-			status = AppConstant.FAIL;
-			noOfDaysError = appMessage.onlyNumberError;
+		final Integer loggedInUserId = appUserService.getPrincipalUserUserId();
+
+		CourseType courseType = new CourseType();
+		if (AppCommon.isPositiveInteger(formCourseType.getCourseTypeId())) {
+			courseType = courseTypeRepository.getOne(formCourseType.getCourseTypeId());
 		} else {
-			noOfDays = AppCommon.toInteger(noOfDaysStr);
+			final String courseTypeCode = AppConstant.COURSE_TYPE_CODE_PREFIX + appDao.generateNewCode(AppConstant.CS_TYPE_COURSE_TYPE_CODE_COUNTER);
+			courseType.setCourseTypeCode(courseTypeCode);
+			courseType.setIsActive(AppConstant.ACTIVE);
+			courseType.setCreatedBy(loggedInUserId);
 		}
+		courseType.setCourseTypeName(formCourseType.getCourseTypeName());
+		courseType.setNoOfDays(formCourseType.getNoOfDays());
+		courseType.setModifiedBy(loggedInUserId);
 
-		if (AppCommon.isEmpty(status)) {
-			final Integer loggedInUserId = appUserService.getPrincipalUserUserId();
+		courseTypeRepository.save(courseType);
+		final Integer courseTypeId = courseType.getCourseTypeId();
 
-			CourseType courseType = new CourseType();
-			if (hidCourseTypeId > 0) {
-				courseType = courseTypeRepository.getOne(hidCourseTypeId);
+		if (AppCommon.isPositiveInteger(courseTypeId)) {
+			status = AppConstant.SUCCESS;
+			if (AppCommon.isPositiveInteger(formCourseType.getCourseTypeId())) {
+				msg = appMessage.coursetypeUpdateSuccess;
 			} else {
-				final String courseTypeCode = AppConstant.COURSE_TYPE_CODE_PREFIX + appDao.generateNewCode(AppConstant.CS_TYPE_COURSE_TYPE_CODE_COUNTER);
-				courseType.setCourseTypeCode(courseTypeCode);
-				courseType.setIsActive(AppConstant.ACTIVE);
-				courseType.setCreatedBy(loggedInUserId);
-			}
-			courseType.setCourseTypeName(courseTypeName);
-			courseType.setNoOfDays(noOfDays);
-			courseType.setModifiedBy(loggedInUserId);
-
-			courseTypeRepository.save(courseType);
-			final Integer courseTypeId = courseType.getCourseTypeId();
-
-			if (AppCommon.isPositiveInteger(courseTypeId)) {
-				status = AppConstant.SUCCESS;
-				if (hidCourseTypeId > 0) {
-					msg = appMessage.coursetypeUpdateSuccess;
-				} else {
-					msg = appMessage.coursetypeAddSuccess;
-				}
+				msg = appMessage.coursetypeAddSuccess;
 			}
 		}
 
 		final Map<String, String> json = new ConcurrentHashMap<>();
 		json.put(AppResponseKey.STATUS, status);
 		json.put(AppResponseKey.MSG, msg);
-		json.put(AppResponseKey.COURSE_TYPE_NAME_ERROR, courseTypeNameError);
-		json.put(AppResponseKey.NO_OF_DAYS_ERROR, noOfDaysError);
 
 		return json;
 	}
 
 	@Override
 	@Transactional
-	public Map<String, String> validateUpdateActivation(final Map<String, String> allRequestParams) {
-		final String courseTypeIdStr = allRequestParams.getOrDefault("courseTypeId", "0");
-		final String isActiveStr = allRequestParams.get("isActive");
+	public Map<String, String> validateUpdateActivation(final CourseType formCourseType) {
+		appCourseTypeValidationService.validateForActivate(formCourseType);
 
 		String status = AppConstant.BLANK_STRING;
 		String msg = AppConstant.BLANK_STRING;
 
-		Integer courseTypeId = AppCommon.toInteger(courseTypeIdStr);
-		Integer isActive = AppCommon.toIntegerOrNull(isActiveStr);
+		final CourseType courseType = courseTypeRepository.getOne(formCourseType.getCourseTypeId());
+		courseType.setIsActive(formCourseType.getIsActive());
 
-		if (courseTypeId == 0 || (!AppConstant.ACTIVE.equals(isActive) && !AppConstant.INACTIVE.equals(isActive))) {
-			status = AppConstant.FAIL;
-			msg = appMessage.updateFailedError;
-		}
+		courseTypeRepository.save(courseType);
+		final Integer courseTypeIdUpdate = courseType.getCourseTypeId();
 
-		if (AppCommon.isEmpty(status)) {
-			CourseType courseType = courseTypeRepository.getOne(courseTypeId);
-			courseType.setIsActive(isActive);
-
-			courseTypeRepository.save(courseType);
-			final Integer courseTypeIdUpdate = courseType.getCourseTypeId();
-
-			if (AppCommon.isPositiveInteger(courseTypeIdUpdate)) {
-				status = AppConstant.SUCCESS;
-				if (AppConstant.ACTIVE.equals(isActive)) {
-					msg = appMessage.coursetypeActiveSuccess;
-				} else if (AppConstant.INACTIVE.equals(isActive)) {
-					msg = appMessage.coursetypeInactiveSuccess;
-				}
+		if (AppCommon.isPositiveInteger(courseTypeIdUpdate)) {
+			status = AppConstant.SUCCESS;
+			if (AppConstant.ACTIVE.equals(formCourseType.getIsActive())) {
+				msg = appMessage.coursetypeActiveSuccess;
+			} else if (AppConstant.INACTIVE.equals(formCourseType.getIsActive())) {
+				msg = appMessage.coursetypeInactiveSuccess;
 			}
 		}
 

@@ -18,6 +18,13 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.Size;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -25,6 +32,9 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.url.app.validation.BasicActivateGroup;
+import com.url.app.validation.BasicCreateGroup;
+import com.url.app.validation.BasicUpdateGroup;
 
 /**
  * The persistent class for the course_type database table.
@@ -40,12 +50,17 @@ public class CourseType implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "course_type_id", unique = true, nullable = false)
+	@NotNull(groups = BasicActivateGroup.class, message = "{update.failed.error}")
+	@Positive(groups = BasicActivateGroup.class, message = "{update.failed.error}")
 	private Integer courseTypeId;
 
 	@Column(name = "course_type_code", unique = true, nullable = false, length = 50)
 	private String courseTypeCode;
 
 	@Column(name = "course_type_name", nullable = false, length = 500)
+	@NotBlank(groups = { BasicCreateGroup.class, BasicUpdateGroup.class }, message = "{mandatory.field.error}")
+	@Pattern(groups = { BasicCreateGroup.class, BasicUpdateGroup.class }, regexp = "^[\\w\\.@ ]+$", message = "{coursetype.coursetypename.restrictedchar3.error}")
+	@Size(groups = { BasicCreateGroup.class, BasicUpdateGroup.class }, max = 500, message = "{length.error}")
 	private String courseTypeName;
 
 	@Column(name = "created_by", updatable = false, nullable = false)
@@ -57,6 +72,9 @@ public class CourseType implements Serializable {
 	private Date createdDate;
 
 	@Column(name = "is_active", nullable = false)
+	@NotNull(groups = BasicActivateGroup.class, message = "{update.failed.error}")
+	@Min(groups = BasicActivateGroup.class, value = 0, message = "{update.failed.error}")
+	@Max(groups = BasicActivateGroup.class, value = 1, message = "{update.failed.error}")
 	private Integer isActive;
 
 	@Column(name = "modified_by", nullable = false)
@@ -68,11 +86,13 @@ public class CourseType implements Serializable {
 	private Date modifiedDate;
 
 	@Column(name = "no_of_days")
+	@NotBlank(groups = { BasicCreateGroup.class, BasicUpdateGroup.class }, message = "{mandatory.field.error}")
+	@Pattern(groups = { BasicCreateGroup.class, BasicUpdateGroup.class }, regexp = "\\d+", message = "{only.number.error}")
 	private Integer noOfDays;
 
 	//bi-directional many-to-one association to Course
 	@OneToMany(mappedBy = "courseType", cascade = CascadeType.ALL, orphanRemoval = true)
-	@JsonBackReference
+	@JsonBackReference(value = "courseType_course")
 	private Set<Course> courses = new HashSet<>(0);
 
 	public CourseType() {

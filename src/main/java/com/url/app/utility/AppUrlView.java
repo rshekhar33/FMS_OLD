@@ -26,6 +26,7 @@ public class AppUrlView {
 	public static final String URL_ACCESS_DENIED = "accessDenied";
 	public static final String URL_INVALID_SESSION = "invalidSession";
 	public static final String URL_SESSION_EXPIRED = "sessionExpired";
+	public static final String URL_ERROR = "error";
 
 	public static final String URL_LIST = "list";
 	public static final String URL_ADD = "add";

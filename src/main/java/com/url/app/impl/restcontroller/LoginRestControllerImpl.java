@@ -37,7 +37,7 @@ public class LoginRestControllerImpl implements LoginRestController {
 			repository.saveContext(SecurityContextHolder.getContext(), request, response);
 			sessionAuthenticationStrategy.onAuthentication(auth, request, response);
 			//rememberMeServices.loginSuccess(request, response, auth);
-			final Map<String, Object> json = new ConcurrentHashMap<>();
+			final Map<String, String> json = new ConcurrentHashMap<>();
 			json.put(AppResponseKey.STATUS, AppConstant.SUCCESS);
 			json.put(AppConstant.MSG, AppConstant.BLANK_STRING);
 			return json;

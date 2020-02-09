@@ -24,7 +24,6 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 /**
  * The persistent class for the feedback_answer database table.
@@ -67,7 +66,6 @@ public class FeedbackAnswer implements Serializable {
 	//bi-directional many-to-one association to FeedbackQuestion
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "feedback_question_id", nullable = false)
-	@JsonManagedReference
 	private FeedbackQuestion feedbackQuestion;
 
 	public FeedbackAnswer() {

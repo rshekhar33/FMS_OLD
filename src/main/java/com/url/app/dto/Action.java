@@ -16,7 +16,6 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 /**
  * The persistent class for the action database table.
@@ -45,7 +44,6 @@ public class Action implements Serializable {
 	//bi-directional many-to-one association to Privilege
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "privilege_id")
-	@JsonManagedReference
 	private Privilege privilege;
 
 	public Action() {

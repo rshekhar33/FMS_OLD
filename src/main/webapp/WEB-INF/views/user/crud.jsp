@@ -71,7 +71,7 @@
 							<!-- form start -->
 							<form method="post" id="userForm" name="userForm" onsubmit="return false;" class="form-horizontal">
 								<div class="box-body">
-									<input type="hidden" id="hidUserId" name="hidUserId" value="${hidUserId}" />
+									<input type="hidden" id="userId" name="userId" value="${hidUserId}" />
 									<div class="form-group">
 										<label for="userName" class="col-sm-2 control-label">UserName*</label>
 
@@ -126,7 +126,6 @@
 										<div class="col-sm-4">
 											<select id="roles" name="roles" multiple="multiple" class="form-control">
 											</select>
-											<input type="hidden" id="rolesStr" name="rolesStr" />
 											<label id="rolesError" for="roles" class="control-label errMsgCls hidden"></label>
 										</div>
 									</div>
@@ -167,6 +166,8 @@
 	<script src="${contextPath}resources/select2/js/select2.full.min.js"></script>
 	<!-- FastClick -->
 	<script src="${contextPath}resources/fastclick/fastclick.js"></script>
+	<!-- SerializeToJSON -->
+	<script src="${contextPath}resources/serialize/jquery.serializeToJSON.min.js"></script>
 	<!-- AdminLTE App -->
 	<script src="${contextPath}js/adminlte.min.js"></script>
 	<!-- AdminLTE for demo purposes -->

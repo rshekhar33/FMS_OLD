@@ -8,8 +8,6 @@ import javax.persistence.Embeddable;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 /**
  * The primary key class for the role_privilege_relation database table.
  */
@@ -19,11 +17,9 @@ public class RolePrivilegeRelationPK implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JsonManagedReference
 	private Role role;
 
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JsonManagedReference
 	private Privilege privilege;
 
 	public RolePrivilegeRelationPK() {

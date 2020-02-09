@@ -27,17 +27,17 @@ public class RoleRestControllerImpl implements RoleRestController {
 	}
 
 	@Override
-	public Map<String, Role> fetchData(final String roleIdStr) {
-		return appRoleService.fetchDataRole(roleIdStr);
+	public Map<String, Role> fetchData(final Role role) {
+		return appRoleService.fetchDataRole(role);
 	}
 
 	@Override
-	public Map<String, String> validateSave(final Map<String, String> allRequestParams) {
-		return appRoleService.validateSaveRole(allRequestParams);
+	public Map<String, String> validateSave(final Role role) {
+		return appRoleService.validateSaveRole(role);
 	}
 
 	@Override
-	public Map<String, String> validateUpdateActivation(final Map<String, String> allRequestParams) {
-		return appRoleService.validateUpdateActivation(allRequestParams);
+	public Map<String, String> validateUpdateActivation(final Role role) {
+		return appRoleService.validateUpdateActivation(role);
 	}
 }

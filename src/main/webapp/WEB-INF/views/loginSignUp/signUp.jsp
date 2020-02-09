@@ -90,7 +90,7 @@
 									</div>
 								</div>
 								<div class="simform__actions">
-									<input class="sumbit" id="register" name="register" type="submit" onclick="return false;" value="Create Account" />
+									<input class="sumbit" id="register" name="register" type="submit" onclick="validateSubmitFun();" value="Create Account" />
 									<span class="simform__actions-sidetext">
 										Click here to <a href="${contextPath}login">Sign In</a><br/>
 										By creating an account you agree to our 

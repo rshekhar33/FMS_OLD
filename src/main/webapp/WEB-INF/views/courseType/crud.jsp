@@ -69,7 +69,7 @@
 							<!-- form start -->
 							<form method="post" id="courseTypeForm" name="courseTypeForm" onsubmit="return false;" class="form-horizontal">
 								<div class="box-body">
-									<input type="hidden" id="hidCourseTypeId" name="hidCourseTypeId" value="${hidCourseTypeId}" />
+									<input type="hidden" id="courseTypeId" name="courseTypeId" value="${hidCourseTypeId}" />
 									<c:if test="${not empty hidCourseTypeId}">
 									<div class="form-group">
 										<label for="courseTypeCode" class="col-sm-2 control-label">Course Type Code</label>
@@ -131,6 +131,8 @@
 	<script src="${contextPath}resources/bootbox/bootbox.min.js"></script>
 	<!-- FastClick -->
 	<script src="${contextPath}resources/fastclick/fastclick.js"></script>
+	<!-- SerializeToJSON -->
+	<script src="${contextPath}resources/serialize/jquery.serializeToJSON.min.js"></script>
 	<!-- AdminLTE App -->
 	<script src="${contextPath}js/adminlte.min.js"></script>
 	<!-- AdminLTE for demo purposes -->

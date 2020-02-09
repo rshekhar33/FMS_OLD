@@ -3,6 +3,7 @@ package com.url.app.dto;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -18,6 +19,16 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.Size;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -25,6 +36,14 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.url.app.validation.BasicActivateGroup;
+import com.url.app.validation.BasicCreateGroup;
+import com.url.app.validation.BasicUpdateGroup;
+import com.url.app.validation.DBCreateGroup;
+import com.url.app.validation.DBUpdateGroup;
+import com.url.app.validation.EmailIdNotExists;
+import com.url.app.validation.EmailIdNotExistsUpdate;
+import com.url.app.validation.UserNameNotExists;
 
 /**
  * The persistent class for the user database table.
@@ -34,12 +53,15 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @EntityListeners(AuditingEntityListener.class)
 @JsonIgnoreProperties({ "password", "hibernateLazyInitializer", "handler" })
 @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u")
+@EmailIdNotExistsUpdate(groups = DBUpdateGroup.class, message = "{user.email.exists.error}")
 public class User implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "user_id", unique = true, nullable = false)
+	@NotNull(groups = BasicActivateGroup.class, message = "{update.failed.error}")
+	@Positive(groups = BasicActivateGroup.class, message = "{update.failed.error}")
 	private Integer userId;
 
 	@Column(name = "created_by", updatable = false, nullable = false)
@@ -51,15 +73,25 @@ public class User implements Serializable {
 	private Date createdDate;
 
 	@Column(name = "email_id", nullable = false, length = 100)
+	@NotBlank(groups = { BasicCreateGroup.class, BasicUpdateGroup.class }, message = "{mandatory.field.error}")
+	@Email(groups = { BasicCreateGroup.class, BasicUpdateGroup.class }, message = "{invalid.email.error}")
+	@Size(groups = { BasicCreateGroup.class, BasicUpdateGroup.class }, max = 100, message = "{length.error}")
+	@EmailIdNotExists(groups = DBCreateGroup.class, message = "{user.email.exists.error}")
 	private String emailId;
 
 	@Column(name = "failed_attempt_cnt", nullable = false)
 	private Integer failedAttemptCnt;
 
 	@Column(name = "first_name", nullable = false, length = 100)
+	@NotBlank(groups = { BasicCreateGroup.class, BasicUpdateGroup.class }, message = "{mandatory.field.error}")
+	@Pattern(groups = { BasicCreateGroup.class, BasicUpdateGroup.class }, regexp = "[a-zA-Z]+", message = "{user.firstname.onlyalphabets.error}")
+	@Size(groups = { BasicCreateGroup.class, BasicUpdateGroup.class }, max = 100, message = "{length.error}")
 	private String firstName;
 
 	@Column(name = "is_active", nullable = false)
+	@NotNull(groups = BasicActivateGroup.class, message = "{update.failed.error}")
+	@Min(groups = BasicActivateGroup.class, value = 0, message = "{update.failed.error}")
+	@Max(groups = BasicActivateGroup.class, value = 1, message = "{update.failed.error}")
 	private Integer isActive;
 
 	@Temporal(TemporalType.TIMESTAMP)
@@ -67,6 +99,8 @@ public class User implements Serializable {
 	private Date lastFailedLoginDate;
 
 	@Column(name = "last_name", length = 100)
+	@Pattern(groups = { BasicCreateGroup.class, BasicUpdateGroup.class }, regexp = "[a-zA-Z]*", message = "{user.lastname.onlyalphabets.error}")
+	@Size(groups = { BasicCreateGroup.class, BasicUpdateGroup.class }, max = 100, message = "{length.error}")
 	private String lastName;
 
 	@Temporal(TemporalType.TIMESTAMP)
@@ -74,9 +108,14 @@ public class User implements Serializable {
 	private Date lastSuccessfulLoginDate;
 
 	@Column(name = "middle_name", length = 100)
+	@Pattern(groups = { BasicCreateGroup.class, BasicUpdateGroup.class }, regexp = "[a-zA-Z]*", message = "{user.middlename.onlyalphabets.error}")
+	@Size(groups = { BasicCreateGroup.class, BasicUpdateGroup.class }, max = 100, message = "{length.error}")
 	private String middleName;
 
-	@Column(name = "mobile_no", length = 20)
+	@Column(name = "mobile_no", nullable = false, length = 20)
+	@NotBlank(groups = { BasicCreateGroup.class, BasicUpdateGroup.class }, message = "{mandatory.field.error}")
+	@Pattern(groups = { BasicCreateGroup.class, BasicUpdateGroup.class }, regexp = "\\d+", message = "{only.number.error}")
+	@Size(groups = { BasicCreateGroup.class, BasicUpdateGroup.class }, min = 10, max = 10, message = "{user.mobile.length.error}")
 	private String mobileNo;
 
 	@Column(name = "modified_by", nullable = false)
@@ -91,17 +130,25 @@ public class User implements Serializable {
 	private String password;
 
 	@Column(name = "user_name", nullable = false, length = 50)
+	@NotBlank(groups = BasicCreateGroup.class, message = "{mandatory.field.error}")
+	@Pattern(groups = BasicCreateGroup.class, regexp = "^[\\w\\.@]+$", message = "{user.username.restrictedchar2.error}")
+	@Size(groups = BasicCreateGroup.class, max = 50, message = "{length.error}")
+	@UserNameNotExists(groups = DBCreateGroup.class, message = "{user.username.exists.error}")
 	private String userName;
 
 	//bi-directional many-to-one association to FacultySkillset
 	@OneToMany(mappedBy = "id.user", cascade = CascadeType.ALL, orphanRemoval = true)
-	@JsonBackReference
+	@JsonBackReference(value = "user_facultySkillset")
 	private Set<FacultySkillset> facultySkillsets = new HashSet<>(0);
 
 	//bi-directional many-to-one association to UserRoleRelation
 	@OneToMany(mappedBy = "id.user", cascade = CascadeType.ALL, orphanRemoval = true)
-	@JsonBackReference
+	@JsonBackReference(value = "user_userRoleRelation")
 	private Set<UserRoleRelation> userRoleRelations = new HashSet<>(0);
+
+	@Transient
+	@NotEmpty(groups = { BasicCreateGroup.class, BasicUpdateGroup.class }, message = "{mandatory.field.error}")
+	private List<@Positive Integer> roles;
 
 	public User() {
 	}
@@ -272,6 +319,14 @@ public class User implements Serializable {
 		boolean isRemoved = getUserRoleRelations().remove(userRoleRelation);
 
 		return isRemoved;
+	}
+
+	public List<Integer> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(List<Integer> roles) {
+		this.roles = roles;
 	}
 
 	@Override

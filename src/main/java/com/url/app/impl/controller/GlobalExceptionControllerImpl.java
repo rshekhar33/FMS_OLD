@@ -8,11 +8,13 @@ import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
@@ -30,7 +32,8 @@ import com.url.app.utility.AppUrlView;
  */
 @ControllerAdvice(annotations = Controller.class)
 @Order(Ordered.LOWEST_PRECEDENCE)
-public class GlobalExceptionControllerImpl implements GlobalExceptionController {
+@Controller
+public class GlobalExceptionControllerImpl implements GlobalExceptionController, ErrorController {
 	private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionControllerImpl.class);
 
 	@Autowired
@@ -38,6 +41,23 @@ public class GlobalExceptionControllerImpl implements GlobalExceptionController 
 
 	@Autowired
 	private AppMessage appMessage;
+
+	@RequestMapping(value = AppUrlView.URL_ERROR)
+	public ModelAndView handleNoHandlerException(final HttpServletRequest request, final Exception e) {
+		logger.error("Global NoHandlerFoundException at Location : {} with Exception : {}", request.getRequestURL(), e.getMessage());
+
+		final ModelAndView mav = new ModelAndView(errorPage());
+		mav.addObject(AppResponseKey.EXCEPTION_MSG, e.getMessage());
+		mav.addObject(AppResponseKey.EXCEPTION_HEADER, appMessage.exceptionHeader);
+		mav.addObject(AppResponseKey.EXCEPTION_DESC, appMessage.exceptionDesc);
+
+		return mav;
+	}
+
+	@Override
+	public String getErrorPath() {
+		return AppUrlView.URL_ERROR;
+	}
 
 	@Override
 	public ModelAndView handleNoHandlerException(final HttpServletRequest request, final NoHandlerFoundException e) {

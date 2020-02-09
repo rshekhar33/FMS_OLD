@@ -42,6 +42,7 @@
 									<div class="input full">
 										<label class="string optional" for="password">Password*</label>
 										<input class="string optional" maxlength="255" id="password" name="password" placeholder="Password" type="password" size="50" autocomplete="off" />
+										<input class="string optional" id="passwordEnc" name="passwordEnc" type="hidden" autocomplete="off" />
 										<span class="hide-password">Show</span>
 										<label class="string optional error" id="loginError">${loginError}${loginError=""}</label>
 									</div>
@@ -69,6 +70,10 @@
 	</div>
 
 	<script src="${contextPath}resources/jquery/jquery.min.js"></script>
+	<script src="${contextPath}js/enc/aes.js"></script>
+	<script src="${contextPath}js/enc/pbkdf2.js"></script>
+	<script src="${contextPath}js/enc/AesUtil.js"></script>
+	<script src="${contextPath}js/enc/encryption.js"></script>
 	<script>
 		var contextPath = "${contextPath}";
 	</script>

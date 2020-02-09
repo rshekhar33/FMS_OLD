@@ -65,7 +65,7 @@ public class FacultySkillset implements Serializable {
 
 	//bi-directional many-to-one association to Course
 	@OneToMany(mappedBy = "facultySkillset", cascade = CascadeType.ALL, orphanRemoval = true)
-	@JsonBackReference
+	@JsonBackReference(value = "facultySkillset_course")
 	private Set<Course> courses = new HashSet<>(0);
 
 	public FacultySkillset() {

@@ -23,28 +23,28 @@ public interface AppRoleService {
 	/**
 	 * Fetch role data in case roleId is sent else data required on add role screen.
 	 * 
-	 * @param roleIdStr the roleId of role.
+	 * @param role contains the roleId of role.
 	 * @return role data in json format.
 	 */
-	Map<String, Role> fetchDataRole(String roleIdStr);
+	Map<String, Role> fetchDataRole(Role role);
 
 	/**
 	 * Validates add/update role data.
 	 * If data is valid then it adds or updates the role,
 	 * if data is invalid then proper error messages are returned in JSON format.
 	 * 
-	 * @param allRequestParams all the parameters of add/update screen.
+	 * @param role all the parameters of add/update screen.
 	 * @return status as success if data is valid or else all the validation messages with status as failure in JSON.
 	 */
-	Map<String, String> validateSaveRole(Map<String, String> allRequestParams);
+	Map<String, String> validateSaveRole(Role role);
 
 	/**
 	 * Validates role activation data.
 	 * If data is valid then it updates the role's isActive flag,
 	 * if data is invalid then proper error messages are returned in JSON format.
 	 * 
-	 * @param allRequestParams all the parameters of activation.
+	 * @param role all the parameters of activation.
 	 * @return status as success if data is valid or else all the validation messages with status as failure in JSON.
 	 */
-	Map<String, String> validateUpdateActivation(Map<String, String> allRequestParams);
+	Map<String, String> validateUpdateActivation(Role role);
 }

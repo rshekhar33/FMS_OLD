@@ -83,7 +83,7 @@ public class AppFacultySkillsetServiceImpl implements AppFacultySkillsetService 
 		final String hidUserIdStr = allRequestParams.getOrDefault("hidUserId", "0");
 		final String modulesStr = allRequestParams.get("modulesStr");
 
-		Integer hidUserId = AppCommon.toInteger(hidUserIdStr);
+		final Integer hidUserId = AppCommon.toInteger(hidUserIdStr);
 
 		String status = AppConstant.BLANK_STRING;
 		String msg = AppConstant.BLANK_STRING;
@@ -98,7 +98,7 @@ public class AppFacultySkillsetServiceImpl implements AppFacultySkillsetService 
 			final Integer loggedInUserId = appUserService.getPrincipalUserUserId();
 
 			User user = new User();
-			if (hidUserId > 0) {
+			if (AppCommon.isPositiveInteger(hidUserId)) {
 				user = userRepository.getOne(hidUserId);
 			}
 			user.setModifiedBy(loggedInUserId);
@@ -127,7 +127,7 @@ public class AppFacultySkillsetServiceImpl implements AppFacultySkillsetService 
 
 			if (AppCommon.isPositiveInteger(userId)) {
 				status = AppConstant.SUCCESS;
-				if (hidUserId > 0) {
+				if (AppCommon.isPositiveInteger(hidUserId)) {
 					msg = appMessage.facultyskillsetsUpdateSuccess;
 				}
 			}
@@ -144,7 +144,6 @@ public class AppFacultySkillsetServiceImpl implements AppFacultySkillsetService 
 	@Override
 	@Transactional
 	public Map<String, Object> validateUpdateActivation(final Map<String, String> allRequestParams) {
-
 		final Map<String, Object> json = new ConcurrentHashMap<>();
 
 		return json;

@@ -8,8 +8,6 @@ import javax.persistence.Embeddable;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 /**
  * The primary key class for the faculty_skillset database table.
  */
@@ -19,11 +17,9 @@ public class FacultySkillsetPK implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JsonManagedReference
 	private User user;
 
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JsonManagedReference
 	private Module module;
 
 	public FacultySkillsetPK() {

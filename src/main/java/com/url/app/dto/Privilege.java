@@ -60,12 +60,12 @@ public class Privilege implements Serializable {
 
 	//bi-directional many-to-one association to Action
 	@OneToMany(mappedBy = "privilege", cascade = CascadeType.ALL, orphanRemoval = true)
-	@JsonBackReference
+	@JsonBackReference(value = "privilege_action")
 	private Set<Action> actions = new HashSet<>(0);
 
 	//bi-directional many-to-one association to RolePrivilegeRelation
 	@OneToMany(mappedBy = "id.privilege", cascade = CascadeType.ALL, orphanRemoval = true)
-	@JsonBackReference
+	@JsonBackReference(value = "privilege_rolePrivilegeRelation")
 	private Set<RolePrivilegeRelation> rolePrivilegeRelations = new HashSet<>(0);
 
 	public Privilege() {

@@ -6,21 +6,15 @@ function goToListCourseTypes() {
 	location.href = contextPath + "courseType/list";
 }
 
-function showErrorMsg(selector, errorMsg) {
-	$(selector).html("<i class='fa fa-times-circle-o'></i> " + errorMsg);
-	$(selector).removeClass("hidden");
-	$(selector).parent("div").parent(".form-group").addClass("has-error");
-}
-
 function loadDataFun() {
 	showLoaderRight(true);
-	var hidCourseTypeId = $("#hidCourseTypeId").val();
-	if (!isEmpty(hidCourseTypeId)) {
-		$.ajax({
-			type : "POST",
+	var courseTypeId = $("#courseTypeId").val();
+	if (!isEmpty(courseTypeId)) {
+		$.post({
 			url : contextPath + "courseType/fetchData",
+			contentType : "application/json",
 			data : {
-				courseTypeId : hidCourseTypeId
+				courseTypeId : courseTypeId
 			},
 			success : function(responseObj) {
 				var courseType = responseObj.courseType;
@@ -41,14 +35,16 @@ function loadDataFun() {
 	}
 }
 
-function validateSubmitFun() {
-	showLoaderRight(true);
-	var validation = true;
-
+function validateFun(dataObj) {
 	$(".errMsgCls").html("");
 	$(".errMsgCls").addClass("hidden");
 
 	$(".has-error").removeClass("has-error");
+
+	var errorObj = {
+		courseTypeName : "",
+		noOfDays : ""
+	};
 
 	var hidCourseTypeId = $("#hidCourseTypeId").val();
 	var courseTypeName = $("#courseTypeName").val();
@@ -57,55 +53,60 @@ function validateSubmitFun() {
 	var courseTypeNameError = "";
 	var noOfDaysError = "";
 
-	if (isEmpty(courseTypeName)) {
-		courseTypeNameError = "Mandatory Field!";
-	} else if (hasRestrictedChar3(courseTypeName)) {
-		courseTypeNameError = "Course Type Name can only have alphanumeric characters, spaces and special characters like '_ @ .'";
+	if (isEmpty(dataObj.courseTypeName)) {
+		errorObj.courseTypeName = "Mandatory Field!";
+	} else if (hasRestrictedChar3(dataObj.courseTypeName)) {
+		errorObj.courseTypeName = "Course Type Name can only have alphanumeric characters, spaces and special characters like '_ @ .'";
 	}
-	if (!isEmpty(noOfDays) && isNotNumber(noOfDays)) {
-		noOfDaysError = "Must be a number!";
-	}
-
-	if (!isEmpty(courseTypeNameError)) {
-		validation = false;
-		showErrorMsg("#courseTypeNameError", courseTypeNameError);
-	}
-	if (!isEmpty(noOfDaysError)) {
-		validation = false;
-		showErrorMsg("#noOfDaysError", noOfDaysError);
+	if (!isEmpty(dataObj.noOfDays) && isNotNumber(dataObj.noOfDays)) {
+		errorObj.noOfDays = "Must be a number!";
 	}
 
-	if (validation) {
-		$.ajax({
-			type : "POST",
-			url : contextPath + "courseType/validateSave",
-			data : $("#courseTypeForm").serialize(),
-			success : function(responseObj) {
-				if (responseObj.status == "success") {
-					bootbox.alert({
-						message : responseObj.msg,
-						backdrop : true,
-						callback : function() {
-							goToListCourseTypes();
-						}
-					});
-				} else {
-					if (!isEmpty(responseObj.courseTypeNameError)) {
-						showErrorMsg("#courseTypeNameError", responseObj.courseTypeNameError);
+	return showErrors(errorObj);
+}
+
+function submitFun(dataObj) {
+	$.post({
+		url : contextPath + "courseType/validateSave",
+		contentType : "application/json",
+		data : dataObj,
+		success : function(responseObj) {
+			if (responseObj.status == "success") {
+				bootbox.alert({
+					message : responseObj.msg,
+					backdrop : true,
+					callback : function() {
+						goToListCourseTypes();
 					}
-					if (!isEmpty(responseObj.noOfDaysError)) {
-						showErrorMsg("#noOfDaysError", responseObj.noOfDaysError);
-					}
-
-					showLoaderRight(false);
-				}
-			},
-			error : function(jqXHR, textStatus, errorThrown) {
-				if (jqXHR.status == 403)
-					location.reload();
-				return;
+				});
+			} else {
+				showLoaderRight(false);
 			}
-		});
+		},
+		error : function(jqXHR, textStatus, errorThrown) {
+			if (jqXHR.status == 403) {
+				location.reload();
+			} else {
+				var errorObj = jqXHR.responseJSON;
+				if (errorObj.status == "fail") {
+					showErrors(errorObj);
+				}
+				showLoaderRight(false);
+			}
+			return;
+		}
+	});
+}
+
+function validateSubmitFun() {
+	showLoaderRight(true);
+
+	var courseTypeFormData = $("#courseTypeForm").serializeToJSON({});
+
+	var isValid = validateFun(courseTypeFormData);
+
+	if (isValid) {
+		submitFun(courseTypeFormData);
 	} else {
 		showLoaderRight(false);
 	}

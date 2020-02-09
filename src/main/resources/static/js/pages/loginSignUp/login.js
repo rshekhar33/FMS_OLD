@@ -7,7 +7,7 @@ var LoginModalController = {
 
 	findElements : function() {
 		var base = this;
-		
+
 		base.inputElements = $(base.inputElementsName);
 		base.hidePassword = $(base.hidePasswordName);
 
@@ -54,46 +54,21 @@ $(document).ready(function() {
 		$("#loginError").text("");
 		var userName = $("#userName").val();
 		var password = $("#password").val();
-		
-		if(userName == "") {
+
+		if (isEmpty(userName)) {
 			validation = false;
 			$("#userNameError").text("Username cannot be left Empty!");
 		}
-		if(password == "") {
+		if (isEmpty(password)) {
 			validation = false;
 			$("#loginError").text("Password cannot be left Empty!");
+		} else {
+			$("#password").prop("disabled", true);
+			$("#passwordEnc").val(encryptString(password));
 		}
-		
-		if(validation) {
+
+		if (validation) {
 			$("#loginForm").submit();
-			/*$.ajax({
-				type : "POST",
-				url : contextPath + "loginCheck",
-				data : {
-					userName : userName,
-					password : password
-				},
-				success : function(data) {
-					var responseObj = data;
-					if(responseObj.login == "failure") {
-						location.reload();
-						return;
-					}
-					if(responseObj.status == "success") {
-						//$("#loginForm").submit();
-						location.href = contextPath + "home";
-					} else {
-						$("#loginError").text(responseObj.errMsg);
-					}
-				},
-				error : function(jqXHR, textStatus, errorThrown) {
-					if (jqXHR.status == 403) {
-						location.reload();
-						return;
-					}
-					$("#loginError").text("Server failed to process request");
-				}
-			});*/
 		}
 	});
 });

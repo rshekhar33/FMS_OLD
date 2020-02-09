@@ -5,8 +5,8 @@ import java.util.Map;
 
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.url.app.dto.Module;
 import com.url.app.utility.AppUrlView;
@@ -22,24 +22,24 @@ public interface ModuleRestController {
 	/**
 	 * Fetch data of Modules Listing.
 	 */
-	@PostMapping(value = AppUrlView.URL_FETCH_DETAILS, produces = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(value = AppUrlView.URL_FETCH_DETAILS, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	List<Module> fetchDetails();
 
 	/**
 	 * Fetch data of on add/update module screen.
 	 */
-	@PostMapping(value = AppUrlView.URL_FETCH_DATA, produces = MediaType.APPLICATION_JSON_VALUE)
-	Map<String, Module> fetchData(@RequestParam(value = "moduleId", required = false) String moduleIdStr);
+	@PostMapping(value = AppUrlView.URL_FETCH_DATA, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	Map<String, Module> fetchData(@RequestBody Module module);
 
 	/**
 	 * Validate and save data of on add/update module screen.
 	 */
-	@PostMapping(value = AppUrlView.URL_VALIDATE_SAVE, produces = MediaType.APPLICATION_JSON_VALUE)
-	Map<String, String> validateSave(@RequestParam Map<String, String> allRequestParams);
+	@PostMapping(value = AppUrlView.URL_VALIDATE_SAVE, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	Map<String, String> validateSave(@RequestBody Module module);
 
 	/**
 	 * Validate and save data of on module activation screen.
 	 */
-	@PostMapping(value = AppUrlView.URL_ACTIVATION, produces = MediaType.APPLICATION_JSON_VALUE)
-	Map<String, String> validateUpdateActivation(@RequestParam Map<String, String> allRequestParams);
+	@PostMapping(value = AppUrlView.URL_ACTIVATION, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	Map<String, String> validateUpdateActivation(@RequestBody Module module);
 }
