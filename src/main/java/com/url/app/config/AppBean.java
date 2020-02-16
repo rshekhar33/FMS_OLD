@@ -1,9 +1,12 @@
 package com.url.app.config;
 
+import java.nio.charset.StandardCharsets;
+
+import org.jasypt.commons.CommonUtils;
 import org.jasypt.encryption.StringEncryptor;
 import org.jasypt.encryption.pbe.PooledPBEStringEncryptor;
 import org.jasypt.encryption.pbe.config.SimpleStringPBEConfig;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.jasypt.salt.RandomSaltGenerator;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -31,17 +34,8 @@ import com.url.app.utility.AppUrlView;
 @Configuration
 public class AppBean {
 
-	@Autowired
-	private AppUserDetailsService appUserDetailsService;
-
-	@Autowired
-	private PasswordEncoder passwordEncoder;
-
-	@Autowired
-	private MessageSource validationMessageSource;
-
 	@Bean
-	public DaoAuthenticationProvider daoAuthenticationProvider() {
+	public DaoAuthenticationProvider daoAuthenticationProvider(AppUserDetailsService appUserDetailsService, PasswordEncoder passwordEncoder) {
 		final DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
 		authProvider.setUserDetailsService(appUserDetailsService);
 		authProvider.setPasswordEncoder(passwordEncoder);
@@ -72,7 +66,7 @@ public class AppBean {
 	@Bean
 	public LoginSuccessHandler loginSuccessHandlerWeb() {
 		final LoginSuccessHandler loginSuccessHandler = new LoginSuccessHandler();
-		loginSuccessHandler.setDefaultTargetUrl(AppUrlView.URL_ROOT + AppUrlView.URL_HOME);
+		loginSuccessHandler.setDefaultTargetUrl(AppUrlView.URL_LOGIN_SUCCESS);
 
 		return loginSuccessHandler;
 	}
@@ -80,7 +74,7 @@ public class AppBean {
 	@Bean
 	public LoginFailureHandler loginFailureHandler() {
 		final LoginFailureHandler loginFailureHandler = new LoginFailureHandler();
-		loginFailureHandler.setDefaultFailureUrl(AppUrlView.URL_ROOT + AppUrlView.URL_LOGIN + "?error");
+		loginFailureHandler.setDefaultFailureUrl(AppUrlView.URL_LOGIN_FAILURE);
 
 		return loginFailureHandler;
 	}
@@ -105,14 +99,14 @@ public class AppBean {
 	@Bean
 	public MessageSource validationMessageSource() {
 		final ReloadableResourceBundleMessageSource reloadableResourceBundleMessageSource = new ReloadableResourceBundleMessageSource();
-		reloadableResourceBundleMessageSource.setBasename("classpath:messages/validation-message");
-		reloadableResourceBundleMessageSource.setDefaultEncoding("UTF-8");
+		reloadableResourceBundleMessageSource.setBasename(AppConstant.SPRING_VALIDATION_MSG_FILE_BASENAME);
+		reloadableResourceBundleMessageSource.setDefaultEncoding(StandardCharsets.UTF_8.name());
 
 		return reloadableResourceBundleMessageSource;
 	}
 
 	@Bean
-	public LocalValidatorFactoryBean localValidatorFactoryBean() {
+	public LocalValidatorFactoryBean localValidatorFactoryBean(MessageSource validationMessageSource) {
 		final LocalValidatorFactoryBean localValidatorFactoryBean = new LocalValidatorFactoryBean();
 		localValidatorFactoryBean.setValidationMessageSource(validationMessageSource);
 
@@ -123,12 +117,11 @@ public class AppBean {
 	public StringEncryptor stringEncryptor() {
 		final SimpleStringPBEConfig config = new SimpleStringPBEConfig();
 		config.setPassword("fmsEncryptKey");
-		config.setAlgorithm("PBEWithMD5AndDES");
-		config.setKeyObtentionIterations("1000");
-		config.setPoolSize("1");
+		config.setKeyObtentionIterations(1000);
+		config.setPoolSize(1);
 		config.setProviderName("SunJCE");
-		config.setSaltGeneratorClassName("org.jasypt.salt.RandomSaltGenerator");
-		config.setStringOutputType("base64");
+		config.setSaltGenerator(new RandomSaltGenerator());
+		config.setStringOutputType(CommonUtils.STRING_OUTPUT_TYPE_BASE64);
 
 		final PooledPBEStringEncryptor encryptor = new PooledPBEStringEncryptor();
 		encryptor.setConfig(config);

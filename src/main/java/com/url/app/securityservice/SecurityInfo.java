@@ -17,8 +17,8 @@ public class SecurityInfo {
 
 	public SecurityInfo(String[] values, int[] indexes) {
 		for (int i = 0; i < indexes.length; i++) {
-			int j = indexes[i];
-			String val = values[i];
+			final int j = indexes[i];
+			final String val = values[i];
 			switch (j) {
 			case 0:
 				setCipherText(val);
@@ -37,6 +37,8 @@ public class SecurityInfo {
 				break;
 			case 5:
 				setKeySize(AppCommon.toInteger(val));
+				break;
+			default:
 				break;
 			}
 		}

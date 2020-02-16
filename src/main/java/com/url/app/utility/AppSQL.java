@@ -1,6 +1,11 @@
 package com.url.app.utility;
 
 public class AppSQL {
+
+	private AppSQL() {
+		throw new IllegalStateException("Utility class");
+	}
+
 	//@formatter:off
 	/* sql queries */
 	public static final String QRY_SELECT_URL_ROLE_ID = "select distinct new com.url.app.dto.UrlRolesBean(a.actionPath, r.roleId) "

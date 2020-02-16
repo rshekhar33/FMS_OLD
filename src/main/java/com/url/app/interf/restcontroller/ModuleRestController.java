@@ -16,30 +16,30 @@ import com.url.app.utility.AppUrlView;
  * 
  * @author Shekhar Shinde
  */
-@RequestMapping(value = AppUrlView.URL_ROOT_MODULE)
+@RequestMapping(value = AppUrlView.PATH_ROOT_MODULE)
 public interface ModuleRestController {
 
 	/**
 	 * Fetch data of Modules Listing.
 	 */
-	@PostMapping(value = AppUrlView.URL_FETCH_DETAILS, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(value = AppUrlView.PATH_FETCH_DETAILS, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	List<Module> fetchDetails();
 
 	/**
 	 * Fetch data of on add/update module screen.
 	 */
-	@PostMapping(value = AppUrlView.URL_FETCH_DATA, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(value = AppUrlView.PATH_FETCH_DATA, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	Map<String, Module> fetchData(@RequestBody Module module);
 
 	/**
 	 * Validate and save data of on add/update module screen.
 	 */
-	@PostMapping(value = AppUrlView.URL_VALIDATE_SAVE, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(value = AppUrlView.PATH_VALIDATE_SAVE, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	Map<String, String> validateSave(@RequestBody Module module);
 
 	/**
 	 * Validate and save data of on module activation screen.
 	 */
-	@PostMapping(value = AppUrlView.URL_ACTIVATION, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(value = AppUrlView.PATH_ACTIVATION, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	Map<String, String> validateUpdateActivation(@RequestBody Module module);
 }

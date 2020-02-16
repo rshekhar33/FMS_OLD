@@ -42,7 +42,7 @@ public class GlobalExceptionControllerImpl implements GlobalExceptionController,
 	@Autowired
 	private AppMessage appMessage;
 
-	@RequestMapping(value = AppUrlView.URL_ERROR)
+	@RequestMapping(value = AppUrlView.PATH_ERROR)
 	public ModelAndView handleNoHandlerException(final HttpServletRequest request, final Exception e) {
 		logger.error("Global NoHandlerFoundException at Location : {} with Exception : {}", request.getRequestURL(), e.getMessage());
 
@@ -56,7 +56,7 @@ public class GlobalExceptionControllerImpl implements GlobalExceptionController,
 
 	@Override
 	public String getErrorPath() {
-		return AppUrlView.URL_ERROR;
+		return AppUrlView.PATH_ERROR;
 	}
 
 	@Override

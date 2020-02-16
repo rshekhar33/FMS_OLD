@@ -15,30 +15,30 @@ import com.url.app.utility.AppUrlView;
  * 
  * @author Shekhar Shinde
  */
-@RequestMapping(value = AppUrlView.URL_ROOT_COURSE_TYPE)
+@RequestMapping(value = AppUrlView.PATH_ROOT_COURSE_TYPE)
 public interface CourseTypeController {
 
 	/**
 	 * Course Types Listing Screen.
 	 */
-	@GetMapping(value = AppUrlView.URL_LIST)
+	@GetMapping(value = AppUrlView.PATH_LIST)
 	String list(HttpSession httpSess, ModelMap modelMap);
 
 	/**
 	 * Add course type screen.
 	 */
-	@GetMapping(value = AppUrlView.URL_ADD)
+	@GetMapping(value = AppUrlView.PATH_ADD)
 	String add(HttpSession httpSess, ModelMap modelMap);
 
 	/**
 	 * Action to get courseTypeId on update course type screen.
 	 */
-	@PostMapping(value = AppUrlView.URL_UPDATE)
+	@PostMapping(value = AppUrlView.PATH_UPDATE)
 	String update(HttpSession httpSess, @RequestParam("linkId") String linkId);
 
 	/**
 	 * Update course type screen.
 	 */
-	@GetMapping(value = AppUrlView.URL_UPDATE)
+	@GetMapping(value = AppUrlView.PATH_UPDATE)
 	String updateScreen(HttpSession httpSess, ModelMap modelMap);
 }

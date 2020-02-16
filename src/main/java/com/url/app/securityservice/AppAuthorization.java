@@ -71,15 +71,15 @@ public class AppAuthorization {
 	 * @return true if user is authorized to access else returns false.
 	 */
 	public boolean isAccessAllowed(final String action) {
-		final List<String> actionRoles = getRolesHavingAccessToAction(action);
+		final List<String> roles = getRolesHavingAccessToAction(action);
 
 		final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		final Collection<? extends GrantedAuthority> userRoles = auth.getAuthorities();
 
 		boolean isAccessAllowed = false;
-		if (actionRoles != null && !actionRoles.isEmpty()) {
+		if (roles != null && !roles.isEmpty()) {
 			for (final GrantedAuthority grantedAuthority : userRoles) {
-				if (actionRoles.contains(grantedAuthority.getAuthority())) {
+				if (roles.contains(grantedAuthority.getAuthority())) {
 					isAccessAllowed = true;
 					break;
 				}

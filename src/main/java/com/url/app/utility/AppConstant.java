@@ -1,13 +1,16 @@
 package com.url.app.utility;
 
-import java.util.regex.Pattern;
-
 /**
  * Application Constants.
  * 
  * @author Shekhar Shinde
  */
 public class AppConstant {
+
+	private AppConstant() {
+		throw new IllegalStateException("Utility class");
+	}
+
 	public static final Integer SYSTEM_USER_ID = 1;
 
 	public static final Integer ACTIVE = 1;
@@ -17,12 +20,13 @@ public class AppConstant {
 	public static final String SUCCESS = "success";
 	public static final String FAIL = "fail";
 
-	/* Patterns for validation */
-	public static final Pattern PATTERN_VALID_EMAIL = Pattern.compile("^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$");
-	public static final Pattern PATTERN_ALPHABET_CHAR = Pattern.compile("[a-zA-Z]+");
-	public static final Pattern PATTERN_RESTRICTED_CHAR_1 = Pattern.compile("\\W");
-	public static final Pattern PATTERN_RESTRICTED_CHAR_2 = Pattern.compile("^[\\w\\.@]+$");
-	public static final Pattern PATTERN_RESTRICTED_CHAR_3 = Pattern.compile("^[\\w\\.@ ]+$");
+	/* Regex for validation */
+	public static final String REGEX_ALPHABET_CHAR_1 = "[a-zA-Z]+";
+	public static final String REGEX_ALPHABET_CHAR_2 = "[a-zA-Z]*";
+	public static final String REGEX_RESTRICTED_CHAR_1 = "\\W";
+	public static final String REGEX_RESTRICTED_CHAR_2 = "^[\\w\\.@]+$";
+	public static final String REGEX_RESTRICTED_CHAR_3 = "^[\\w\\.@ ]+$";
+	public static final String REGEX_NUMERIC_ONLY = "\\d+";
 
 	/* Common Settings type */
 	public static final String CS_TYPE_COURSE_TYPE_CODE_COUNTER = "coursetypecode_counter";
@@ -38,6 +42,8 @@ public class AppConstant {
 
 	/* Spring settings */
 	public static final String SPRING_SECURITY_MSG_FILE_BASENAME = "messages/springsecurity-messages";
+	public static final String SPRING_VALIDATION_MSG_FILE_BASENAME = "classpath:messages/validation-message";
+	public static final String SPRING_APP_MSG_FILE_BASENAME = "classpath:messages/app-message.properties";
 	public static final String SPRING_VIEW_RESOLVER_PREFIX = "/WEB-INF/views/";
 	public static final String SPRING_VIEW_RESOLVER_SUFFIX = ".jsp";
 

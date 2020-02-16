@@ -10,7 +10,7 @@ function shuffle(arr) {
 	return arr.sort(function() {
 		return .5 - Math.random();
 	});
-};
+}
 
 function getChar(n) {
 	switch (n) {
@@ -27,15 +27,15 @@ function getChar(n) {
 	case 5:
 		return 'f';
 	}
-};
+}
 
 function change(idxtemp) {
 	var nidx = shuffle(getArr6());
-	for (i = 0; i < nidx.length / 2; i++) {
+	for (var i = 0; i < nidx.length / 2; i++) {
 		idxtemp[nidx[i]] = getChar(idxtemp[nidx[i]]);
 	}
 	return idxtemp;
-};
+}
 
 function getCipherText(keys) {
 	var fst = "";
@@ -45,20 +45,20 @@ function getCipherText(keys) {
 	}
 	fst += change(idx);
 	return fst;
-};
+}
 
 function hexfromdec(num) {
 	if (num > 65535) {
 		return ("err!")
 	}
-	first = Math.round(num / 4096 - .5);
-	temp1 = num - first * 4096;
-	second = Math.round(temp1 / 256 - .5);
-	temp2 = temp1 - second * 256;
-	third = Math.round(temp2 / 16 - .5);
-	fourth = temp2 - third * 16;
+	var first = Math.round(num / 4096 - .5);
+	var temp1 = num - first * 4096;
+	var second = Math.round(temp1 / 256 - .5);
+	var temp2 = temp1 - second * 256;
+	var third = Math.round(temp2 / 16 - .5);
+	var fourth = temp2 - third * 16;
 	return ("" + getletter(third) + getletter(fourth));
-};
+}
 
 function getletter(num) {
 	if (num < 10) {
@@ -83,7 +83,7 @@ function getletter(num) {
 			return "F";
 		}
 	}
-};
+}
 
 function encryptValue(x) {
 	var hex = '';
@@ -92,7 +92,7 @@ function encryptValue(x) {
 		hex += '%' + hexfromdec(x.charCodeAt(i))
 	}
 	return hex;
-};
+}
 
 function encryptString(plainTextStr) {
 	var randomNum = Math.random() + 0.3 // Adding 0.3 just for case if random number comes out as 0
@@ -112,4 +112,4 @@ function encryptString(plainTextStr) {
 	var finalStr = getCipherText([ ciphertext, iv, salt, pp, ic, ks ]);
 
 	return finalStr;
-};
+}

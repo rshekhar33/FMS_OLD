@@ -43,7 +43,7 @@ public class GlobalExceptionRestControllerImpl implements GlobalExceptionRestCon
 	@Autowired
 	private AppMessage appMessage;
 
-	@RequestMapping(value = AppUrlView.URL_ERROR, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = AppUrlView.PATH_ERROR, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public Map<String, Object> handleNoHandlerException(final HttpServletRequest request, final Exception e) {
 		logger.error("Global NoHandlerFoundException at Location : {} with Exception : {}", request.getRequestURL(), e.getMessage());
 
@@ -57,7 +57,7 @@ public class GlobalExceptionRestControllerImpl implements GlobalExceptionRestCon
 
 	@Override
 	public String getErrorPath() {
-		return AppUrlView.URL_ERROR;
+		return AppUrlView.PATH_ERROR;
 	}
 
 	@Override
@@ -88,7 +88,7 @@ public class GlobalExceptionRestControllerImpl implements GlobalExceptionRestCon
 	public Map<String, String> handleMethodArgumentNotValidException(final MethodArgumentNotValidException e) {
 		final Map<String, String> json = new ConcurrentHashMap<>();
 		json.put(AppResponseKey.STATUS, AppConstant.FAIL);
-		e.getBindingResult().getAllErrors().forEach((error) -> {
+		e.getBindingResult().getAllErrors().forEach(error -> {
 			final String fieldName = ((FieldError) error).getField();
 			final String errorMessage = error.getDefaultMessage();
 			json.put(fieldName, errorMessage);
@@ -101,7 +101,7 @@ public class GlobalExceptionRestControllerImpl implements GlobalExceptionRestCon
 	public Map<String, String> handleConstraintViolationException(final ConstraintViolationException e) {
 		final Map<String, String> json = new ConcurrentHashMap<>();
 		json.put(AppResponseKey.STATUS, AppConstant.FAIL);
-		e.getConstraintViolations().forEach((error) -> {
+		e.getConstraintViolations().forEach(error -> {
 			final String fieldName = ((PathImpl) error.getPropertyPath()).getLeafNode().getName();
 			final String errorMessage = error.getMessage();
 			json.put(fieldName, errorMessage);

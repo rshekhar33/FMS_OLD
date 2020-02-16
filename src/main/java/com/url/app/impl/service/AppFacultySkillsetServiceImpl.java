@@ -8,6 +8,8 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,7 +36,7 @@ import com.url.app.utility.AppResponseKey;
  */
 @Service(value = "appFacultySkillsetServiceImpl")
 public class AppFacultySkillsetServiceImpl implements AppFacultySkillsetService {
-	//private static final Logger logger = LoggerFactory.getLogger(AppFacultySkillsetServiceImpl.class);
+	private static final Logger logger = LoggerFactory.getLogger(AppFacultySkillsetServiceImpl.class);
 
 	@Autowired
 	private AppUserService appUserService;
@@ -80,6 +82,7 @@ public class AppFacultySkillsetServiceImpl implements AppFacultySkillsetService 
 	@Override
 	@Transactional
 	public Map<String, String> validateSaveFacultySkillset(final Map<String, String> allRequestParams) {
+		logger.debug("allRequestParams : {}", allRequestParams);
 		final String hidUserIdStr = allRequestParams.getOrDefault("hidUserId", "0");
 		final String modulesStr = allRequestParams.get("modulesStr");
 
@@ -144,7 +147,10 @@ public class AppFacultySkillsetServiceImpl implements AppFacultySkillsetService 
 	@Override
 	@Transactional
 	public Map<String, Object> validateUpdateActivation(final Map<String, String> allRequestParams) {
+		String status = AppConstant.BLANK_STRING;
+
 		final Map<String, Object> json = new ConcurrentHashMap<>();
+		json.put(AppResponseKey.STATUS, status);
 
 		return json;
 	}

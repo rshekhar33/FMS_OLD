@@ -6,6 +6,11 @@ package com.url.app.utility;
  * @author Shekhar Shinde
  */
 public class AppResponseKey {
+
+	private AppResponseKey() {
+		throw new IllegalStateException("Utility class");
+	}
+
 	public static final String EXCEPTION_MSG = "exceptionMsg";
 	public static final String EXCEPTION_HEADER = "exceptionHeader";
 	public static final String EXCEPTION_DESC = "exceptionDesc";

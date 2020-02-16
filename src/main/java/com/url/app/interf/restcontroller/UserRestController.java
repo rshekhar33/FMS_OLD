@@ -17,30 +17,30 @@ import com.url.app.utility.AppUrlView;
  * 
  * @author Shekhar Shinde
  */
-@RequestMapping(value = AppUrlView.URL_ROOT_USER)
+@RequestMapping(value = AppUrlView.PATH_ROOT_USER)
 public interface UserRestController {
 
 	/**
 	 * Fetch data of Users Listing.
 	 */
-	@PostMapping(value = AppUrlView.URL_FETCH_DETAILS, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(value = AppUrlView.PATH_FETCH_DETAILS, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	List<UserMng> fetchDetails();
 
 	/**
 	 * Fetch data of on add/update user screen.
 	 */
-	@PostMapping(value = AppUrlView.URL_FETCH_DATA, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(value = AppUrlView.PATH_FETCH_DATA, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	Map<String, Object> fetchData(@RequestBody User user);
 
 	/**
 	 * Validate and save data of on add/update user screen.
 	 */
-	@PostMapping(value = AppUrlView.URL_VALIDATE_SAVE, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(value = AppUrlView.PATH_VALIDATE_SAVE, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	Map<String, String> validateSave(@RequestBody User user);
 
 	/**
 	 * Validate and save data of on user activation screen.
 	 */
-	@PostMapping(value = AppUrlView.URL_ACTIVATION, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(value = AppUrlView.PATH_ACTIVATION, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	Map<String, String> validateUpdateActivation(@RequestBody User user);
 }

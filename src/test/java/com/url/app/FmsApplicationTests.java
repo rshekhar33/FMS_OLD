@@ -1,6 +1,7 @@
 package com.url.app;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Set;
 
@@ -30,6 +31,7 @@ public class FmsApplicationTests {
 
 	@Test
 	public void contextLoads() {
+		assertTrue(true);
 	}
 
 	@Test

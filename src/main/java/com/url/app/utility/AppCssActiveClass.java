@@ -6,6 +6,11 @@ package com.url.app.utility;
  * @author Shekhar Shinde
  */
 public class AppCssActiveClass {
+
+	private AppCssActiveClass() {
+		throw new IllegalStateException("Utility class");
+	}
+
 	public static final String ACTIVE_CLASS = "active";
 
 	public static final String DASHBOARD_ACTIVE_CLS = "dashboardActiveCls";

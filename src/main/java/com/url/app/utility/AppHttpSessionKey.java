@@ -6,6 +6,11 @@ package com.url.app.utility;
  * @author Shekhar Shinde
  */
 public class AppHttpSessionKey {
+
+	private AppHttpSessionKey() {
+		throw new IllegalStateException("Utility class");
+	}
+
 	public static final String LOGIN_ERROR = "loginError";
 	public static final String HID_USER_ID = "hidUserId";
 	public static final String HID_ROLE_ID = "hidRoleId";

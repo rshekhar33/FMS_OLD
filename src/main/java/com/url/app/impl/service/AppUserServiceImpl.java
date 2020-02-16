@@ -64,7 +64,7 @@ public class AppUserServiceImpl implements AppUserService {
 		try {
 			final Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-			if (principal != null && principal instanceof LoggedUser) {
+			if (principal instanceof LoggedUser) {
 				loggedUser = (LoggedUser) principal;
 			}
 		} catch (Exception e) {

@@ -1,6 +1,7 @@
 package com.url.app.securityservice;
 
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -36,7 +37,7 @@ public class AesUtil {
 		this.keySize = keySize;
 		this.iterationCount = iterationCount;
 		try {
-			cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+			cipher = Cipher.getInstance("AES/GCM/NoPadding");
 		} catch (NoSuchAlgorithmException | NoSuchPaddingException e) {
 			throw fail(e);
 		}
@@ -45,7 +46,7 @@ public class AesUtil {
 	public String encrypt(String salt, String iv, String passphrase, String plaintext) {
 		try {
 			SecretKey key = generateKey(salt, passphrase);
-			byte[] encrypted = doFinal(Cipher.ENCRYPT_MODE, key, iv, plaintext.getBytes("UTF-8"));
+			byte[] encrypted = doFinal(Cipher.ENCRYPT_MODE, key, iv, plaintext.getBytes(StandardCharsets.UTF_8.name()));
 			return base64(encrypted);
 		} catch (UnsupportedEncodingException e) {
 			throw fail(e);
@@ -56,7 +57,7 @@ public class AesUtil {
 		try {
 			SecretKey key = generateKey(salt, passphrase);
 			byte[] decrypted = doFinal(Cipher.DECRYPT_MODE, key, iv, base64(ciphertext));
-			return new String(decrypted, "UTF-8");
+			return new String(decrypted, StandardCharsets.UTF_8.name());
 		} catch (UnsupportedEncodingException e) {
 			throw fail(e);
 		}
@@ -75,8 +76,7 @@ public class AesUtil {
 		try {
 			SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
 			KeySpec spec = new PBEKeySpec(passphrase.toCharArray(), hex(salt), iterationCount, keySize);
-			SecretKey key = new SecretKeySpec(factory.generateSecret(spec).getEncoded(), "AES");
-			return key;
+			return new SecretKeySpec(factory.generateSecret(spec).getEncoded(), "AES");
 		} catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
 			throw fail(e);
 		}

@@ -134,9 +134,7 @@ public class Privilege implements Serializable {
 	}
 
 	public boolean removeAction(Action action) {
-		boolean isRemoved = getActions().remove(action);
-
-		return isRemoved;
+		return getActions().remove(action);
 	}
 
 	public Set<RolePrivilegeRelation> getRolePrivilegeRelations() {
@@ -154,9 +152,7 @@ public class Privilege implements Serializable {
 	}
 
 	public boolean removeRolePrivilegeRelation(RolePrivilegeRelation rolePrivilegeRelation) {
-		boolean isRemoved = getRolePrivilegeRelations().remove(rolePrivilegeRelation);
-
-		return isRemoved;
+		return getRolePrivilegeRelations().remove(rolePrivilegeRelation);
 	}
 
 	@Override

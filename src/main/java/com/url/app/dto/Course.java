@@ -200,9 +200,7 @@ public class Course implements Serializable {
 	}
 
 	public boolean removeFeedbackQuestion(FeedbackQuestion feedbackQuestion) {
-		boolean isRemoved = getFeedbackQuestions().remove(feedbackQuestion);
-
-		return isRemoved;
+		return getFeedbackQuestions().remove(feedbackQuestion);
 	}
 
 	@Override

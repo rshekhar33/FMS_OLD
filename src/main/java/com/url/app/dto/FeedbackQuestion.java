@@ -151,9 +151,7 @@ public class FeedbackQuestion implements Serializable {
 	}
 
 	public boolean removeFeedbackAnswer(FeedbackAnswer feedbackAnswer) {
-		boolean isRemoved = getFeedbackAnswers().remove(feedbackAnswer);
-
-		return isRemoved;
+		return getFeedbackAnswers().remove(feedbackAnswer);
 	}
 
 	public Course getCourse() {

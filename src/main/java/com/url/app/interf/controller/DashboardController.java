@@ -11,12 +11,12 @@ import com.url.app.utility.AppUrlView;
  * 
  * @author Shekhar Shinde
  */
-@RequestMapping(value = AppUrlView.URL_ROOT_DASHBOARD)
+@RequestMapping(value = AppUrlView.PATH_ROOT_DASHBOARD)
 public interface DashboardController {
 
 	/**
 	 * Dashboard of Application.
 	 */
-	@GetMapping(value = AppUrlView.URL_DASHBOARD)
+	@GetMapping(value = AppUrlView.PATH_DASHBOARD)
 	String dashboard(ModelMap modelMap);
 }

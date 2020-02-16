@@ -32,6 +32,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.url.app.utility.AppConstant;
 import com.url.app.validation.BasicActivateGroup;
 import com.url.app.validation.BasicCreateGroup;
 import com.url.app.validation.BasicUpdateGroup;
@@ -83,7 +84,7 @@ public class Role implements Serializable {
 
 	@Column(name = "role_name", unique = true, nullable = false, length = 50)
 	@NotBlank(groups = { BasicCreateGroup.class, BasicUpdateGroup.class }, message = "{mandatory.field.error}")
-	@Pattern(groups = { BasicCreateGroup.class, BasicUpdateGroup.class }, regexp = "^[\\w\\.@ ]+$", message = "{role.rolename.restrictedchar3.error}")
+	@Pattern(groups = { BasicCreateGroup.class, BasicUpdateGroup.class }, regexp = AppConstant.REGEX_RESTRICTED_CHAR_3, message = "{role.rolename.restrictedchar3.error}")
 	@Size(groups = { BasicCreateGroup.class, BasicUpdateGroup.class }, max = 50, message = "{length.error}")
 	@RoleNameNotExists(groups = DBCreateGroup.class, message = "{role.rolename.exists.error}")
 	private String roleName;
@@ -172,9 +173,7 @@ public class Role implements Serializable {
 	}
 
 	public boolean removeRolePrivilegeRelation(RolePrivilegeRelation rolePrivilegeRelation) {
-		boolean isRemoved = getRolePrivilegeRelations().remove(rolePrivilegeRelation);
-
-		return isRemoved;
+		return getRolePrivilegeRelations().remove(rolePrivilegeRelation);
 	}
 
 	public Set<UserRoleRelation> getUserRoleRelations() {
@@ -192,9 +191,7 @@ public class Role implements Serializable {
 	}
 
 	public boolean removeUserRoleRelation(UserRoleRelation userRoleRelation) {
-		boolean isRemoved = getUserRoleRelations().remove(userRoleRelation);
-
-		return isRemoved;
+		return getUserRoleRelations().remove(userRoleRelation);
 	}
 
 	@Override

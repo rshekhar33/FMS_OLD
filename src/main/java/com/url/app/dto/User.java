@@ -36,6 +36,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.url.app.utility.AppConstant;
 import com.url.app.validation.BasicActivateGroup;
 import com.url.app.validation.BasicCreateGroup;
 import com.url.app.validation.BasicUpdateGroup;
@@ -84,7 +85,7 @@ public class User implements Serializable {
 
 	@Column(name = "first_name", nullable = false, length = 100)
 	@NotBlank(groups = { BasicCreateGroup.class, BasicUpdateGroup.class }, message = "{mandatory.field.error}")
-	@Pattern(groups = { BasicCreateGroup.class, BasicUpdateGroup.class }, regexp = "[a-zA-Z]+", message = "{user.firstname.onlyalphabets.error}")
+	@Pattern(groups = { BasicCreateGroup.class, BasicUpdateGroup.class }, regexp = AppConstant.REGEX_ALPHABET_CHAR_1, message = "{user.firstname.onlyalphabets.error}")
 	@Size(groups = { BasicCreateGroup.class, BasicUpdateGroup.class }, max = 100, message = "{length.error}")
 	private String firstName;
 
@@ -99,7 +100,7 @@ public class User implements Serializable {
 	private Date lastFailedLoginDate;
 
 	@Column(name = "last_name", length = 100)
-	@Pattern(groups = { BasicCreateGroup.class, BasicUpdateGroup.class }, regexp = "[a-zA-Z]*", message = "{user.lastname.onlyalphabets.error}")
+	@Pattern(groups = { BasicCreateGroup.class, BasicUpdateGroup.class }, regexp = AppConstant.REGEX_ALPHABET_CHAR_2, message = "{user.lastname.onlyalphabets.error}")
 	@Size(groups = { BasicCreateGroup.class, BasicUpdateGroup.class }, max = 100, message = "{length.error}")
 	private String lastName;
 
@@ -108,13 +109,13 @@ public class User implements Serializable {
 	private Date lastSuccessfulLoginDate;
 
 	@Column(name = "middle_name", length = 100)
-	@Pattern(groups = { BasicCreateGroup.class, BasicUpdateGroup.class }, regexp = "[a-zA-Z]*", message = "{user.middlename.onlyalphabets.error}")
+	@Pattern(groups = { BasicCreateGroup.class, BasicUpdateGroup.class }, regexp = AppConstant.REGEX_ALPHABET_CHAR_2, message = "{user.middlename.onlyalphabets.error}")
 	@Size(groups = { BasicCreateGroup.class, BasicUpdateGroup.class }, max = 100, message = "{length.error}")
 	private String middleName;
 
 	@Column(name = "mobile_no", nullable = false, length = 20)
 	@NotBlank(groups = { BasicCreateGroup.class, BasicUpdateGroup.class }, message = "{mandatory.field.error}")
-	@Pattern(groups = { BasicCreateGroup.class, BasicUpdateGroup.class }, regexp = "\\d+", message = "{only.number.error}")
+	@Pattern(groups = { BasicCreateGroup.class, BasicUpdateGroup.class }, regexp = AppConstant.REGEX_NUMERIC_ONLY, message = "{only.number.error}")
 	@Size(groups = { BasicCreateGroup.class, BasicUpdateGroup.class }, min = 10, max = 10, message = "{user.mobile.length.error}")
 	private String mobileNo;
 
@@ -131,7 +132,7 @@ public class User implements Serializable {
 
 	@Column(name = "user_name", nullable = false, length = 50)
 	@NotBlank(groups = BasicCreateGroup.class, message = "{mandatory.field.error}")
-	@Pattern(groups = BasicCreateGroup.class, regexp = "^[\\w\\.@]+$", message = "{user.username.restrictedchar2.error}")
+	@Pattern(groups = BasicCreateGroup.class, regexp = AppConstant.REGEX_RESTRICTED_CHAR_2, message = "{user.username.restrictedchar2.error}")
 	@Size(groups = BasicCreateGroup.class, max = 50, message = "{length.error}")
 	@UserNameNotExists(groups = DBCreateGroup.class, message = "{user.username.exists.error}")
 	private String userName;
@@ -296,9 +297,7 @@ public class User implements Serializable {
 	}
 
 	public boolean removeFacultySkillset(FacultySkillset facultySkillset) {
-		boolean isRemoved = getFacultySkillsets().remove(facultySkillset);
-
-		return isRemoved;
+		return getFacultySkillsets().remove(facultySkillset);
 	}
 
 	public Set<UserRoleRelation> getUserRoleRelations() {
@@ -316,9 +315,7 @@ public class User implements Serializable {
 	}
 
 	public boolean removeUserRoleRelation(UserRoleRelation userRoleRelation) {
-		boolean isRemoved = getUserRoleRelations().remove(userRoleRelation);
-
-		return isRemoved;
+		return getUserRoleRelations().remove(userRoleRelation);
 	}
 
 	public List<Integer> getRoles() {

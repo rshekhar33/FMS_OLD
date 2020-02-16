@@ -21,19 +21,19 @@ public interface LoginController {
 	/**
 	 * Index/Login Page of application.
 	 */
-	@GetMapping(value = { AppUrlView.URL_ROOT, AppUrlView.URL_LOGIN })
+	@GetMapping(value = { AppUrlView.PATH_ROOT, AppUrlView.PATH_LOGIN })
 	String index(Locale locale, Principal principal);
 
 	/**
 	 * HomePage/Dashboard of Application.
 	 */
-	@GetMapping(value = AppUrlView.URL_HOME)
+	@GetMapping(value = AppUrlView.PATH_HOME)
 	String home();
 
 	/**
 	 * SignUp/Registration URL for Users.
 	 */
-	@GetMapping(value = AppUrlView.URL_SIGN_UP)
+	@GetMapping(value = AppUrlView.PATH_SIGN_UP)
 	String signUp();
 
 	/**
@@ -41,7 +41,7 @@ public interface LoginController {
 	 * 
 	 * @return name of the view which is to be rendered when access is denied.
 	 */
-	@RequestMapping(value = AppUrlView.URL_ACCESS_DENIED, method = { RequestMethod.GET, RequestMethod.POST })
+	@RequestMapping(value = AppUrlView.PATH_ACCESS_DENIED, method = { RequestMethod.GET, RequestMethod.POST })
 	@ResponseStatus(code = HttpStatus.FORBIDDEN)
 	String accessDeniedPage();
 
@@ -50,7 +50,7 @@ public interface LoginController {
 	 * 
 	 * @return name of the view which is to be rendered when session is invalid.
 	 */
-	@RequestMapping(value = AppUrlView.URL_INVALID_SESSION, method = { RequestMethod.GET, RequestMethod.POST })
+	@RequestMapping(value = AppUrlView.PATH_INVALID_SESSION, method = { RequestMethod.GET, RequestMethod.POST })
 	@ResponseStatus(code = HttpStatus.UNAUTHORIZED)
 	String invalidSessionPage();
 
@@ -59,7 +59,7 @@ public interface LoginController {
 	 * 
 	 * @return name of the view which is to be rendered when session has expired.
 	 */
-	@RequestMapping(value = AppUrlView.URL_SESSION_EXPIRED, method = { RequestMethod.GET, RequestMethod.POST })
+	@RequestMapping(value = AppUrlView.PATH_SESSION_EXPIRED, method = { RequestMethod.GET, RequestMethod.POST })
 	@ResponseStatus(code = HttpStatus.UNAUTHORIZED)
 	String sessionExpiredPage();
 }

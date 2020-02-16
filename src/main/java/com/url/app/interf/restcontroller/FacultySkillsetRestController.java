@@ -16,30 +16,30 @@ import com.url.app.utility.AppUrlView;
  * 
  * @author Shekhar Shinde
  */
-@RequestMapping(value = AppUrlView.URL_ROOT_FACULTY_SKILLSET)
+@RequestMapping(value = AppUrlView.PATH_ROOT_FACULTY_SKILLSET)
 public interface FacultySkillsetRestController {
 
 	/**
 	 * Fetch data of Faculty Skillsets listing.
 	 */
-	@PostMapping(value = AppUrlView.URL_FETCH_DETAILS, produces = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(value = AppUrlView.PATH_FETCH_DETAILS, produces = MediaType.APPLICATION_JSON_VALUE)
 	List<FacultySkillsetMng> fetchDetails();
 
 	/**
 	 * Fetch data of on add/update faculty skillset screen.
 	 */
-	@PostMapping(value = AppUrlView.URL_FETCH_DATA, produces = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(value = AppUrlView.PATH_FETCH_DATA, produces = MediaType.APPLICATION_JSON_VALUE)
 	Map<String, Object> fetchData(@RequestParam(value = "userId", required = false) String userIdStr);
 
 	/**
 	 * Validate and save data of on add/update faculty skillset screen.
 	 */
-	@PostMapping(value = AppUrlView.URL_VALIDATE_SAVE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(value = AppUrlView.PATH_VALIDATE_SAVE, produces = MediaType.APPLICATION_JSON_VALUE)
 	Map<String, String> validateSave(@RequestParam Map<String, String> allRequestParams);
 
 	/**
 	 * Validate and save data of on faculty skillset activation screen.
 	 */
-	@PostMapping(value = AppUrlView.URL_ACTIVATION, produces = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(value = AppUrlView.PATH_ACTIVATION, produces = MediaType.APPLICATION_JSON_VALUE)
 	Map<String, Object> validateUpdateActivation(@RequestParam Map<String, String> allRequestParams);
 }

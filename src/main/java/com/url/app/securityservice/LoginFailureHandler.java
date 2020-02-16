@@ -16,6 +16,7 @@ import org.springframework.security.web.authentication.SimpleUrlAuthenticationFa
 import com.url.app.config.AppMessage;
 import com.url.app.interf.service.AppUserService;
 import com.url.app.utility.AppHttpSessionKey;
+import com.url.app.utility.AppUrlView;
 
 /**
  * Login failure handler class.
@@ -34,7 +35,7 @@ public class LoginFailureHandler extends SimpleUrlAuthenticationFailureHandler {
 	@Override
 	public void onAuthenticationFailure(final HttpServletRequest request, final HttpServletResponse response, final AuthenticationException exception)
 			throws IOException, ServletException {
-		final String userName = request.getParameter("userName");
+		final String userName = request.getParameter(AppUrlView.PARAMETER_NAME_USERNAME);
 
 		appUserService.userUpdateLastLoginFailure(userName);
 

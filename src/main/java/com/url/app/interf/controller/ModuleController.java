@@ -15,30 +15,30 @@ import com.url.app.utility.AppUrlView;
  * 
  * @author Shekhar Shinde
  */
-@RequestMapping(value = AppUrlView.URL_ROOT_MODULE)
+@RequestMapping(value = AppUrlView.PATH_ROOT_MODULE)
 public interface ModuleController {
 
 	/**
 	 * Modules Listing Screen.
 	 */
-	@GetMapping(value = AppUrlView.URL_LIST)
+	@GetMapping(value = AppUrlView.PATH_LIST)
 	String list(HttpSession httpSess, ModelMap modelMap);
 
 	/**
 	 * Add module screen.
 	 */
-	@GetMapping(value = AppUrlView.URL_ADD)
+	@GetMapping(value = AppUrlView.PATH_ADD)
 	String add(HttpSession httpSess, ModelMap modelMap);
 
 	/**
 	 * Action to get moduleId on update module screen.
 	 */
-	@PostMapping(value = AppUrlView.URL_UPDATE)
+	@PostMapping(value = AppUrlView.PATH_UPDATE)
 	String update(HttpSession httpSess, @RequestParam("linkId") String linkId);
 
 	/**
 	 * Update module screen.
 	 */
-	@GetMapping(value = AppUrlView.URL_UPDATE)
+	@GetMapping(value = AppUrlView.PATH_UPDATE)
 	String updateScreen(HttpSession httpSess, ModelMap modelMap);
 }

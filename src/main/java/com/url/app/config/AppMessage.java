@@ -4,8 +4,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 
+import com.url.app.utility.AppConstant;
+
 @Configuration
-@PropertySource("classpath:messages/app-message.properties")
+@PropertySource(value = AppConstant.SPRING_APP_MSG_FILE_BASENAME)
 public class AppMessage {
 	/**
 	 * exceptions

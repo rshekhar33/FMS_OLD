@@ -32,6 +32,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.url.app.utility.AppConstant;
 import com.url.app.validation.BasicActivateGroup;
 import com.url.app.validation.BasicCreateGroup;
 import com.url.app.validation.BasicUpdateGroup;
@@ -59,7 +60,8 @@ public class CourseType implements Serializable {
 
 	@Column(name = "course_type_name", nullable = false, length = 500)
 	@NotBlank(groups = { BasicCreateGroup.class, BasicUpdateGroup.class }, message = "{mandatory.field.error}")
-	@Pattern(groups = { BasicCreateGroup.class, BasicUpdateGroup.class }, regexp = "^[\\w\\.@ ]+$", message = "{coursetype.coursetypename.restrictedchar3.error}")
+	@Pattern(groups = { BasicCreateGroup.class,
+			BasicUpdateGroup.class }, regexp = AppConstant.REGEX_RESTRICTED_CHAR_3, message = "{coursetype.coursetypename.restrictedchar3.error}")
 	@Size(groups = { BasicCreateGroup.class, BasicUpdateGroup.class }, max = 500, message = "{length.error}")
 	private String courseTypeName;
 
@@ -87,7 +89,7 @@ public class CourseType implements Serializable {
 
 	@Column(name = "no_of_days")
 	@NotBlank(groups = { BasicCreateGroup.class, BasicUpdateGroup.class }, message = "{mandatory.field.error}")
-	@Pattern(groups = { BasicCreateGroup.class, BasicUpdateGroup.class }, regexp = "\\d+", message = "{only.number.error}")
+	@Pattern(groups = { BasicCreateGroup.class, BasicUpdateGroup.class }, regexp = AppConstant.REGEX_NUMERIC_ONLY, message = "{only.number.error}")
 	private Integer noOfDays;
 
 	//bi-directional many-to-one association to Course
@@ -185,9 +187,7 @@ public class CourseType implements Serializable {
 	}
 
 	public boolean removeCourse(Course course) {
-		boolean isRemoved = getCourses().remove(course);
-
-		return isRemoved;
+		return getCourses().remove(course);
 	}
 
 	@Override

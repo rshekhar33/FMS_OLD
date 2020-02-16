@@ -34,27 +34,22 @@ public class AppLogger {
 	@Around("(within(@org.springframework.stereotype.Controller *) || within(@org.springframework.web.bind.annotation.RestController *)) "
 			+ "&& (execution(* com.url.app.interf.controller.*.*(..)) || execution(* com.url.app.interf.restcontroller.*.*(..)))")
 	public Object logMethod(final ProceedingJoinPoint joinPoint) throws Throwable {
-		try {
-			final User user = principalUser();
+		final User user = principalUser();
 
-			logger.info("UserId : {} : UserName : {} : Inside URL : '{}' : Method type : {}", user.getUserId(), user.getUserName(), request.getServletPath(),
-					request.getMethod());
-			logger.debug(getPreMessage(user, joinPoint));
+		logger.info("UserId : {} : UserName : {} : Inside URL : '{}' : Method type : {}", user.getUserId(), user.getUserName(), request.getServletPath(),
+				request.getMethod());
+		logger.debug(getPreMessage(user, joinPoint));
 
-			final StopWatch stopWatch = new StopWatch();
-			stopWatch.start();
+		final StopWatch stopWatch = new StopWatch();
+		stopWatch.start();
 
-			final Object retVal = joinPoint.proceed();
+		final Object retVal = joinPoint.proceed();
 
-			stopWatch.stop();
+		stopWatch.stop();
 
-			logger.debug(getPostMessage(user, joinPoint, retVal, stopWatch.getTotalTimeMillis()));
+		logger.debug(getPostMessage(user, joinPoint, retVal, stopWatch.getTotalTimeMillis()));
 
-			return retVal;
-		} catch (final Throwable ex) {
-			//logger.error(ex.getMessage(), ex);
-			throw ex;
-		}
+		return retVal;
 	}
 
 	public User principalUser() {

@@ -46,13 +46,6 @@ function validateFun(dataObj) {
 		noOfDays : ""
 	};
 
-	var hidCourseTypeId = $("#hidCourseTypeId").val();
-	var courseTypeName = $("#courseTypeName").val();
-	var noOfDays = $("#noOfDays").val();
-
-	var courseTypeNameError = "";
-	var noOfDaysError = "";
-
 	if (isEmpty(dataObj.courseTypeName)) {
 		errorObj.courseTypeName = "Mandatory Field!";
 	} else if (hasRestrictedChar3(dataObj.courseTypeName)) {

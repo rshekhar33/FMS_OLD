@@ -32,6 +32,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.url.app.utility.AppConstant;
 import com.url.app.validation.BasicActivateGroup;
 import com.url.app.validation.BasicCreateGroup;
 import com.url.app.validation.BasicUpdateGroup;
@@ -83,7 +84,8 @@ public class Module implements Serializable {
 
 	@Column(name = "module_name", unique = true, nullable = false, length = 100)
 	@NotBlank(groups = { BasicCreateGroup.class, BasicUpdateGroup.class }, message = "{mandatory.field.error}")
-	@Pattern(groups = { BasicCreateGroup.class, BasicUpdateGroup.class }, regexp = "^[\\w\\.@ ]+$", message = "{module.modulename.restrictedchar3.error}")
+	@Pattern(groups = { BasicCreateGroup.class,
+			BasicUpdateGroup.class }, regexp = AppConstant.REGEX_RESTRICTED_CHAR_3, message = "{module.modulename.restrictedchar3.error}")
 	@Size(groups = { BasicCreateGroup.class, BasicUpdateGroup.class }, max = 100, message = "{length.error}")
 	@ModuleNameNotExists(groups = DBCreateGroup.class, message = "{module.modulename.exists.error}")
 	private String moduleName;
@@ -167,9 +169,7 @@ public class Module implements Serializable {
 	}
 
 	public boolean removeFacultySkillset(FacultySkillset facultySkillset) {
-		boolean isRemoved = getFacultySkillsets().remove(facultySkillset);
-
-		return isRemoved;
+		return getFacultySkillsets().remove(facultySkillset);
 	}
 
 	@Override

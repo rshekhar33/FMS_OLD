@@ -152,9 +152,7 @@ public class FacultySkillset implements Serializable {
 	}
 
 	public boolean removeCourse(Course course) {
-		boolean isRemoved = getCourses().remove(course);
-
-		return isRemoved;
+		return getCourses().remove(course);
 	}
 
 	@Override

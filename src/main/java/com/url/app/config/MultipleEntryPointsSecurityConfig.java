@@ -59,21 +59,21 @@ public class MultipleEntryPointsSecurityConfig {
 		@Override
 		protected void configure(HttpSecurity http) throws Exception {
 			//@formatter:off
-			http.antMatcher("/**")
+			http.antMatcher(AppUrlView.ALL_URL_ANT_PATTERN)
 					.authorizeRequests()
-					.antMatchers(AppUrlView.URL_ROOT, AppUrlView.URL_ROOT + AppUrlView.URL_LOGIN).permitAll()
+					.antMatchers(AppUrlView.PATH_ROOT, AppUrlView.URL_LOGIN).permitAll()
 					.anyRequest().authenticated()
 				.and().addFilterBefore(filterSecurityInterceptor(), FilterSecurityInterceptor.class)
-					.formLogin().loginPage(AppUrlView.URL_ROOT + AppUrlView.URL_LOGIN).usernameParameter("userName").passwordParameter("passwordEnc")
+					.formLogin().loginPage(AppUrlView.URL_LOGIN).usernameParameter(AppUrlView.PARAMETER_NAME_USERNAME).passwordParameter(AppUrlView.PARAMETER_NAME_PASSWORD)
 					.failureHandler(loginFailureHandler)
 					.successHandler(loginSuccessHandlerWeb)
-				.and().rememberMe().userDetailsService(appUserDetailsService).rememberMeParameter("remember").rememberMeCookieName("rememberMeLogin")
-				.and().sessionManagement().invalidSessionUrl(AppUrlView.URL_ROOT + AppUrlView.URL_INVALID_SESSION).maximumSessions(1)
-					.expiredUrl(AppUrlView.URL_ROOT + AppUrlView.URL_SESSION_EXPIRED).sessionRegistry(sessionRegistry).and()
-				.and().logout().logoutUrl(AppUrlView.URL_ROOT + AppUrlView.URL_LOGOUT).logoutSuccessUrl(AppUrlView.URL_ROOT + AppUrlView.URL_LOGIN)
+				.and().rememberMe().userDetailsService(appUserDetailsService).rememberMeParameter(AppUrlView.PARAMETER_NAME_REMEMBER_ME).rememberMeCookieName(AppUrlView.COOKIE_NAME_REMEMBER_ME)
+				.and().sessionManagement().invalidSessionUrl(AppUrlView.URL_INVALID_SESSION).maximumSessions(1)
+					.expiredUrl(AppUrlView.URL_SESSION_EXPIRED).sessionRegistry(sessionRegistry).and()
+				.and().logout().logoutUrl(AppUrlView.URL_LOGOUT).logoutSuccessUrl(AppUrlView.URL_LOGIN)
 					.invalidateHttpSession(true)
-					.deleteCookies("JSESSIONID")
-				.and().exceptionHandling().accessDeniedPage(AppUrlView.URL_ROOT + AppUrlView.URL_ACCESS_DENIED)
+					.deleteCookies(AppUrlView.COOKIE_NAME_JSESSIONID)
+				.and().exceptionHandling().accessDeniedPage(AppUrlView.URL_ACCESS_DENIED)
 				.and().requiresChannel()
 					.anyRequest()
 					.requiresSecure()
@@ -96,7 +96,7 @@ public class MultipleEntryPointsSecurityConfig {
 			web.ignoring().antMatchers(AppConstant.SPRING_SECURITY_IGNORE_PATTERNS);
 		}
 
-		public FilterSecurityInterceptor filterSecurityInterceptor() throws Exception {
+		public FilterSecurityInterceptor filterSecurityInterceptor() {
 			final FilterSecurityInterceptor filterSecurityInterceptor = new FilterSecurityInterceptor();
 			filterSecurityInterceptor.setAccessDecisionManager(accessDecisionManager());
 			filterSecurityInterceptor.setSecurityMetadataSource(dbFilterInvocationSecurityMetadataSource);
@@ -104,7 +104,7 @@ public class MultipleEntryPointsSecurityConfig {
 			return filterSecurityInterceptor;
 		}
 
-		public AffirmativeBased accessDecisionManager() throws Exception {
+		public AffirmativeBased accessDecisionManager() {
 			final RoleVoter voter = new RoleVoter();
 			voter.setRolePrefix(AppConstant.BLANK_STRING);
 
