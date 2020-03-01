@@ -152,6 +152,7 @@ public class User implements Serializable {
 	private List<@Positive Integer> roles;
 
 	public User() {
+		super();
 	}
 
 	public Integer getUserId() {

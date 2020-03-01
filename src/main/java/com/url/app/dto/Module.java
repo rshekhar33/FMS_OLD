@@ -96,6 +96,7 @@ public class Module implements Serializable {
 	private Set<FacultySkillset> facultySkillsets = new HashSet<>(0);
 
 	public Module() {
+		super();
 	}
 
 	public Integer getModuleId() {

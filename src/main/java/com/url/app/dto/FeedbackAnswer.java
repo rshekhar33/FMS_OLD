@@ -69,6 +69,7 @@ public class FeedbackAnswer implements Serializable {
 	private FeedbackQuestion feedbackQuestion;
 
 	public FeedbackAnswer() {
+		super();
 	}
 
 	public Integer getFeedbackAnswerId() {

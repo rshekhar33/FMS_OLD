@@ -59,6 +59,7 @@ public class RolePrivilegeRelation implements Serializable {
 	private Date modifiedDate;
 
 	public RolePrivilegeRelation() {
+		super();
 	}
 
 	public RolePrivilegeRelationPK getId() {

@@ -23,6 +23,7 @@ public class FacultySkillsetPK implements Serializable {
 	private Module module;
 
 	public FacultySkillsetPK() {
+		super();
 	}
 
 	public User getUser() {

@@ -100,6 +100,7 @@ public class Role implements Serializable {
 	private Set<UserRoleRelation> userRoleRelations = new HashSet<>(0);
 
 	public Role() {
+		super();
 	}
 
 	public Integer getRoleId() {

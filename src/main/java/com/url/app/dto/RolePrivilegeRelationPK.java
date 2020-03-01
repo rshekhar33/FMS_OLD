@@ -23,6 +23,7 @@ public class RolePrivilegeRelationPK implements Serializable {
 	private Privilege privilege;
 
 	public RolePrivilegeRelationPK() {
+		super();
 	}
 
 	public Role getRole() {

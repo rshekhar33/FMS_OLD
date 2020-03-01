@@ -37,6 +37,7 @@ public class UserMng implements Serializable {
 	private String roleName;
 
 	public UserMng() {
+		super();
 	}
 
 	public Integer getUserId() {

@@ -59,6 +59,7 @@ public class UserRoleRelation implements Serializable {
 	private Date modifiedDate;
 
 	public UserRoleRelation() {
+		super();
 	}
 
 	public UserRoleRelationPK getId() {

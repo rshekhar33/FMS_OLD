@@ -38,6 +38,7 @@ public class CommonSetting implements Serializable {
 	private String value;
 
 	public CommonSetting() {
+		super();
 	}
 
 	public Integer getCommonSettingId() {

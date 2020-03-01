@@ -42,7 +42,7 @@ public class SecurityUtil {
 		this.keySize = keySize;
 		this.iterationCount = iterationCount;
 		try {
-			cipher = Cipher.getInstance("AES/GCM/NoPadding");
+			cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
 		} catch (NoSuchAlgorithmException | NoSuchPaddingException e) {
 			throw fail(e);
 		}
@@ -145,9 +145,9 @@ public class SecurityUtil {
 		final String indices = values[values.length - 1];
 		final int[] indexes = convert(indices);
 		final SecurityInfo securityInfo = new SecurityInfo(values, indexes);
-		final SecurityUtil aesUtil = new SecurityUtil(securityInfo);
+		final SecurityUtil securityUtil = new SecurityUtil(securityInfo);
 
-		return aesUtil.decrypt(securityInfo);
+		return securityUtil.decrypt(securityInfo);
 	}
 
 	private static int[] convert(String indices) {

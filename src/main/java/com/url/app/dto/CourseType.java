@@ -98,6 +98,7 @@ public class CourseType implements Serializable {
 	private Set<Course> courses = new HashSet<>(0);
 
 	public CourseType() {
+		super();
 	}
 
 	public Integer getCourseTypeId() {

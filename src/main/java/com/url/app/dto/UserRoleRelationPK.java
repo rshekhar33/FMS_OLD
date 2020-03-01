@@ -23,6 +23,7 @@ public class UserRoleRelationPK implements Serializable {
 	private Role role;
 
 	public UserRoleRelationPK() {
+		super();
 	}
 
 	public User getUser() {

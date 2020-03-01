@@ -95,6 +95,7 @@ public class Course implements Serializable {
 	private Set<FeedbackQuestion> feedbackQuestions = new HashSet<>(0);
 
 	public Course() {
+		super();
 	}
 
 	public Integer getCourseId() {

@@ -25,6 +25,7 @@ public class FacultySkillsetMng implements Serializable {
 	private String moduleName;
 
 	public FacultySkillsetMng() {
+		super();
 	}
 
 	public Integer getUserId() {

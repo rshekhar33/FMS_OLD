@@ -69,6 +69,7 @@ public class FacultySkillset implements Serializable {
 	private Set<Course> courses = new HashSet<>(0);
 
 	public FacultySkillset() {
+		super();
 	}
 
 	public FacultySkillsetPK getId() {

@@ -69,6 +69,7 @@ public class Privilege implements Serializable {
 	private Set<RolePrivilegeRelation> rolePrivilegeRelations = new HashSet<>(0);
 
 	public Privilege() {
+		super();
 	}
 
 	public Integer getPrivilegeId() {

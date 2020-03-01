@@ -78,6 +78,7 @@ public class FeedbackQuestion implements Serializable {
 	private Course course;
 
 	public FeedbackQuestion() {
+		super();
 	}
 
 	public Integer getFeedbackQuestionId() {

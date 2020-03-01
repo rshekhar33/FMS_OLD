@@ -13,7 +13,7 @@
 			<PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} - %-5p %c :%L - %m%n" />
 		</Console>
 		<RollingFile name="InfoFile" fileName="${infoFileName}" filePattern="${infoFilePattern}">
-			<LevelRangeFilter minLevel="INFO" maxLevel="DEBUG" onMatch="ACCEPT" onMismatch="DENY" />
+			<LevelRangeFilter minLevel="INFO" maxLevel="ALL" onMatch="ACCEPT" onMismatch="DENY" />
 			<PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} - %-5p %c :%L - %m%n" />
 			<Policies>
 				<OnStartupTriggeringPolicy />

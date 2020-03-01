@@ -47,6 +47,7 @@ public class Action implements Serializable {
 	private Privilege privilege;
 
 	public Action() {
+		super();
 	}
 
 	public Integer getActionId() {
