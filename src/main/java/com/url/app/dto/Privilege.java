@@ -24,6 +24,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.url.app.utility.AppSQL;
 
 /**
  * The persistent class for the privilege database table.
@@ -32,7 +33,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @Table(name = "privilege")
 @EntityListeners(AuditingEntityListener.class)
 @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
-@NamedQuery(name = "Privilege.findAll", query = "SELECT p FROM Privilege p")
+@NamedQuery(name = "Privilege.findAll", query = AppSQL.QRY_FIND_ALL_PRIVILEGE)
 public class Privilege implements Serializable {
 	private static final long serialVersionUID = 1L;
 

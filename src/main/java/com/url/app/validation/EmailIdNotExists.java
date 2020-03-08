@@ -11,13 +11,15 @@ import java.lang.annotation.Target;
 import javax.validation.Constraint;
 import javax.validation.Payload;
 
+import com.url.app.utility.AppValidationKey;
+
 @Documented
 @Retention(RUNTIME)
 @Target({ FIELD, PARAMETER })
 @Constraint(validatedBy = EmailIdNotExistsValidator.class)
 public @interface EmailIdNotExists {
 
-	String message() default "{user.email.exists.error}";
+	String message() default AppValidationKey.USER_EMAIL_EXISTS_ERROR;
 
 	Class<?>[] groups() default {};
 

@@ -11,6 +11,7 @@ import com.url.app.interf.controller.ModuleController;
 import com.url.app.utility.AppCommon;
 import com.url.app.utility.AppCssActiveClass;
 import com.url.app.utility.AppHttpSessionKey;
+import com.url.app.utility.AppLogMessage;
 import com.url.app.utility.AppUrlView;
 
 /**
@@ -48,7 +49,7 @@ public class ModuleControllerImpl implements ModuleController {
 	@Override
 	public String updateScreen(final HttpSession httpSess, final ModelMap modelMap) {
 		final String moduleId = (String) httpSess.getAttribute(AppHttpSessionKey.HID_MODULE_ID);
-		logger.debug("moduleId = {}", moduleId);
+		logger.debug(AppLogMessage.MODULE_ID_MSG, moduleId);
 
 		String url = AppUrlView.REDIRECT_URL_MODULE_LIST;
 		if (!AppCommon.isEmpty(moduleId)) {

@@ -24,6 +24,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.url.app.utility.AppSQL;
 
 /**
  * The persistent class for the feedback_answer database table.
@@ -32,7 +33,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @Table(name = "feedback_answer")
 @EntityListeners(AuditingEntityListener.class)
 @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
-@NamedQuery(name = "FeedbackAnswer.findAll", query = "SELECT f FROM FeedbackAnswer f")
+@NamedQuery(name = "FeedbackAnswer.findAll", query = AppSQL.QRY_FIND_ALL_FEEDBACK_ANSWER)
 public class FeedbackAnswer implements Serializable {
 	private static final long serialVersionUID = 1L;
 

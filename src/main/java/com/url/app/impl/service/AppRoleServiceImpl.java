@@ -17,6 +17,7 @@ import com.url.app.interf.service.AppRoleService;
 import com.url.app.interf.service.AppUserService;
 import com.url.app.utility.AppCommon;
 import com.url.app.utility.AppConstant;
+import com.url.app.utility.AppLogMessage;
 import com.url.app.utility.AppResponseKey;
 import com.url.app.validation.AppRoleValidationService;
 
@@ -64,7 +65,7 @@ public class AppRoleServiceImpl implements AppRoleService {
 	@Override
 	@Transactional
 	public Map<String, String> validateSaveRole(final Role formRole) {
-		logger.info("role : {}", formRole);
+		logger.info(AppLogMessage.ROLE_MSG, formRole);
 
 		if (AppCommon.isPositiveInteger(formRole.getRoleId())) {
 			appRoleValidationService.validateForUpdate(formRole);

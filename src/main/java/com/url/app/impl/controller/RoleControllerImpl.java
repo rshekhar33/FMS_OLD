@@ -11,6 +11,7 @@ import com.url.app.interf.controller.RoleController;
 import com.url.app.utility.AppCommon;
 import com.url.app.utility.AppCssActiveClass;
 import com.url.app.utility.AppHttpSessionKey;
+import com.url.app.utility.AppLogMessage;
 import com.url.app.utility.AppUrlView;
 
 /**
@@ -48,7 +49,7 @@ public class RoleControllerImpl implements RoleController {
 	@Override
 	public String updateScreen(final HttpSession httpSess, final ModelMap modelMap) {
 		final String roleId = (String) httpSess.getAttribute(AppHttpSessionKey.HID_ROLE_ID);
-		logger.debug("roleId = {}", roleId);
+		logger.debug(AppLogMessage.ROLE_ID_MSG, roleId);
 
 		String url = AppUrlView.REDIRECT_URL_ROLE_LIST;
 		if (!AppCommon.isEmpty(roleId)) {

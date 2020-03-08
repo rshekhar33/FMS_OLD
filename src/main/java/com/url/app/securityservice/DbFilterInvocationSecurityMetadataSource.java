@@ -17,6 +17,7 @@ import org.springframework.security.web.servletapi.SecurityContextHolderAwareReq
 import org.springframework.stereotype.Component;
 
 import com.url.app.interf.service.AppService;
+import com.url.app.utility.AppLogMessage;
 
 /**
  * Spring Security filter MetadataSource.
@@ -39,7 +40,7 @@ public class DbFilterInvocationSecurityMetadataSource implements FilterInvocatio
 	public Collection<ConfigAttribute> getAttributes(final Object object) throws IllegalArgumentException {
 		final FilterInvocation fi = (FilterInvocation) object;
 		String url = fi.getRequestUrl();
-		logger.debug("FilterInvocation Url : {}", url);
+		logger.debug(AppLogMessage.FILTER_INVOCATION_URL_MSG, url);
 
 		final HttpServletRequest request = fi.getHttpRequest();
 
@@ -48,7 +49,7 @@ public class DbFilterInvocationSecurityMetadataSource implements FilterInvocatio
 		}
 
 		final List<String> roles = appAuthorization.getRolesHavingAccessToAction(url);
-		logger.debug("Request Url : '{}' and its Associated Roles : {}", url, roles);
+		logger.debug(AppLogMessage.REQUEST_URL_AND_ROLES_MSG, url, roles);
 
 		Collection<ConfigAttribute> attributes = null;
 		if (roles == null) {

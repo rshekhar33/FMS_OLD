@@ -27,6 +27,7 @@ import com.url.app.interf.dao.UserRepository;
 import com.url.app.interf.service.AppUserService;
 import com.url.app.utility.AppCommon;
 import com.url.app.utility.AppConstant;
+import com.url.app.utility.AppLogMessage;
 import com.url.app.utility.AppResponseKey;
 import com.url.app.validation.AppUserValidationService;
 
@@ -142,7 +143,7 @@ public class AppUserServiceImpl implements AppUserService {
 	@Override
 	@Transactional
 	public Map<String, String> validateSaveUser(final User formUser) {
-		logger.info("user : {}", formUser);
+		logger.info(AppLogMessage.USER_MSG, formUser);
 
 		if (AppCommon.isPositiveInteger(formUser.getUserId())) {
 			appUserValidationService.validateForUpdate(formUser);
@@ -159,7 +160,7 @@ public class AppUserServiceImpl implements AppUserService {
 			user = userRepository.getOne(formUser.getUserId());
 		} else {
 			user.setUserName(formUser.getUserName());
-			user.setPassword(passwordEncoder.encode("fms"));
+			user.setPassword(passwordEncoder.encode(AppConstant.USER_DEFAULT_PASSWORD));
 			user.setIsActive(AppConstant.ACTIVE);
 			user.setCreatedBy(loggedInUserId);
 		}

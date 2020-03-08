@@ -33,6 +33,8 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.url.app.utility.AppConstant;
+import com.url.app.utility.AppSQL;
+import com.url.app.utility.AppValidationKey;
 import com.url.app.validation.BasicActivateGroup;
 import com.url.app.validation.BasicCreateGroup;
 import com.url.app.validation.BasicUpdateGroup;
@@ -44,25 +46,25 @@ import com.url.app.validation.BasicUpdateGroup;
 @Table(name = "course_type")
 @EntityListeners(AuditingEntityListener.class)
 @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
-@NamedQuery(name = "CourseType.findAll", query = "SELECT c FROM CourseType c")
+@NamedQuery(name = "CourseType.findAll", query = AppSQL.QRY_FIND_ALL_COURSE_TYPE)
 public class CourseType implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "course_type_id", unique = true, nullable = false)
-	@NotNull(groups = BasicActivateGroup.class, message = "{update.failed.error}")
-	@Positive(groups = BasicActivateGroup.class, message = "{update.failed.error}")
+	@NotNull(groups = BasicActivateGroup.class, message = AppValidationKey.UPDATE_FAILED_ERROR)
+	@Positive(groups = BasicActivateGroup.class, message = AppValidationKey.UPDATE_FAILED_ERROR)
 	private Integer courseTypeId;
 
 	@Column(name = "course_type_code", unique = true, nullable = false, length = 50)
 	private String courseTypeCode;
 
 	@Column(name = "course_type_name", nullable = false, length = 500)
-	@NotBlank(groups = { BasicCreateGroup.class, BasicUpdateGroup.class }, message = "{mandatory.field.error}")
+	@NotBlank(groups = { BasicCreateGroup.class, BasicUpdateGroup.class }, message = AppValidationKey.MANDATORY_FIELD_ERROR)
 	@Pattern(groups = { BasicCreateGroup.class,
-			BasicUpdateGroup.class }, regexp = AppConstant.REGEX_RESTRICTED_CHAR_3, message = "{coursetype.coursetypename.restrictedchar3.error}")
-	@Size(groups = { BasicCreateGroup.class, BasicUpdateGroup.class }, max = 500, message = "{length.error}")
+			BasicUpdateGroup.class }, regexp = AppConstant.REGEX_RESTRICTED_CHAR_3, message = AppValidationKey.COURSETYPE_COURSETYPENAME_RESTRICTEDCHAR3_ERROR)
+	@Size(groups = { BasicCreateGroup.class, BasicUpdateGroup.class }, max = 500, message = AppValidationKey.LENGTH_ERROR)
 	private String courseTypeName;
 
 	@Column(name = "created_by", updatable = false, nullable = false)
@@ -74,9 +76,9 @@ public class CourseType implements Serializable {
 	private Date createdDate;
 
 	@Column(name = "is_active", nullable = false)
-	@NotNull(groups = BasicActivateGroup.class, message = "{update.failed.error}")
-	@Min(groups = BasicActivateGroup.class, value = 0, message = "{update.failed.error}")
-	@Max(groups = BasicActivateGroup.class, value = 1, message = "{update.failed.error}")
+	@NotNull(groups = BasicActivateGroup.class, message = AppValidationKey.UPDATE_FAILED_ERROR)
+	@Min(groups = BasicActivateGroup.class, value = 0, message = AppValidationKey.UPDATE_FAILED_ERROR)
+	@Max(groups = BasicActivateGroup.class, value = 1, message = AppValidationKey.UPDATE_FAILED_ERROR)
 	private Integer isActive;
 
 	@Column(name = "modified_by", nullable = false)
@@ -88,8 +90,8 @@ public class CourseType implements Serializable {
 	private Date modifiedDate;
 
 	@Column(name = "no_of_days")
-	@NotBlank(groups = { BasicCreateGroup.class, BasicUpdateGroup.class }, message = "{mandatory.field.error}")
-	@Pattern(groups = { BasicCreateGroup.class, BasicUpdateGroup.class }, regexp = AppConstant.REGEX_NUMERIC_ONLY, message = "{only.number.error}")
+	@NotBlank(groups = { BasicCreateGroup.class, BasicUpdateGroup.class }, message = AppValidationKey.MANDATORY_FIELD_ERROR)
+	@Pattern(groups = { BasicCreateGroup.class, BasicUpdateGroup.class }, regexp = AppConstant.REGEX_NUMERIC_ONLY, message = AppValidationKey.ONLY_NUMBER_ERROR)
 	private Integer noOfDays;
 
 	//bi-directional many-to-one association to Course

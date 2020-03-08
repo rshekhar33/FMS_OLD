@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.url.app.dto.FacultySkillsetMng;
+import com.url.app.dto.User;
 
 /**
  * Service Layer of application for FacultySkillset.
@@ -23,10 +24,10 @@ public interface AppFacultySkillsetService {
 	/**
 	 * Fetch facultySkillset data in case facultySkillsetId is sent else data required on add facultySkillset screen.
 	 * 
-	 * @param userIdStr the userId of user.
+	 * @param user contains the userId of user.
 	 * @return facultySkillset data in json format.
 	 */
-	Map<String, Object> fetchDataFacultySkillset(String userIdStr);
+	Map<String, Object> fetchDataFacultySkillset(User user);
 
 	/**
 	 * Validates add/update facultySkillset data.

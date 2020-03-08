@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.url.app.dto.FacultySkillsetMng;
+import com.url.app.dto.User;
 import com.url.app.interf.restcontroller.FacultySkillsetRestController;
 import com.url.app.interf.service.AppFacultySkillsetService;
 
@@ -27,8 +28,8 @@ public class FacultySkillsetRestControllerImpl implements FacultySkillsetRestCon
 	}
 
 	@Override
-	public Map<String, Object> fetchData(final String userIdStr) {
-		return appFacultySkillsetService.fetchDataFacultySkillset(userIdStr);
+	public Map<String, Object> fetchData(final User user) {
+		return appFacultySkillsetService.fetchDataFacultySkillset(user);
 	}
 
 	@Override

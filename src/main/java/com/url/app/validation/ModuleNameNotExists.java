@@ -11,13 +11,15 @@ import java.lang.annotation.Target;
 import javax.validation.Constraint;
 import javax.validation.Payload;
 
+import com.url.app.utility.AppValidationKey;
+
 @Documented
 @Retention(RUNTIME)
 @Target({ FIELD, PARAMETER })
 @Constraint(validatedBy = ModuleNameNotExistsValidator.class)
 public @interface ModuleNameNotExists {
 
-	String message() default "{module.modulename.exists.error}";
+	String message() default AppValidationKey.MODULE_MODULENAME_EXISTS_ERROR;
 
 	Class<?>[] groups() default {};
 

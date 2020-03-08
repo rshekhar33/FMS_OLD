@@ -5,10 +5,12 @@ import java.util.Map;
 
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.url.app.dto.FacultySkillsetMng;
+import com.url.app.dto.User;
 import com.url.app.utility.AppUrlView;
 
 /**
@@ -29,7 +31,7 @@ public interface FacultySkillsetRestController {
 	 * Fetch data of on add/update faculty skillset screen.
 	 */
 	@PostMapping(value = AppUrlView.PATH_FETCH_DATA, produces = MediaType.APPLICATION_JSON_VALUE)
-	Map<String, Object> fetchData(@RequestParam(value = "userId", required = false) String userIdStr);
+	Map<String, Object> fetchData(@RequestBody User user);
 
 	/**
 	 * Validate and save data of on add/update faculty skillset screen.

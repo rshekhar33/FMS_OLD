@@ -16,6 +16,7 @@ import org.springframework.security.web.authentication.SimpleUrlAuthenticationFa
 import com.url.app.config.AppMessage;
 import com.url.app.interf.service.AppUserService;
 import com.url.app.utility.AppHttpSessionKey;
+import com.url.app.utility.AppLogMessage;
 import com.url.app.utility.AppUrlView;
 
 /**
@@ -44,7 +45,7 @@ public class LoginFailureHandler extends SimpleUrlAuthenticationFailureHandler {
 			loginErrorMessage = exception.getMessage();
 		}
 
-		logger.debug("Authentication for userName = '{}' failed due to = {}", userName, loginErrorMessage);
+		logger.debug(AppLogMessage.AUTHENTICATION_FAILED_DUE_TO_MSG, userName, loginErrorMessage);
 
 		request.getSession().setAttribute(AppHttpSessionKey.LOGIN_ERROR, loginErrorMessage);
 

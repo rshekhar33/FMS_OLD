@@ -22,6 +22,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.url.app.utility.AppSQL;
 
 /**
  * The persistent class for the role_privilege_relation database table.
@@ -32,7 +33,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @AssociationOverrides({ @AssociationOverride(name = "id.privilege", joinColumns = @JoinColumn(name = "privilege_id")),
 		@AssociationOverride(name = "id.role", joinColumns = @JoinColumn(name = "role_id")) })
 @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
-@NamedQuery(name = "RolePrivilegeRelation.findAll", query = "SELECT r FROM RolePrivilegeRelation r")
+@NamedQuery(name = "RolePrivilegeRelation.findAll", query = AppSQL.QRY_FIND_ALL_ROLE_PRIVILEGE_RELATION)
 public class RolePrivilegeRelation implements Serializable {
 	private static final long serialVersionUID = 1L;
 

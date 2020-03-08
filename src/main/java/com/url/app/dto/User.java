@@ -37,6 +37,8 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.url.app.utility.AppConstant;
+import com.url.app.utility.AppSQL;
+import com.url.app.utility.AppValidationKey;
 import com.url.app.validation.BasicActivateGroup;
 import com.url.app.validation.BasicCreateGroup;
 import com.url.app.validation.BasicUpdateGroup;
@@ -53,16 +55,16 @@ import com.url.app.validation.UserNameNotExists;
 @Table(name = "user")
 @EntityListeners(AuditingEntityListener.class)
 @JsonIgnoreProperties({ "password", "hibernateLazyInitializer", "handler" })
-@NamedQuery(name = "User.findAll", query = "SELECT u FROM User u")
-@EmailIdNotExistsUpdate(groups = DBUpdateGroup.class, message = "{user.email.exists.error}")
+@NamedQuery(name = "User.findAll", query = AppSQL.QRY_FIND_ALL_USER)
+@EmailIdNotExistsUpdate(groups = DBUpdateGroup.class, message = AppValidationKey.USER_EMAIL_EXISTS_ERROR)
 public class User implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "user_id", unique = true, nullable = false)
-	@NotNull(groups = BasicActivateGroup.class, message = "{update.failed.error}")
-	@Positive(groups = BasicActivateGroup.class, message = "{update.failed.error}")
+	@NotNull(groups = BasicActivateGroup.class, message = AppValidationKey.UPDATE_FAILED_ERROR)
+	@Positive(groups = BasicActivateGroup.class, message = AppValidationKey.UPDATE_FAILED_ERROR)
 	private Integer userId;
 
 	@Column(name = "created_by", updatable = false, nullable = false)
@@ -74,25 +76,26 @@ public class User implements Serializable {
 	private Date createdDate;
 
 	@Column(name = "email_id", nullable = false, length = 100)
-	@NotBlank(groups = { BasicCreateGroup.class, BasicUpdateGroup.class }, message = "{mandatory.field.error}")
-	@Email(groups = { BasicCreateGroup.class, BasicUpdateGroup.class }, message = "{invalid.email.error}")
-	@Size(groups = { BasicCreateGroup.class, BasicUpdateGroup.class }, max = 100, message = "{length.error}")
-	@EmailIdNotExists(groups = DBCreateGroup.class, message = "{user.email.exists.error}")
+	@NotBlank(groups = { BasicCreateGroup.class, BasicUpdateGroup.class }, message = AppValidationKey.MANDATORY_FIELD_ERROR)
+	@Email(groups = { BasicCreateGroup.class, BasicUpdateGroup.class }, message = AppValidationKey.INVALID_EMAIL_ERROR)
+	@Size(groups = { BasicCreateGroup.class, BasicUpdateGroup.class }, max = 100, message = AppValidationKey.LENGTH_ERROR)
+	@EmailIdNotExists(groups = DBCreateGroup.class, message = AppValidationKey.USER_EMAIL_EXISTS_ERROR)
 	private String emailId;
 
 	@Column(name = "failed_attempt_cnt", nullable = false)
 	private Integer failedAttemptCnt;
 
 	@Column(name = "first_name", nullable = false, length = 100)
-	@NotBlank(groups = { BasicCreateGroup.class, BasicUpdateGroup.class }, message = "{mandatory.field.error}")
-	@Pattern(groups = { BasicCreateGroup.class, BasicUpdateGroup.class }, regexp = AppConstant.REGEX_ALPHABET_CHAR_1, message = "{user.firstname.onlyalphabets.error}")
-	@Size(groups = { BasicCreateGroup.class, BasicUpdateGroup.class }, max = 100, message = "{length.error}")
+	@NotBlank(groups = { BasicCreateGroup.class, BasicUpdateGroup.class }, message = AppValidationKey.MANDATORY_FIELD_ERROR)
+	@Pattern(groups = { BasicCreateGroup.class,
+			BasicUpdateGroup.class }, regexp = AppConstant.REGEX_ALPHABET_CHAR_1, message = AppValidationKey.USER_FIRSTNAME_ONLYALPHABETS_ERROR)
+	@Size(groups = { BasicCreateGroup.class, BasicUpdateGroup.class }, max = 100, message = AppValidationKey.LENGTH_ERROR)
 	private String firstName;
 
 	@Column(name = "is_active", nullable = false)
-	@NotNull(groups = BasicActivateGroup.class, message = "{update.failed.error}")
-	@Min(groups = BasicActivateGroup.class, value = 0, message = "{update.failed.error}")
-	@Max(groups = BasicActivateGroup.class, value = 1, message = "{update.failed.error}")
+	@NotNull(groups = BasicActivateGroup.class, message = AppValidationKey.UPDATE_FAILED_ERROR)
+	@Min(groups = BasicActivateGroup.class, value = 0, message = AppValidationKey.UPDATE_FAILED_ERROR)
+	@Max(groups = BasicActivateGroup.class, value = 1, message = AppValidationKey.UPDATE_FAILED_ERROR)
 	private Integer isActive;
 
 	@Temporal(TemporalType.TIMESTAMP)
@@ -100,8 +103,9 @@ public class User implements Serializable {
 	private Date lastFailedLoginDate;
 
 	@Column(name = "last_name", length = 100)
-	@Pattern(groups = { BasicCreateGroup.class, BasicUpdateGroup.class }, regexp = AppConstant.REGEX_ALPHABET_CHAR_2, message = "{user.lastname.onlyalphabets.error}")
-	@Size(groups = { BasicCreateGroup.class, BasicUpdateGroup.class }, max = 100, message = "{length.error}")
+	@Pattern(groups = { BasicCreateGroup.class,
+			BasicUpdateGroup.class }, regexp = AppConstant.REGEX_ALPHABET_CHAR_2, message = AppValidationKey.USER_LASTNAME_ONLYALPHABETS_ERROR)
+	@Size(groups = { BasicCreateGroup.class, BasicUpdateGroup.class }, max = 100, message = AppValidationKey.LENGTH_ERROR)
 	private String lastName;
 
 	@Temporal(TemporalType.TIMESTAMP)
@@ -109,14 +113,15 @@ public class User implements Serializable {
 	private Date lastSuccessfulLoginDate;
 
 	@Column(name = "middle_name", length = 100)
-	@Pattern(groups = { BasicCreateGroup.class, BasicUpdateGroup.class }, regexp = AppConstant.REGEX_ALPHABET_CHAR_2, message = "{user.middlename.onlyalphabets.error}")
-	@Size(groups = { BasicCreateGroup.class, BasicUpdateGroup.class }, max = 100, message = "{length.error}")
+	@Pattern(groups = { BasicCreateGroup.class,
+			BasicUpdateGroup.class }, regexp = AppConstant.REGEX_ALPHABET_CHAR_2, message = AppValidationKey.USER_MIDDLENAME_ONLYALPHABETS_ERROR)
+	@Size(groups = { BasicCreateGroup.class, BasicUpdateGroup.class }, max = 100, message = AppValidationKey.LENGTH_ERROR)
 	private String middleName;
 
 	@Column(name = "mobile_no", nullable = false, length = 20)
-	@NotBlank(groups = { BasicCreateGroup.class, BasicUpdateGroup.class }, message = "{mandatory.field.error}")
-	@Pattern(groups = { BasicCreateGroup.class, BasicUpdateGroup.class }, regexp = AppConstant.REGEX_NUMERIC_ONLY, message = "{only.number.error}")
-	@Size(groups = { BasicCreateGroup.class, BasicUpdateGroup.class }, min = 10, max = 10, message = "{user.mobile.length.error}")
+	@NotBlank(groups = { BasicCreateGroup.class, BasicUpdateGroup.class }, message = AppValidationKey.MANDATORY_FIELD_ERROR)
+	@Pattern(groups = { BasicCreateGroup.class, BasicUpdateGroup.class }, regexp = AppConstant.REGEX_NUMERIC_ONLY, message = AppValidationKey.ONLY_NUMBER_ERROR)
+	@Size(groups = { BasicCreateGroup.class, BasicUpdateGroup.class }, min = 10, max = 10, message = AppValidationKey.USER_MOBILE_LENGTH_ERROR)
 	private String mobileNo;
 
 	@Column(name = "modified_by", nullable = false)
@@ -131,10 +136,10 @@ public class User implements Serializable {
 	private String password;
 
 	@Column(name = "user_name", nullable = false, length = 50)
-	@NotBlank(groups = BasicCreateGroup.class, message = "{mandatory.field.error}")
-	@Pattern(groups = BasicCreateGroup.class, regexp = AppConstant.REGEX_RESTRICTED_CHAR_2, message = "{user.username.restrictedchar2.error}")
-	@Size(groups = BasicCreateGroup.class, max = 50, message = "{length.error}")
-	@UserNameNotExists(groups = DBCreateGroup.class, message = "{user.username.exists.error}")
+	@NotBlank(groups = BasicCreateGroup.class, message = AppValidationKey.MANDATORY_FIELD_ERROR)
+	@Pattern(groups = BasicCreateGroup.class, regexp = AppConstant.REGEX_RESTRICTED_CHAR_2, message = AppValidationKey.USER_USERNAME_RESTRICTEDCHAR2_ERROR)
+	@Size(groups = BasicCreateGroup.class, max = 50, message = AppValidationKey.LENGTH_ERROR)
+	@UserNameNotExists(groups = DBCreateGroup.class, message = AppValidationKey.USER_USERNAME_EXISTS_ERROR)
 	private String userName;
 
 	//bi-directional many-to-one association to FacultySkillset
@@ -148,7 +153,7 @@ public class User implements Serializable {
 	private Set<UserRoleRelation> userRoleRelations = new HashSet<>(0);
 
 	@Transient
-	@NotEmpty(groups = { BasicCreateGroup.class, BasicUpdateGroup.class }, message = "{mandatory.field.error}")
+	@NotEmpty(groups = { BasicCreateGroup.class, BasicUpdateGroup.class }, message = AppValidationKey.MANDATORY_FIELD_ERROR)
 	private List<@Positive Integer> roles;
 
 	public User() {

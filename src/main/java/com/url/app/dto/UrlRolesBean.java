@@ -35,6 +35,8 @@ public class UrlRolesBean {
 
 	@Override
 	public String toString() {
-		return "UrlRolesBean [url=" + url + ", roleId=" + roleId + "]";
+		StringBuilder builder = new StringBuilder();
+		builder.append("UrlRolesBean [url=").append(url).append(", roleId=").append(roleId).append("]");
+		return builder.toString();
 	}
 }

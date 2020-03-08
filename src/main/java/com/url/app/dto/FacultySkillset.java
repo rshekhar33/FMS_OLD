@@ -27,6 +27,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.url.app.utility.AppSQL;
 
 /**
  * The persistent class for the faculty_skillset database table.
@@ -37,7 +38,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @AssociationOverrides({ @AssociationOverride(name = "id.module", joinColumns = @JoinColumn(name = "module_id")),
 		@AssociationOverride(name = "id.user", joinColumns = @JoinColumn(name = "user_id")) })
 @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
-@NamedQuery(name = "FacultySkillset.findAll", query = "SELECT f FROM FacultySkillset f")
+@NamedQuery(name = "FacultySkillset.findAll", query = AppSQL.QRY_FIND_ALL_FACULTY_SKILLSET)
 public class FacultySkillset implements Serializable {
 	private static final long serialVersionUID = 1L;
 

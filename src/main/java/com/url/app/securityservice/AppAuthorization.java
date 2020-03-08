@@ -16,6 +16,7 @@ import org.springframework.stereotype.Component;
 
 import com.url.app.dto.Action;
 import com.url.app.dto.UrlRolesBean;
+import com.url.app.utility.AppLogMessage;
 
 /**
  * Bean used for storing action and its associated roles in map with action as key and all its associated roles in a list as values.
@@ -95,7 +96,7 @@ public class AppAuthorization {
 	 * @param actionRoleList flat mapping of action and roles from database.
 	 */
 	public void mapUrlToRole(final List<UrlRolesBean> actionRoleList, final List<Action> actions) {
-		logger.debug("ActionRole Mapping from DB : {}", actionRoleList);
+		logger.debug(AppLogMessage.ACTION_ROLE_MAPPING_MSG, actionRoleList);
 
 		applicationAuthSkipUrls.clear();
 		applicationUrls.clear();
@@ -115,8 +116,8 @@ public class AppAuthorization {
 			roles.add(String.valueOf(urlRolesBean.getRoleId()));
 		}
 
-		logger.debug("Skipped actions : {}", applicationAuthSkipUrls);
-		logger.debug("Application actions : {}", applicationUrls);
-		logger.debug("Action and its associcated roles : {}", actionRoles);
+		logger.debug(AppLogMessage.SKIPPED_ACTIONS_MSG, applicationAuthSkipUrls);
+		logger.debug(AppLogMessage.APPLICATION_ACTIONS_MSG, applicationUrls);
+		logger.debug(AppLogMessage.ACTION_ROLES_MSG, actionRoles);
 	}
 }

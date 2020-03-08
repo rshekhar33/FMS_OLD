@@ -94,7 +94,15 @@ public class SecurityInfo {
 
 	@Override
 	public String toString() {
-		return "EncryptInfo [iv=" + iv + ", salt=" + salt + ", passPhrase=" + passPhrase + ", cipherText=" + cipherText + ", iterationCount=" + iterationCount
-				+ ", keySize=" + keySize + "]";
+		StringBuilder builder = new StringBuilder();
+		builder.append("SecurityInfo [iv=").append(iv)
+			.append(", salt=").append(salt)
+			.append(", passPhrase=").append(passPhrase)
+			.append(", cipherText=").append(cipherText)
+			.append(", iterationCount=").append(iterationCount)
+			.append(", keySize=").append(keySize)
+			.append("]");
+
+		return builder.toString();
 	}
 }

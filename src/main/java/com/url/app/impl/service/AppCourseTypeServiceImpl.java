@@ -18,6 +18,7 @@ import com.url.app.interf.service.AppCourseTypeService;
 import com.url.app.interf.service.AppUserService;
 import com.url.app.utility.AppCommon;
 import com.url.app.utility.AppConstant;
+import com.url.app.utility.AppLogMessage;
 import com.url.app.utility.AppResponseKey;
 import com.url.app.validation.AppCourseTypeValidationService;
 
@@ -68,7 +69,7 @@ public class AppCourseTypeServiceImpl implements AppCourseTypeService {
 	@Override
 	@Transactional
 	public Map<String, String> validateSaveCourseType(final CourseType formCourseType) {
-		logger.info("courseType : {}", formCourseType);
+		logger.info(AppLogMessage.COURSE_TYPE_MSG, formCourseType);
 
 		if (AppCommon.isPositiveInteger(formCourseType.getCourseTypeId())) {
 			appCourseTypeValidationService.validateForUpdate(formCourseType);

@@ -20,6 +20,10 @@ public class AppConstant {
 	public static final String SUCCESS = "success";
 	public static final String FAIL = "fail";
 
+	/* StringEncryptor details */
+	public static final String STRING_ENCRYPTOR_PASSWORD = "fmsEncryptKey";
+	public static final String STRING_ENCRYPTOR_PROVIDER_NAME = "SunJCE";
+
 	/* Regex for validation */
 	public static final String REGEX_ALPHABET_CHAR_1 = "[a-zA-Z]+";
 	public static final String REGEX_ALPHABET_CHAR_2 = "[a-zA-Z]*";
@@ -34,6 +38,7 @@ public class AppConstant {
 	public static final String CS_TYPE_REGISTRATION_ROLE = "registration_role";
 
 	public static final String BLANK_STRING = "";
+	public static final String COMMA_STRING = ",";
 	public static final String COURSE_TYPE_CODE_PREFIX = "CT";
 
 	/* File upload max size */
@@ -42,10 +47,17 @@ public class AppConstant {
 
 	/* Spring settings */
 	public static final String SPRING_SECURITY_MSG_FILE_BASENAME = "messages/springsecurity-messages";
-	public static final String SPRING_VALIDATION_MSG_FILE_BASENAME = "classpath:messages/validation-message";
-	public static final String SPRING_APP_MSG_FILE_BASENAME = "classpath:messages/app-message.properties";
+	public static final String SPRING_VALIDATION_MSG_FILE_BASENAME = "classpath:messages/validation-messages";
+	public static final String SPRING_APP_MSG_FILE_BASENAME = "classpath:messages/app-messages.properties";
 	public static final String SPRING_VIEW_RESOLVER_PREFIX = "/WEB-INF/views/";
 	public static final String SPRING_VIEW_RESOLVER_SUFFIX = ".jsp";
+	public static final String SPRING_EXPOSED_BEAN_APP_AUTHORIZATION = "appAuthorization";
+
+	public static final String CIPHER_TRANSFORMATION = "AES/CBC/PKCS5Padding";
+	public static final String CIPHER_FACTORY_ALGORITHM = "PBKDF2WithHmacSHA1";
+	public static final String CIPHER_KEY_ALGORITHM = "AES";
+
+	public static final String USER_DEFAULT_PASSWORD = "fms";
 
 	/* Spring Security ignore patterns */
 	public static final String[] SPRING_SECURITY_IGNORE_PATTERNS = new String[] { "/images/**", "/js/**", "/css/**", "/fonts/**", "/resources/**" };

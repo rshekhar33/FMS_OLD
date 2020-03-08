@@ -10,6 +10,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Component;
 
+import com.url.app.utility.AppLogMessage;
+
 @Component
 public class CustomAuthenticationProvider implements AuthenticationProvider {
 	private static final Logger logger = LoggerFactory.getLogger(CustomAuthenticationProvider.class);
@@ -23,8 +25,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 		final String passwordEnc = authentication.getCredentials().toString();
 		final String password = SecurityUtil.decrypt(passwordEnc);
 
-		logger.debug("password encrypted text : {}", passwordEnc);
-		logger.debug("password plaintext : {}", password);
+		logger.debug(AppLogMessage.PASSWORD_ENCRYPTED_MSG, passwordEnc);
 
 		final UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(userName, password);
 

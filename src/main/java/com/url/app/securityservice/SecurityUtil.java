@@ -24,8 +24,18 @@ import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.binary.Hex;
 
 import com.url.app.utility.AppCommon;
+import com.url.app.utility.AppConstant;
 
 public class SecurityUtil {
+	private static final String DL = "__bcdef567kop48__";
+
+	private static final String A = "a";
+	private static final String B = "b";
+	private static final String C = "c";
+	private static final String D = "d";
+	private static final String E = "e";
+	private static final String F = "f";
+
 	private final int keySize;
 	private final int iterationCount;
 	private final Cipher cipher;
@@ -42,7 +52,7 @@ public class SecurityUtil {
 		this.keySize = keySize;
 		this.iterationCount = iterationCount;
 		try {
-			cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+			cipher = Cipher.getInstance(AppConstant.CIPHER_TRANSFORMATION);
 		} catch (NoSuchAlgorithmException | NoSuchPaddingException e) {
 			throw fail(e);
 		}
@@ -83,9 +93,9 @@ public class SecurityUtil {
 
 	private SecretKey generateKey(String salt, String passphrase) {
 		try {
-			SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
+			SecretKeyFactory factory = SecretKeyFactory.getInstance(AppConstant.CIPHER_FACTORY_ALGORITHM);
 			KeySpec spec = new PBEKeySpec(passphrase.toCharArray(), hex(salt), iterationCount, keySize);
-			return new SecretKeySpec(factory.generateSecret(spec).getEncoded(), "AES");
+			return new SecretKeySpec(factory.generateSecret(spec).getEncoded(), AppConstant.CIPHER_KEY_ALGORITHM);
 		} catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
 			throw fail(e);
 		}
@@ -138,8 +148,6 @@ public class SecurityUtil {
 	 * @return String
 	 */
 	public static String decrypt(String input) {
-		final String DL = "__bcdef567kop48__";
-
 		final String[] values = input.split(DL);
 		// last element indicates indices
 		final String indices = values[values.length - 1];
@@ -151,7 +159,7 @@ public class SecurityUtil {
 	}
 
 	private static int[] convert(String indices) {
-		String[] indexes = indices.split(",");
+		String[] indexes = indices.split(AppConstant.COMMA_STRING);
 
 		int[] ints = new int[indexes.length];
 		for (int i = 0; i < indexes.length; i++) {
@@ -163,17 +171,17 @@ public class SecurityUtil {
 
 	private static int getNum(String str) {
 		switch (str) {
-		case "a":
+		case A:
 			return 0;
-		case "b":
+		case B:
 			return 1;
-		case "c":
+		case C:
 			return 2;
-		case "d":
+		case D:
 			return 3;
-		case "e":
+		case E:
 			return 4;
-		case "f":
+		case F:
 			return 5;
 		default:
 			return AppCommon.toInteger(str);

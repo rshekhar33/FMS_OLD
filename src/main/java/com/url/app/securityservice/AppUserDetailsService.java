@@ -13,6 +13,7 @@ import com.url.app.config.AppMessage;
 import com.url.app.dto.LoggedUser;
 import com.url.app.dto.User;
 import com.url.app.interf.service.AppUserService;
+import com.url.app.utility.AppLogMessage;
 
 /**
  * Authentication service which returns UserDetails instance.
@@ -37,7 +38,7 @@ public class AppUserDetailsService implements UserDetailsService {
 			throw new UsernameNotFoundException(appMessage.userDoesNotExist);
 		}
 
-		logger.debug("User found with username : {}", username);
+		logger.debug(AppLogMessage.USER_USERNAME_MSG, username);
 
 		return new LoggedUser(user);
 	}

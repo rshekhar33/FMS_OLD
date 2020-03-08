@@ -22,7 +22,7 @@ public class MvcConfig implements WebMvcConfigurer {
 		final InternalResourceViewResolver resolver = new InternalResourceViewResolver();
 		resolver.setPrefix(AppConstant.SPRING_VIEW_RESOLVER_PREFIX);
 		resolver.setSuffix(AppConstant.SPRING_VIEW_RESOLVER_SUFFIX);
-		resolver.setExposedContextBeanNames("appAuthorization");
+		resolver.setExposedContextBeanNames(AppConstant.SPRING_EXPOSED_BEAN_APP_AUTHORIZATION);
 		registry.viewResolver(resolver);
 	}
 }

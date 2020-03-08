@@ -11,6 +11,7 @@ import com.url.app.interf.controller.UserController;
 import com.url.app.utility.AppCommon;
 import com.url.app.utility.AppCssActiveClass;
 import com.url.app.utility.AppHttpSessionKey;
+import com.url.app.utility.AppLogMessage;
 import com.url.app.utility.AppUrlView;
 
 /**
@@ -48,7 +49,7 @@ public class UserControllerImpl implements UserController {
 	@Override
 	public String updateScreen(final HttpSession httpSess, final ModelMap modelMap) {
 		final String userId = (String) httpSess.getAttribute(AppHttpSessionKey.HID_USER_ID);
-		logger.debug("userId = {}", userId);
+		logger.debug(AppLogMessage.USER_ID_MSG, userId);
 
 		String url = AppUrlView.REDIRECT_URL_USER_LIST;
 		if (!AppCommon.isEmpty(userId)) {

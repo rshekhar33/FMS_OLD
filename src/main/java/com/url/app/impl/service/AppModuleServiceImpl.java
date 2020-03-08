@@ -17,6 +17,7 @@ import com.url.app.interf.service.AppModuleService;
 import com.url.app.interf.service.AppUserService;
 import com.url.app.utility.AppCommon;
 import com.url.app.utility.AppConstant;
+import com.url.app.utility.AppLogMessage;
 import com.url.app.utility.AppResponseKey;
 import com.url.app.validation.AppModuleValidationService;
 
@@ -64,7 +65,7 @@ public class AppModuleServiceImpl implements AppModuleService {
 	@Override
 	@Transactional
 	public Map<String, String> validateSaveModule(final Module formModule) {
-		logger.info("module : {}", formModule);
+		logger.info(AppLogMessage.MODULE_MSG, formModule);
 
 		if (AppCommon.isPositiveInteger(formModule.getModuleId())) {
 			appModuleValidationService.validateForUpdate(formModule);

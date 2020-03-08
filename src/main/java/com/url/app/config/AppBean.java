@@ -116,10 +116,10 @@ public class AppBean {
 	@Bean
 	public StringEncryptor stringEncryptor() {
 		final SimpleStringPBEConfig config = new SimpleStringPBEConfig();
-		config.setPassword("fmsEncryptKey");
+		config.setPassword(AppConstant.STRING_ENCRYPTOR_PASSWORD);
 		config.setKeyObtentionIterations(1000);
 		config.setPoolSize(1);
-		config.setProviderName("SunJCE");
+		config.setProviderName(AppConstant.STRING_ENCRYPTOR_PROVIDER_NAME);
 		config.setSaltGenerator(new RandomSaltGenerator());
 		config.setStringOutputType(CommonUtils.STRING_OUTPUT_TYPE_BASE64);
 

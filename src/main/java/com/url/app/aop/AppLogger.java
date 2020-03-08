@@ -14,6 +14,7 @@ import org.springframework.util.StopWatch;
 
 import com.url.app.dto.User;
 import com.url.app.interf.service.AppUserService;
+import com.url.app.utility.AppLogMessage;
 
 /**
  * Logging Aspect.
@@ -36,8 +37,7 @@ public class AppLogger {
 	public Object logMethod(final ProceedingJoinPoint joinPoint) throws Throwable {
 		final User user = principalUser();
 
-		logger.info("UserId : {} : UserName : {} : Inside URL : '{}' : Method type : {}", user.getUserId(), user.getUserName(), request.getServletPath(),
-				request.getMethod());
+		logger.info(AppLogMessage.USER_ID_USER_NAME_URL_METHOD_TYPE_MSG, user.getUserId(), user.getUserName(), request.getServletPath(), request.getMethod());
 		logger.debug(getPreMessage(user, joinPoint));
 
 		final StopWatch stopWatch = new StopWatch();
@@ -64,14 +64,14 @@ public class AppLogger {
 	private static String getPreMessage(final User user, final JoinPoint joinPoint) {
 		//@formatter:off
 		final StringBuilder builder = new StringBuilder()
-				.append("UserId : ").append(user.getUserId())
-				.append(" : UserName : ").append(user.getUserName())
-				.append(" : Entered with values : (");
+				.append(AppLogMessage.USER_ID_TXT_MSG).append(user.getUserId())
+				.append(AppLogMessage.USER_NAME_TXT_MSG).append(user.getUserName())
+				.append(AppLogMessage.ENTER_WITH_VALUES_TXT_MSG);
 
 		appendMethodParamValues(builder, joinPoint);
 
 		return builder
-				.append(") : in method : ").append(joinPoint.getSignature().toString())
+				.append(AppLogMessage.IN_METHOD_TXT_MSG).append(joinPoint.getSignature().toString())
 				.toString();
 		//@formatter:on
 	}
@@ -79,11 +79,11 @@ public class AppLogger {
 	private static String getPostMessage(final User user, final JoinPoint joinPoint, final Object retVal, final long millis) {
 		//@formatter:off
 		return new StringBuilder()
-				.append("UserId : ").append(user.getUserId())
-				.append(" : UserName : ").append(user.getUserName())
-				.append(" : Exited with execution time : ").append(millis)
-				.append(" ms : with return value : ").append(retVal)
-				.append(" : from method : ").append(joinPoint.getSignature().toString())
+				.append(AppLogMessage.USER_ID_TXT_MSG).append(user.getUserId())
+				.append(AppLogMessage.USER_NAME_TXT_MSG).append(user.getUserName())
+				.append(AppLogMessage.EXITED_WITH_EXEC_TIME_TXT_MSG).append(millis)
+				.append(AppLogMessage.RETURN_VALUE_TXT_MSG).append(retVal)
+				.append(AppLogMessage.FROM_METHOD_TXT_MSG).append(joinPoint.getSignature().toString())
 				.toString();
 		//@formatter:on
 	}
@@ -92,7 +92,7 @@ public class AppLogger {
 		final Object[] args = joinPoint.getArgs();
 		for (int i = 0; i < args.length; i++) {
 			if (i != 0) {
-				builder.append(", ");
+				builder.append(AppLogMessage.COMMA_TXT_MSG);
 			}
 			builder.append(args[i]);
 		}

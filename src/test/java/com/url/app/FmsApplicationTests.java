@@ -17,6 +17,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 import com.url.app.dto.User;
+import com.url.app.utility.AppConstant;
 import com.url.app.validation.ValidationActivateSequence;
 
 @SpringBootTest
@@ -36,7 +37,7 @@ public class FmsApplicationTests {
 
 	@Test
 	public void jasyptEncDecr() {
-		final String plainText = "fms";
+		final String plainText = AppConstant.USER_DEFAULT_PASSWORD;
 		logger.info("plainText : {}", plainText);
 
 		final String encryptText = stringEncryptor.encrypt(plainText);

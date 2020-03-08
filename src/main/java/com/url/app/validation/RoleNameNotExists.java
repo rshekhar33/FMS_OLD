@@ -11,13 +11,15 @@ import java.lang.annotation.Target;
 import javax.validation.Constraint;
 import javax.validation.Payload;
 
+import com.url.app.utility.AppValidationKey;
+
 @Documented
 @Retention(RUNTIME)
 @Target({ FIELD, PARAMETER })
 @Constraint(validatedBy = RoleNameNotExistsValidator.class)
 public @interface RoleNameNotExists {
 
-	String message() default "{role.rolename.exists.error}";
+	String message() default AppValidationKey.ROLE_ROLENAME_EXISTS_ERROR;
 
 	Class<?>[] groups() default {};
 

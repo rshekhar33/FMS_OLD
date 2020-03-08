@@ -33,6 +33,8 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.url.app.utility.AppConstant;
+import com.url.app.utility.AppSQL;
+import com.url.app.utility.AppValidationKey;
 import com.url.app.validation.BasicActivateGroup;
 import com.url.app.validation.BasicCreateGroup;
 import com.url.app.validation.BasicUpdateGroup;
@@ -48,16 +50,16 @@ import com.url.app.validation.RoleNameNotExistsUpdate;
 @Table(name = "role")
 @EntityListeners(AuditingEntityListener.class)
 @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
-@NamedQuery(name = "Role.findAll", query = "SELECT r FROM Role r")
-@RoleNameNotExistsUpdate(groups = DBUpdateGroup.class, message = "{role.rolename.exists.error}")
+@NamedQuery(name = "Role.findAll", query = AppSQL.QRY_FIND_ALL_ROLE)
+@RoleNameNotExistsUpdate(groups = DBUpdateGroup.class, message = AppValidationKey.ROLE_ROLENAME_EXISTS_ERROR)
 public class Role implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "role_id", unique = true, nullable = false)
-	@NotNull(groups = BasicActivateGroup.class, message = "{update.failed.error}")
-	@Positive(groups = BasicActivateGroup.class, message = "{update.failed.error}")
+	@NotNull(groups = BasicActivateGroup.class, message = AppValidationKey.UPDATE_FAILED_ERROR)
+	@Positive(groups = BasicActivateGroup.class, message = AppValidationKey.UPDATE_FAILED_ERROR)
 	private Integer roleId;
 
 	@Column(name = "created_by", updatable = false, nullable = false)
@@ -69,9 +71,9 @@ public class Role implements Serializable {
 	private Date createdDate;
 
 	@Column(name = "is_active", nullable = false)
-	@NotNull(groups = BasicActivateGroup.class, message = "{update.failed.error}")
-	@Min(groups = BasicActivateGroup.class, value = 0, message = "{update.failed.error}")
-	@Max(groups = BasicActivateGroup.class, value = 1, message = "{update.failed.error}")
+	@NotNull(groups = BasicActivateGroup.class, message = AppValidationKey.UPDATE_FAILED_ERROR)
+	@Min(groups = BasicActivateGroup.class, value = 0, message = AppValidationKey.UPDATE_FAILED_ERROR)
+	@Max(groups = BasicActivateGroup.class, value = 1, message = AppValidationKey.UPDATE_FAILED_ERROR)
 	private Integer isActive;
 
 	@Column(name = "modified_by", nullable = false)
@@ -83,10 +85,11 @@ public class Role implements Serializable {
 	private Date modifiedDate;
 
 	@Column(name = "role_name", unique = true, nullable = false, length = 50)
-	@NotBlank(groups = { BasicCreateGroup.class, BasicUpdateGroup.class }, message = "{mandatory.field.error}")
-	@Pattern(groups = { BasicCreateGroup.class, BasicUpdateGroup.class }, regexp = AppConstant.REGEX_RESTRICTED_CHAR_3, message = "{role.rolename.restrictedchar3.error}")
-	@Size(groups = { BasicCreateGroup.class, BasicUpdateGroup.class }, max = 50, message = "{length.error}")
-	@RoleNameNotExists(groups = DBCreateGroup.class, message = "{role.rolename.exists.error}")
+	@NotBlank(groups = { BasicCreateGroup.class, BasicUpdateGroup.class }, message = AppValidationKey.MANDATORY_FIELD_ERROR)
+	@Pattern(groups = { BasicCreateGroup.class,
+			BasicUpdateGroup.class }, regexp = AppConstant.REGEX_RESTRICTED_CHAR_3, message = AppValidationKey.ROLE_ROLENAME_RESTRICTEDCHAR3_ERROR)
+	@Size(groups = { BasicCreateGroup.class, BasicUpdateGroup.class }, max = 50, message = AppValidationKey.LENGTH_ERROR)
+	@RoleNameNotExists(groups = DBCreateGroup.class, message = AppValidationKey.ROLE_ROLENAME_EXISTS_ERROR)
 	private String roleName;
 
 	//bi-directional many-to-one association to RolePrivilegeRelation

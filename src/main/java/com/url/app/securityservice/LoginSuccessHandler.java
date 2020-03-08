@@ -13,6 +13,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 
 import com.url.app.interf.service.AppUserService;
+import com.url.app.utility.AppLogMessage;
 
 /**
  * Login success handler class.
@@ -28,7 +29,7 @@ public class LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 	@Override
 	public void onAuthenticationSuccess(final HttpServletRequest request, final HttpServletResponse response, final Authentication authentication)
 			throws IOException, ServletException {
-		logger.info("Login Success. LoggedUser with roles = {}", appUserService.getPrincipal().getAuthorities());
+		logger.debug(AppLogMessage.LOGIN_SUCCESS_WITH_ROLES_MSG, appUserService.getPrincipal().getAuthorities());
 
 		appUserService.userUpdateLastLoginSuccess();
 

@@ -23,6 +23,8 @@ import org.apache.commons.codec.DecoderException;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.binary.Hex;
 
+import com.url.app.utility.AppConstant;
+
 // TODO: Implement 256-bit version like: http://securejava.wordpress.com/2012/10/25/aes-256/
 public class AesUtil {
 	private final int keySize;
@@ -37,7 +39,7 @@ public class AesUtil {
 		this.keySize = keySize;
 		this.iterationCount = iterationCount;
 		try {
-			cipher = Cipher.getInstance("AES/GCM/NoPadding");
+			cipher = Cipher.getInstance(AppConstant.CIPHER_TRANSFORMATION);
 		} catch (NoSuchAlgorithmException | NoSuchPaddingException e) {
 			throw fail(e);
 		}
@@ -74,9 +76,9 @@ public class AesUtil {
 
 	private SecretKey generateKey(String salt, String passphrase) {
 		try {
-			SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
+			SecretKeyFactory factory = SecretKeyFactory.getInstance(AppConstant.CIPHER_FACTORY_ALGORITHM);
 			KeySpec spec = new PBEKeySpec(passphrase.toCharArray(), hex(salt), iterationCount, keySize);
-			return new SecretKeySpec(factory.generateSecret(spec).getEncoded(), "AES");
+			return new SecretKeySpec(factory.generateSecret(spec).getEncoded(), AppConstant.CIPHER_KEY_ALGORITHM);
 		} catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
 			throw fail(e);
 		}

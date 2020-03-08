@@ -30,6 +30,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.url.app.utility.AppSQL;
 
 /**
  * The persistent class for the course database table.
@@ -38,7 +39,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @Table(name = "course")
 @EntityListeners(AuditingEntityListener.class)
 @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
-@NamedQuery(name = "Course.findAll", query = "SELECT c FROM Course c")
+@NamedQuery(name = "Course.findAll", query = AppSQL.QRY_FIND_ALL_COURSE)
 public class Course implements Serializable {
 	private static final long serialVersionUID = 1L;
 

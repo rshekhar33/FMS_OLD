@@ -26,6 +26,7 @@ import com.url.app.interf.service.AppFacultySkillsetService;
 import com.url.app.interf.service.AppUserService;
 import com.url.app.utility.AppCommon;
 import com.url.app.utility.AppConstant;
+import com.url.app.utility.AppLogMessage;
 import com.url.app.utility.AppResponseKey;
 
 /**
@@ -61,12 +62,11 @@ public class AppFacultySkillsetServiceImpl implements AppFacultySkillsetService 
 
 	@Override
 	@Transactional(readOnly = true)
-	public Map<String, Object> fetchDataFacultySkillset(final String userIdStr) {
+	public Map<String, Object> fetchDataFacultySkillset(final User formUser) {
 		final Map<String, Object> json = new ConcurrentHashMap<>();
 
-		if (!AppCommon.isEmpty(userIdStr)) {
-			final Integer userId = Integer.parseInt(userIdStr);
-			final User user = appDao.fetchUserWithModules(userId);
+		if (AppCommon.isPositiveInteger(formUser.getUserId())) {
+			final User user = appDao.fetchUserWithModules(formUser.getUserId());
 			json.put(AppResponseKey.USER, user);
 
 			final List<Integer> userModuleIds = user.getFacultySkillsets().stream().map(FacultySkillset::getModule).map(Module::getModuleId).collect(Collectors.toList());
@@ -82,7 +82,7 @@ public class AppFacultySkillsetServiceImpl implements AppFacultySkillsetService 
 	@Override
 	@Transactional
 	public Map<String, String> validateSaveFacultySkillset(final Map<String, String> allRequestParams) {
-		logger.debug("allRequestParams : {}", allRequestParams);
+		logger.debug(AppLogMessage.ALL_REQUEST_PARAMS_MSG, allRequestParams);
 		final String hidUserIdStr = allRequestParams.getOrDefault("hidUserId", "0");
 		final String modulesStr = allRequestParams.get("modulesStr");
 
@@ -107,7 +107,7 @@ public class AppFacultySkillsetServiceImpl implements AppFacultySkillsetService 
 			user.setModifiedBy(loggedInUserId);
 
 			final Set<FacultySkillset> removedFacultySkillsets = new HashSet<>(user.getFacultySkillsets());
-			final List<Integer> moduleIdList = Arrays.asList(modulesStr.split(",")).stream().map(Integer::parseInt).collect(Collectors.toList());
+			final List<Integer> moduleIdList = Arrays.asList(modulesStr.split(AppConstant.COMMA_STRING)).stream().map(Integer::parseInt).collect(Collectors.toList());
 			for (Integer moduleId : moduleIdList) {
 				final Module module = new Module();
 				module.setModuleId(moduleId);

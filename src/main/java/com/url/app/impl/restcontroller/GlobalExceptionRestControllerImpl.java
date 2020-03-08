@@ -26,6 +26,7 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 import com.url.app.config.AppMessage;
 import com.url.app.interf.restcontroller.GlobalExceptionRestController;
 import com.url.app.utility.AppConstant;
+import com.url.app.utility.AppLogMessage;
 import com.url.app.utility.AppResponseKey;
 import com.url.app.utility.AppUrlView;
 
@@ -44,8 +45,8 @@ public class GlobalExceptionRestControllerImpl implements GlobalExceptionRestCon
 	private AppMessage appMessage;
 
 	@RequestMapping(value = AppUrlView.PATH_ERROR, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public Map<String, Object> handleNoHandlerException(final HttpServletRequest request, final Exception e) {
-		logger.error("Global NoHandlerFoundException at Location : {} with Exception : {}", request.getRequestURL(), e.getMessage());
+	public Map<String, Object> incorrectPath(final HttpServletRequest request, final Exception e) {
+		logger.error(AppLogMessage.INCORRECT_PATH_MSG, request.getRequestURL(), e.getMessage());
 
 		final Map<String, Object> json = new ConcurrentHashMap<>();
 		json.put(AppResponseKey.STATUS, HttpStatus.NOT_FOUND.value());
@@ -62,7 +63,7 @@ public class GlobalExceptionRestControllerImpl implements GlobalExceptionRestCon
 
 	@Override
 	public Map<String, Object> handleNoHandlerException(final HttpServletRequest request, final NoHandlerFoundException e) {
-		logger.error("Global NoHandlerFoundException at Location : {} with Exception : {}", request.getRequestURL(), e.getMessage());
+		logger.error(AppLogMessage.NO_HANDLER_FOUND_EXCEPTION_MSG, request.getRequestURL(), e.getMessage());
 
 		final Map<String, Object> json = new ConcurrentHashMap<>();
 		json.put(AppResponseKey.STATUS, HttpStatus.NOT_FOUND.value());
@@ -74,7 +75,7 @@ public class GlobalExceptionRestControllerImpl implements GlobalExceptionRestCon
 
 	@Override
 	public Map<String, Object> handleMethodNotSupportedException(final HttpServletRequest request, final HttpRequestMethodNotSupportedException e) {
-		logger.error("Global HttpRequestMethodNotSupportedException at Location : {} with Exception : {}", request.getRequestURL(), e.getMessage());
+		logger.error(AppLogMessage.METHOD_NOT_SUPPORTED_EXCEPTION_MSG, request.getRequestURL(), e.getMessage());
 
 		final Map<String, Object> json = new ConcurrentHashMap<>();
 		json.put(AppResponseKey.STATUS, HttpStatus.METHOD_NOT_ALLOWED.value());
@@ -112,7 +113,7 @@ public class GlobalExceptionRestControllerImpl implements GlobalExceptionRestCon
 
 	@Override
 	public Map<String, Object> handleAllException(final HttpServletRequest request, final Exception e) {
-		logger.error("Global Exception at Location : " + request.getRequestURL(), e);
+		logger.error(AppLogMessage.GLOBAL_EXCEPTION_MSG + request.getRequestURL(), e);
 
 		final Map<String, Object> json = new ConcurrentHashMap<>();
 		json.put(AppResponseKey.STATUS, HttpStatus.INTERNAL_SERVER_ERROR.value());

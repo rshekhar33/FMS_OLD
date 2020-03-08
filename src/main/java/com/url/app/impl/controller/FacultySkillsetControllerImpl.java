@@ -11,6 +11,7 @@ import com.url.app.interf.controller.FacultySkillsetController;
 import com.url.app.utility.AppCommon;
 import com.url.app.utility.AppCssActiveClass;
 import com.url.app.utility.AppHttpSessionKey;
+import com.url.app.utility.AppLogMessage;
 import com.url.app.utility.AppUrlView;
 
 /**
@@ -52,7 +53,7 @@ public class FacultySkillsetControllerImpl implements FacultySkillsetController 
 	public String updateScreen(final HttpSession httpSess, final ModelMap modelMap) {
 		final String userId = (String) httpSess.getAttribute(AppHttpSessionKey.HID_USER_ID);
 		final String moduleId = (String) httpSess.getAttribute(AppHttpSessionKey.HID_MODULE_ID);
-		logger.debug("userId = {}, moduleId = {}", userId, moduleId);
+		logger.debug(AppLogMessage.USER_ID_MODULE_ID_MSG, userId, moduleId);
 
 		String url = AppUrlView.REDIRECT_URL_FACULTY_SKILLSET_LIST;
 		if (!AppCommon.isEmpty(userId) && !AppCommon.isEmpty(moduleId)) {

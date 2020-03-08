@@ -11,6 +11,7 @@ import com.url.app.interf.controller.CourseTypeController;
 import com.url.app.utility.AppCommon;
 import com.url.app.utility.AppCssActiveClass;
 import com.url.app.utility.AppHttpSessionKey;
+import com.url.app.utility.AppLogMessage;
 import com.url.app.utility.AppUrlView;
 
 /**
@@ -48,7 +49,7 @@ public class CourseTypeControllerImpl implements CourseTypeController {
 	@Override
 	public String updateScreen(final HttpSession httpSess, final ModelMap modelMap) {
 		final String courseTypeId = (String) httpSess.getAttribute(AppHttpSessionKey.HID_COURSE_TYPE_ID);
-		logger.debug("courseTypeId = {}", courseTypeId);
+		logger.debug(AppLogMessage.COURSE_TYPE_ID_MSG, courseTypeId);
 
 		String url = AppUrlView.REDIRECT_URL_COURSE_TYPE_LIST;
 		if (!AppCommon.isEmpty(courseTypeId)) {

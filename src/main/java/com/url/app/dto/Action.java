@@ -16,6 +16,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.url.app.utility.AppSQL;
 
 /**
  * The persistent class for the action database table.
@@ -23,7 +24,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @Entity
 @Table(name = "action")
 @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
-@NamedQuery(name = "Action.findAll", query = "SELECT a FROM Action a")
+@NamedQuery(name = "Action.findAll", query = AppSQL.QRY_FIND_ALL_ACTION)
 public class Action implements Serializable {
 	private static final long serialVersionUID = 1L;
 
