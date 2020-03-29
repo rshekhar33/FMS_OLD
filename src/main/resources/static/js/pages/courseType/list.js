@@ -49,7 +49,7 @@ function loadData() {
 				}
 				var isActionStr = '';
 				if (updateIsAllowed) {
-					isActionStr = '<a class="btn" onclick="editFun(\'' + courseType.courseTypeId + '\')"><i class="fa fa-edit"></i></a>';
+					isActionStr = '<a class="btn" onclick="editFun(\'' + courseType.courseTypeId + '\')"><i class="fas fa-edit"></i></a>';
 				}
 				courseTypesData.push({
 					courseTypeCode : courseType.courseTypeCode,

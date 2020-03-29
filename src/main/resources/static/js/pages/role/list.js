@@ -43,7 +43,7 @@ function loadData() {
 				}
 				var isActionStr = '';
 				if (updateIsAllowed) {
-					isActionStr = '<a class="btn" onclick="editFun(\'' + role.roleId + '\')"><i class="fa fa-edit"></i></a>';
+					isActionStr = '<a class="btn" onclick="editFun(\'' + role.roleId + '\')"><i class="fas fa-edit"></i></a>';
 				}
 				rolesData.push({
 					roleName : role.roleName,

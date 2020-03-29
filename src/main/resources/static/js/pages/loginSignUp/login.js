@@ -62,12 +62,11 @@ $(document).ready(function() {
 		if (isEmpty(password)) {
 			validation = false;
 			$("#loginError").text("Password cannot be left Empty!");
-		} else {
-			$("#password").prop("disabled", true);
-			$("#passwordEnc").val(encryptString(password));
 		}
 
 		if (validation) {
+			$("#password").prop("disabled", true);
+			$("#passwordEnc").val(encryptString(password));
 			$("#loginForm").submit();
 		}
 	});

@@ -43,7 +43,7 @@ function loadData() {
 				}
 				var isActionStr = '';
 				if (updateIsAllowed) {
-					isActionStr = '<a class="btn" onclick="editFun(\'' + module.moduleId + '\')"><i class="fa fa-edit"></i></a>';
+					isActionStr = '<a class="btn" onclick="editFun(\'' + module.moduleId + '\')"><i class="fas fa-edit"></i></a>';
 				}
 				modulesData.push({
 					moduleName : module.moduleName,

@@ -6,17 +6,17 @@ $(function() {
 		xhr.setRequestHeader(header, token);
 	});
 
-	$.ajaxPrefilter(function(options, org) {
-		if (options.contentType == "application/json" && typeof org.data === 'object') {
-			options.data = JSON.stringify(org.data);
+	$.ajaxPrefilter(function(options, originalOptions) {
+		if (options.contentType == "application/json" && typeof originalOptions.data === "object") {
+			options.data = JSON.stringify(originalOptions.data);
 		}
 	});
 });
 
 function showErrorMsg(selector, errorMsg) {
-	$(selector).html("<i class='fa fa-times-circle-o'></i> " + errorMsg);
-	$(selector).removeClass("hidden");
-	$(selector).parent("div").parent(".form-group").addClass("has-error");
+	$(selector + "Error").html("<i class='far fa-times-circle'></i> " + errorMsg);
+	$(selector + "Error").removeClass("d-none");
+	$(selector).addClass("is-invalid");
 }
 
 function showErrors(errorObj) {
@@ -26,7 +26,7 @@ function showErrors(errorObj) {
 			var errorMsg = errorObj[key];
 			if (!isEmpty(errorMsg)) {
 				isValid = false;
-				showErrorMsg("#" + key + "Error", errorMsg);
+				showErrorMsg("#" + key, errorMsg);
 			}
 		}
 	}

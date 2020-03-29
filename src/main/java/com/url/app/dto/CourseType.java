@@ -90,8 +90,8 @@ public class CourseType implements Serializable {
 	private Date modifiedDate;
 
 	@Column(name = "no_of_days")
-	@NotBlank(groups = { BasicCreateGroup.class, BasicUpdateGroup.class }, message = AppValidationKey.MANDATORY_FIELD_ERROR)
-	@Pattern(groups = { BasicCreateGroup.class, BasicUpdateGroup.class }, regexp = AppConstant.REGEX_NUMERIC_ONLY, message = AppValidationKey.ONLY_NUMBER_ERROR)
+	@NotNull(groups = { BasicCreateGroup.class, BasicUpdateGroup.class }, message = AppValidationKey.MANDATORY_FIELD_ERROR)
+	@Min(groups = { BasicCreateGroup.class, BasicUpdateGroup.class }, value = 0, message = AppValidationKey.ONLY_NUMBER_ERROR)
 	private Integer noOfDays;
 
 	//bi-directional many-to-one association to Course

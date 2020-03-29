@@ -55,7 +55,7 @@ function loadData() {
 				}
 				var isActionStr = '';
 				if (updateIsAllowed) {
-					isActionStr = '<a class="btn" onclick="editFun(\'' + user.userId + '\')"><i class="fa fa-edit"></i></a>';
+					isActionStr = '<a class="btn" onclick="editFun(\'' + user.userId + '\')"><i class="fas fa-edit"></i></a>';
 				}
 				usersData.push({
 					userName : user.userName,

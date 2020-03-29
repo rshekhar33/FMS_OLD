@@ -26,6 +26,7 @@ public class RoleControllerImpl implements RoleController {
 	@Override
 	public String list(final HttpSession httpSess, final ModelMap modelMap) {
 		httpSess.removeAttribute(AppHttpSessionKey.HID_ROLE_ID);
+		modelMap.addAttribute(AppCssActiveClass.ROLE_MENU_OPEN_CLS, AppCssActiveClass.MENU_OPEN_CLASS);
 		modelMap.addAttribute(AppCssActiveClass.ROLES_ACTIVE_CLS, AppCssActiveClass.ACTIVE_CLASS);
 
 		return AppUrlView.VIEW_ROLE_LIST;
@@ -34,6 +35,7 @@ public class RoleControllerImpl implements RoleController {
 	@Override
 	public String add(final HttpSession httpSess, final ModelMap modelMap) {
 		httpSess.removeAttribute(AppHttpSessionKey.HID_ROLE_ID);
+		modelMap.addAttribute(AppCssActiveClass.ROLE_MENU_OPEN_CLS, AppCssActiveClass.MENU_OPEN_CLASS);
 		modelMap.addAttribute(AppCssActiveClass.ROLE_CRUD_ACTIVE_CLS, AppCssActiveClass.ACTIVE_CLASS);
 
 		return AppUrlView.VIEW_ROLE_CRUD;
@@ -53,6 +55,7 @@ public class RoleControllerImpl implements RoleController {
 
 		String url = AppUrlView.REDIRECT_URL_ROLE_LIST;
 		if (!AppCommon.isEmpty(roleId)) {
+			modelMap.addAttribute(AppCssActiveClass.ROLE_MENU_OPEN_CLS, AppCssActiveClass.MENU_OPEN_CLASS);
 			modelMap.addAttribute(AppCssActiveClass.ROLE_CRUD_ACTIVE_CLS, AppCssActiveClass.ACTIVE_CLASS);
 			url = AppUrlView.VIEW_ROLE_CRUD;
 		}

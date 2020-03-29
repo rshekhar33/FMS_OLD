@@ -1,17 +1,24 @@
 table .btn {
 	padding: 0 12px;
-	border: 1px solid;
 	margin-left: 5px;
 }
 
-.pagination>li>a {
+/*.pagination>li>a {
 	cursor: pointer;
 }
-
+ */
 .simform__actions-sidetext {
 	margin: 22px 0 0;
 }
 
 .sminputs .input .inputCheck {
 	width: auto;
+}
+
+.fitted.toggle.checkbox label {
+	transform: scale(0.75);
+}
+
+.ui.toggle.checkbox label {
+	margin-bottom: 0rem;
 }

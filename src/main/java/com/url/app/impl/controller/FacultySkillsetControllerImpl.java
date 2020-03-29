@@ -27,6 +27,7 @@ public class FacultySkillsetControllerImpl implements FacultySkillsetController 
 	public String list(final HttpSession httpSess, final ModelMap modelMap) {
 		httpSess.removeAttribute(AppHttpSessionKey.HID_USER_ID);
 		httpSess.removeAttribute(AppHttpSessionKey.HID_MODULE_ID);
+		modelMap.addAttribute(AppCssActiveClass.FACULTY_SKILLSET_MENU_OPEN_CLS, AppCssActiveClass.MENU_OPEN_CLASS);
 		modelMap.addAttribute(AppCssActiveClass.FACULTY_SKILLSETS_ACTIVE_CLS, AppCssActiveClass.ACTIVE_CLASS);
 
 		return AppUrlView.VIEW_FACULTY_SKILLSET_LIST;
@@ -36,6 +37,7 @@ public class FacultySkillsetControllerImpl implements FacultySkillsetController 
 	public String add(final HttpSession httpSess, final ModelMap modelMap) {
 		httpSess.removeAttribute(AppHttpSessionKey.HID_USER_ID);
 		httpSess.removeAttribute(AppHttpSessionKey.HID_MODULE_ID);
+		modelMap.addAttribute(AppCssActiveClass.FACULTY_SKILLSET_MENU_OPEN_CLS, AppCssActiveClass.MENU_OPEN_CLASS);
 		modelMap.addAttribute(AppCssActiveClass.FACULTY_SKILLSET_CRUD_ACTIVE_CLS, AppCssActiveClass.ACTIVE_CLASS);
 
 		return AppUrlView.VIEW_FACULTY_SKILLSET_CRUD;
@@ -57,6 +59,7 @@ public class FacultySkillsetControllerImpl implements FacultySkillsetController 
 
 		String url = AppUrlView.REDIRECT_URL_FACULTY_SKILLSET_LIST;
 		if (!AppCommon.isEmpty(userId) && !AppCommon.isEmpty(moduleId)) {
+			modelMap.addAttribute(AppCssActiveClass.FACULTY_SKILLSET_MENU_OPEN_CLS, AppCssActiveClass.MENU_OPEN_CLASS);
 			modelMap.addAttribute(AppCssActiveClass.FACULTY_SKILLSET_CRUD_ACTIVE_CLS, AppCssActiveClass.ACTIVE_CLASS);
 			url = AppUrlView.VIEW_FACULTY_SKILLSET_CRUD;
 		}

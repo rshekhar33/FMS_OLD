@@ -65,9 +65,9 @@ function loadDataFun() {
 
 function validateFun(dataObj) {
 	$(".errMsgCls").html("");
-	$(".errMsgCls").addClass("hidden");
+	$(".errMsgCls").addClass("d-none");
 
-	$(".has-error").removeClass("has-error");
+	$(".form-horizontal .is-invalid").removeClass("is-invalid");
 
 	var errorObj = {
 		userName : "",

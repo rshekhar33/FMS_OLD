@@ -26,6 +26,7 @@ public class ModuleControllerImpl implements ModuleController {
 	@Override
 	public String list(final HttpSession httpSess, final ModelMap modelMap) {
 		httpSess.removeAttribute(AppHttpSessionKey.HID_MODULE_ID);
+		modelMap.addAttribute(AppCssActiveClass.MODULE_MENU_OPEN_CLS, AppCssActiveClass.MENU_OPEN_CLASS);
 		modelMap.addAttribute(AppCssActiveClass.MODULES_ACTIVE_CLS, AppCssActiveClass.ACTIVE_CLASS);
 
 		return AppUrlView.VIEW_MODULE_LIST;
@@ -34,6 +35,7 @@ public class ModuleControllerImpl implements ModuleController {
 	@Override
 	public String add(final HttpSession httpSess, final ModelMap modelMap) {
 		httpSess.removeAttribute(AppHttpSessionKey.HID_MODULE_ID);
+		modelMap.addAttribute(AppCssActiveClass.MODULE_MENU_OPEN_CLS, AppCssActiveClass.MENU_OPEN_CLASS);
 		modelMap.addAttribute(AppCssActiveClass.MODULE_CRUD_ACTIVE_CLS, AppCssActiveClass.ACTIVE_CLASS);
 
 		return AppUrlView.VIEW_MODULE_CRUD;
@@ -53,6 +55,7 @@ public class ModuleControllerImpl implements ModuleController {
 
 		String url = AppUrlView.REDIRECT_URL_MODULE_LIST;
 		if (!AppCommon.isEmpty(moduleId)) {
+			modelMap.addAttribute(AppCssActiveClass.MODULE_MENU_OPEN_CLS, AppCssActiveClass.MENU_OPEN_CLASS);
 			modelMap.addAttribute(AppCssActiveClass.MODULE_CRUD_ACTIVE_CLS, AppCssActiveClass.ACTIVE_CLASS);
 			url = AppUrlView.VIEW_MODULE_CRUD;
 		}
