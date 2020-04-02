@@ -78,7 +78,7 @@
 											<label for="moduleName" class="col-sm-2 col-form-label">Module Name*</label>
 
 											<div class="col-sm-8">
-												<input type="text" id="moduleName" name="moduleName" maxlength="100" class="form-control validationField" placeholder="Module Name">
+												<input type="text" id="moduleName" name="moduleName" maxlength="100" class="form-control" placeholder="Module Name">
 												<label id="moduleNameError" for="moduleName" class="col-form-label errMsgCls d-none"></label>
 											</div>
 										</div>

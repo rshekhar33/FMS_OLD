@@ -80,7 +80,7 @@
 											<label for="userName" class="col-sm-2 col-form-label">UserName*</label>
 
 											<div class="col-sm-8">
-												<input type="text" id="userName" name="userName" maxlength="50" class="form-control validationField" placeholder="UserName">
+												<input type="text" id="userName" name="userName" maxlength="50" class="form-control" placeholder="UserName">
 												<label id="userNameError" for="userName" class="col-form-label errMsgCls d-none"></label>
 											</div>
 										</div>
@@ -88,7 +88,7 @@
 											<label for="firstName" class="col-sm-2 col-form-label">First Name*</label>
 
 											<div class="col-sm-8">
-												<input type="text" id="firstName" name="firstName" maxlength="100" class="form-control validationField" placeholder="First Name">
+												<input type="text" id="firstName" name="firstName" maxlength="100" class="form-control" placeholder="First Name">
 												<label id="firstNameError" for="firstName" class="col-form-label errMsgCls d-none"></label>
 											</div>
 										</div>
@@ -96,7 +96,7 @@
 											<label for="middleName" class="col-sm-2 col-form-label">Middle Name</label>
 
 											<div class="col-sm-8">
-												<input type="text" id="middleName" name="middleName" maxlength="100" class="form-control validationField" placeholder="Middle Name">
+												<input type="text" id="middleName" name="middleName" maxlength="100" class="form-control" placeholder="Middle Name">
 												<label id="middleNameError" for="middleName" class="col-form-label errMsgCls d-none"></label>
 											</div>
 										</div>
@@ -104,7 +104,7 @@
 											<label for="lastName" class="col-sm-2 col-form-label">Last Name</label>
 
 											<div class="col-sm-8">
-												<input type="text" id="lastName" name="lastName" maxlength="100" class="form-control validationField" placeholder="Last Name">
+												<input type="text" id="lastName" name="lastName" maxlength="100" class="form-control" placeholder="Last Name">
 												<label id="lastNameError" for="lastName" class="col-form-label errMsgCls d-none"></label>
 											</div>
 										</div>
@@ -112,7 +112,7 @@
 											<label for="emailId" class="col-sm-2 col-form-label">Email ID*</label>
 
 											<div class="col-sm-8">
-												<input type="text" id="emailId" name="emailId" maxlength="100" class="form-control validationField" placeholder="Email ID">
+												<input type="text" id="emailId" name="emailId" maxlength="100" class="form-control" placeholder="Email ID">
 												<label id="emailIdError" for="emailId" class="col-form-label errMsgCls d-none"></label>
 											</div>
 										</div>
@@ -120,7 +120,7 @@
 											<label for="mobileNo" class="col-sm-2 col-form-label">Mobile No*</label>
 
 											<div class="col-sm-8">
-												<input type="text" id="mobileNo" name="mobileNo" maxlength="10" class="form-control validationField" placeholder="Mobile No">
+												<input type="text" id="mobileNo" name="mobileNo" maxlength="10" class="form-control" placeholder="Mobile No">
 												<label id="mobileNoError" for="mobileNo" class="col-form-label errMsgCls d-none"></label>
 											</div>
 										</div>
@@ -128,7 +128,7 @@
 											<label for="roles" class="col-sm-2 col-form-label">Roles*</label>
 
 											<div class="col-sm-4">
-												<select id="roles" name="roles" multiple="multiple" class="form-control validationField select2">
+												<select id="roles" name="roles" multiple="multiple" class="form-control select2">
 												</select>
 												<label id="rolesError" for="roles" class="col-form-label errMsgCls d-none"></label>
 											</div>

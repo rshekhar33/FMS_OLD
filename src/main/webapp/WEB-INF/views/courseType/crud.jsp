@@ -88,7 +88,7 @@
 											<label for="courseTypeName" class="col-sm-2 col-form-label">Course Type Name*</label>
 
 											<div class="col-sm-8">
-												<input type="text" id="courseTypeName" name="courseTypeName" maxlength="500" class="form-control validationField" placeholder="Course Type Name">
+												<input type="text" id="courseTypeName" name="courseTypeName" maxlength="500" class="form-control" placeholder="Course Type Name">
 												<label id="courseTypeNameError" for="courseTypeName" class="col-form-label errMsgCls d-none"></label>
 											</div>
 										</div>
@@ -96,7 +96,7 @@
 											<label for="noOfDays" class="col-sm-2 col-form-label">No Of Days</label>
 
 											<div class="col-sm-8">
-												<input type="text" id="noOfDays" name="noOfDays" maxlength="100" class="form-control validationField" placeholder="No Of Days">
+												<input type="text" id="noOfDays" name="noOfDays" maxlength="100" class="form-control" placeholder="No Of Days">
 												<label id="noOfDaysError" for="noOfDays" class="col-form-label errMsgCls d-none"></label>
 											</div>
 										</div>

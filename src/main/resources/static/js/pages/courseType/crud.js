@@ -39,7 +39,7 @@ function validateFun(dataObj) {
 	$(".errMsgCls").html("");
 	$(".errMsgCls").addClass("d-none");
 
-	$(".form-horizontal .is-invalid").removeClass("is-invalid");
+	$(".validationField").removeClass("is-invalid");
 
 	var errorObj = {
 		courseTypeName : "",

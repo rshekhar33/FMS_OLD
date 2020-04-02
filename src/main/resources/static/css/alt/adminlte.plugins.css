@@ -1,6 +1,5 @@
-@charset "UTF-8";
 /*!
- *   AdminLTE v3.0.3-pre
+ *   AdminLTE v3.0.4
  *     Only Plugins
  *   Author: Colorlib
  *   Website: AdminLTE.io <http://adminlte.io>
@@ -2658,7 +2657,7 @@ select.form-control-sm ~ .select2-container--default .select2-selection--multipl
 }
 
 .pace-corner-indicator-primary .pace .pace-activity::after,
-.pace-corner-indicator-primary .pace .pace-activity::before  {
+.pace-corner-indicator-primary .pace .pace-activity::before {
   border: 5px solid #ffffff;
 }
 
@@ -2789,7 +2788,7 @@ select.form-control-sm ~ .select2-container--default .select2-selection--multipl
 }
 
 .pace-corner-indicator-secondary .pace .pace-activity::after,
-.pace-corner-indicator-secondary .pace .pace-activity::before  {
+.pace-corner-indicator-secondary .pace .pace-activity::before {
   border: 5px solid #ffffff;
 }
 
@@ -2920,7 +2919,7 @@ select.form-control-sm ~ .select2-container--default .select2-selection--multipl
 }
 
 .pace-corner-indicator-success .pace .pace-activity::after,
-.pace-corner-indicator-success .pace .pace-activity::before  {
+.pace-corner-indicator-success .pace .pace-activity::before {
   border: 5px solid #ffffff;
 }
 
@@ -3051,7 +3050,7 @@ select.form-control-sm ~ .select2-container--default .select2-selection--multipl
 }
 
 .pace-corner-indicator-info .pace .pace-activity::after,
-.pace-corner-indicator-info .pace .pace-activity::before  {
+.pace-corner-indicator-info .pace .pace-activity::before {
   border: 5px solid #ffffff;
 }
 
@@ -3182,7 +3181,7 @@ select.form-control-sm ~ .select2-container--default .select2-selection--multipl
 }
 
 .pace-corner-indicator-warning .pace .pace-activity::after,
-.pace-corner-indicator-warning .pace .pace-activity::before  {
+.pace-corner-indicator-warning .pace .pace-activity::before {
   border: 5px solid #1F2D3D;
 }
 
@@ -3313,7 +3312,7 @@ select.form-control-sm ~ .select2-container--default .select2-selection--multipl
 }
 
 .pace-corner-indicator-danger .pace .pace-activity::after,
-.pace-corner-indicator-danger .pace .pace-activity::before  {
+.pace-corner-indicator-danger .pace .pace-activity::before {
   border: 5px solid #ffffff;
 }
 
@@ -3444,7 +3443,7 @@ select.form-control-sm ~ .select2-container--default .select2-selection--multipl
 }
 
 .pace-corner-indicator-light .pace .pace-activity::after,
-.pace-corner-indicator-light .pace .pace-activity::before  {
+.pace-corner-indicator-light .pace .pace-activity::before {
   border: 5px solid #1F2D3D;
 }
 
@@ -3575,7 +3574,7 @@ select.form-control-sm ~ .select2-container--default .select2-selection--multipl
 }
 
 .pace-corner-indicator-dark .pace .pace-activity::after,
-.pace-corner-indicator-dark .pace .pace-activity::before  {
+.pace-corner-indicator-dark .pace .pace-activity::before {
   border: 5px solid #ffffff;
 }
 
@@ -3706,7 +3705,7 @@ select.form-control-sm ~ .select2-container--default .select2-selection--multipl
 }
 
 .pace-corner-indicator-lightblue .pace .pace-activity::after,
-.pace-corner-indicator-lightblue .pace .pace-activity::before  {
+.pace-corner-indicator-lightblue .pace .pace-activity::before {
   border: 5px solid #ffffff;
 }
 
@@ -3837,7 +3836,7 @@ select.form-control-sm ~ .select2-container--default .select2-selection--multipl
 }
 
 .pace-corner-indicator-navy .pace .pace-activity::after,
-.pace-corner-indicator-navy .pace .pace-activity::before  {
+.pace-corner-indicator-navy .pace .pace-activity::before {
   border: 5px solid #ffffff;
 }
 
@@ -3968,7 +3967,7 @@ select.form-control-sm ~ .select2-container--default .select2-selection--multipl
 }
 
 .pace-corner-indicator-olive .pace .pace-activity::after,
-.pace-corner-indicator-olive .pace .pace-activity::before  {
+.pace-corner-indicator-olive .pace .pace-activity::before {
   border: 5px solid #ffffff;
 }
 
@@ -4099,7 +4098,7 @@ select.form-control-sm ~ .select2-container--default .select2-selection--multipl
 }
 
 .pace-corner-indicator-lime .pace .pace-activity::after,
-.pace-corner-indicator-lime .pace .pace-activity::before  {
+.pace-corner-indicator-lime .pace .pace-activity::before {
   border: 5px solid #1F2D3D;
 }
 
@@ -4230,7 +4229,7 @@ select.form-control-sm ~ .select2-container--default .select2-selection--multipl
 }
 
 .pace-corner-indicator-fuchsia .pace .pace-activity::after,
-.pace-corner-indicator-fuchsia .pace .pace-activity::before  {
+.pace-corner-indicator-fuchsia .pace .pace-activity::before {
   border: 5px solid #ffffff;
 }
 
@@ -4361,7 +4360,7 @@ select.form-control-sm ~ .select2-container--default .select2-selection--multipl
 }
 
 .pace-corner-indicator-maroon .pace .pace-activity::after,
-.pace-corner-indicator-maroon .pace .pace-activity::before  {
+.pace-corner-indicator-maroon .pace .pace-activity::before {
   border: 5px solid #ffffff;
 }
 
@@ -4492,7 +4491,7 @@ select.form-control-sm ~ .select2-container--default .select2-selection--multipl
 }
 
 .pace-corner-indicator-blue .pace .pace-activity::after,
-.pace-corner-indicator-blue .pace .pace-activity::before  {
+.pace-corner-indicator-blue .pace .pace-activity::before {
   border: 5px solid #ffffff;
 }
 
@@ -4623,7 +4622,7 @@ select.form-control-sm ~ .select2-container--default .select2-selection--multipl
 }
 
 .pace-corner-indicator-indigo .pace .pace-activity::after,
-.pace-corner-indicator-indigo .pace .pace-activity::before  {
+.pace-corner-indicator-indigo .pace .pace-activity::before {
   border: 5px solid #ffffff;
 }
 
@@ -4754,7 +4753,7 @@ select.form-control-sm ~ .select2-container--default .select2-selection--multipl
 }
 
 .pace-corner-indicator-purple .pace .pace-activity::after,
-.pace-corner-indicator-purple .pace .pace-activity::before  {
+.pace-corner-indicator-purple .pace .pace-activity::before {
   border: 5px solid #ffffff;
 }
 
@@ -4885,7 +4884,7 @@ select.form-control-sm ~ .select2-container--default .select2-selection--multipl
 }
 
 .pace-corner-indicator-pink .pace .pace-activity::after,
-.pace-corner-indicator-pink .pace .pace-activity::before  {
+.pace-corner-indicator-pink .pace .pace-activity::before {
   border: 5px solid #ffffff;
 }
 
@@ -5016,7 +5015,7 @@ select.form-control-sm ~ .select2-container--default .select2-selection--multipl
 }
 
 .pace-corner-indicator-red .pace .pace-activity::after,
-.pace-corner-indicator-red .pace .pace-activity::before  {
+.pace-corner-indicator-red .pace .pace-activity::before {
   border: 5px solid #ffffff;
 }
 
@@ -5147,7 +5146,7 @@ select.form-control-sm ~ .select2-container--default .select2-selection--multipl
 }
 
 .pace-corner-indicator-orange .pace .pace-activity::after,
-.pace-corner-indicator-orange .pace .pace-activity::before  {
+.pace-corner-indicator-orange .pace .pace-activity::before {
   border: 5px solid #1F2D3D;
 }
 
@@ -5278,7 +5277,7 @@ select.form-control-sm ~ .select2-container--default .select2-selection--multipl
 }
 
 .pace-corner-indicator-yellow .pace .pace-activity::after,
-.pace-corner-indicator-yellow .pace .pace-activity::before  {
+.pace-corner-indicator-yellow .pace .pace-activity::before {
   border: 5px solid #1F2D3D;
 }
 
@@ -5409,7 +5408,7 @@ select.form-control-sm ~ .select2-container--default .select2-selection--multipl
 }
 
 .pace-corner-indicator-green .pace .pace-activity::after,
-.pace-corner-indicator-green .pace .pace-activity::before  {
+.pace-corner-indicator-green .pace .pace-activity::before {
   border: 5px solid #ffffff;
 }
 
@@ -5540,7 +5539,7 @@ select.form-control-sm ~ .select2-container--default .select2-selection--multipl
 }
 
 .pace-corner-indicator-teal .pace .pace-activity::after,
-.pace-corner-indicator-teal .pace .pace-activity::before  {
+.pace-corner-indicator-teal .pace .pace-activity::before {
   border: 5px solid #ffffff;
 }
 
@@ -5671,7 +5670,7 @@ select.form-control-sm ~ .select2-container--default .select2-selection--multipl
 }
 
 .pace-corner-indicator-cyan .pace .pace-activity::after,
-.pace-corner-indicator-cyan .pace .pace-activity::before  {
+.pace-corner-indicator-cyan .pace .pace-activity::before {
   border: 5px solid #ffffff;
 }
 
@@ -5802,7 +5801,7 @@ select.form-control-sm ~ .select2-container--default .select2-selection--multipl
 }
 
 .pace-corner-indicator-white .pace .pace-activity::after,
-.pace-corner-indicator-white .pace .pace-activity::before  {
+.pace-corner-indicator-white .pace .pace-activity::before {
   border: 5px solid #1F2D3D;
 }
 
@@ -5933,7 +5932,7 @@ select.form-control-sm ~ .select2-container--default .select2-selection--multipl
 }
 
 .pace-corner-indicator-gray .pace .pace-activity::after,
-.pace-corner-indicator-gray .pace .pace-activity::before  {
+.pace-corner-indicator-gray .pace .pace-activity::before {
   border: 5px solid #ffffff;
 }
 
@@ -6064,7 +6063,7 @@ select.form-control-sm ~ .select2-container--default .select2-selection--multipl
 }
 
 .pace-corner-indicator-gray-dark .pace .pace-activity::after,
-.pace-corner-indicator-gray-dark .pace .pace-activity::before  {
+.pace-corner-indicator-gray-dark .pace .pace-activity::before {
   border: 5px solid #ffffff;
 }
 
