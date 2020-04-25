@@ -19,7 +19,7 @@
 	<link rel="stylesheet" href="${contextPath}resources/datatables-bs4/css/dataTables.bootstrap4.min.css">
 	<link rel="stylesheet" href="${contextPath}resources/datatables-responsive/css/responsive.bootstrap4.min.css">
 	<!-- Semantic Checkbox -->
-	<link rel="stylesheet" href="${contextPath}resources/semantic-ui/checkbox.min.css">
+	<link rel="stylesheet" href="${contextPath}resources/semantic-ui/css/checkbox.min.css">
 	<!-- Theme style -->
 	<link rel="stylesheet" href="${contextPath}css/adminlte.min.css">
 	<!-- Google Font: Source Sans Pro -->
@@ -111,7 +111,7 @@
 	<script src="${contextPath}resources/datatables-responsive/js/dataTables.responsive.min.js"></script>
 	<script src="${contextPath}resources/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
 	<!-- Semantic Checkbox -->
-	<script src="${contextPath}resources/semantic-ui/checkbox.min.js"></script>
+	<script src="${contextPath}resources/semantic-ui/js/checkbox.min.js"></script>
 	<!-- AdminLTE -->
 	<script src="${contextPath}js/adminlte.min.js"></script>
 
