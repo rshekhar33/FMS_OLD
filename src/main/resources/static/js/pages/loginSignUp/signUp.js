@@ -77,7 +77,7 @@ function submitFun() {
 				$("#successMsg").text("Registration Completed Succesfully.");
 				$("#regForm")[0].reset();
 				setTimeout(function() {
-					location.href = contextPath;
+					window.location.replace(contextPath);
 				}, 1000);
 			} else {
 				$("#userNameError").text(responseObj.userNameError);

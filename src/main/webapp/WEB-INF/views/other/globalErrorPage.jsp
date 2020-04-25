@@ -96,11 +96,9 @@
 	<!-- page script -->
 	<script>
 		var contextPath = "${contextPath}";
-		$(function() {
-			window.setTimeout(function() {
-				window.location.href = contextPath;
-			}, 5000);
-		});
+		setTimeout(function() {
+			window.location.replace(contextPath);
+		}, 5000);
 	</script>
 </body>
 </html>

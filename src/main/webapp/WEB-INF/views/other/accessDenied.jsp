@@ -4,7 +4,6 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<meta http-equiv="refresh" content="3; url=${contextPath}" />
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta http-equiv="x-ua-compatible" content="ie=edge">
 	<title>${appTitle} | Access Denied page</title>
@@ -95,5 +94,11 @@
 	<!-- AdminLTE -->
 	<script src="${contextPath}js/adminlte.js"></script>
 	<script src="${contextPath}js/demo.js"></script>
+	<script>
+		var contextPath = "${contextPath}";
+		setTimeout(function() {
+			window.location.replace(contextPath);
+		}, 3000);
+	</script>
 </body>
 </html>

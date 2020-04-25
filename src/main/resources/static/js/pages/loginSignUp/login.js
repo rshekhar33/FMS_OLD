@@ -45,7 +45,7 @@ var LoginModalController = {
 	}
 };
 
-$(document).ready(function() {
+$(function() {
 	LoginModalController.initialize();
 
 	$("#login").click(function() {
