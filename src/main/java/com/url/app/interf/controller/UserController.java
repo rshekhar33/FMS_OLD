@@ -40,5 +40,5 @@ public interface UserController {
 	 * Update user screen.
 	 */
 	@GetMapping(value = AppUrlView.PATH_UPDATE)
-	public String updateScreen(HttpSession httpSess, ModelMap modelMap);
+	String updateScreen(HttpSession httpSess, ModelMap modelMap);
 }

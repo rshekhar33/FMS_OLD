@@ -87,8 +87,9 @@ function submitFun() {
 			}
 		},
 		error : function(jqXHR, textStatus, errorThrown) {
-			if (jqXHR.status == 403)
+			if (jqXHR.status == 403) {
 				location.reload();
+			}
 			return;
 		}
 	});
