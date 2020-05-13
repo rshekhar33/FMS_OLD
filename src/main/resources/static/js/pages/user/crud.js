@@ -15,52 +15,45 @@ function loadDataFun() {
 	if (!isEmpty(userId)) {
 		$("#userName").prop("disabled", true);
 	}
-	$.post({
-		url : contextPath + "user/fetchData",
-		contentType : "application/json",
-		data : {
-			userId : userId
-		},
-		success : function(responseObj) {
-			var user = responseObj.user;
-			var roles = responseObj.roles;
-			var userRoleIds = responseObj.userRoleIds;
+	var url = "user/fetchData";
+	var data = {
+		userId : userId
+	};
+	var successFun = function(responseObj) {
+		var user = responseObj.user;
+		var roles = responseObj.roles;
+		var userRoleIds = responseObj.userRoleIds;
 
-			var dropdownData = [];
-			if (roles != null) {
-				for (var i = 0; i < roles.length; i++) {
-					var role = roles[i];
-					dropdownData.push({
-						id : role.roleId,
-						text : role.roleName
-					});
-				}
+		var dropdownData = [];
+		if (roles != null) {
+			for (var i = 0; i < roles.length; i++) {
+				var role = roles[i];
+				dropdownData.push({
+					id : role.roleId,
+					text : role.roleName
+				});
 			}
-			if (!isEmpty(userId) && user != null) {
-				$("#userName").val(user.userName);
-				$("#firstName").val(user.firstName);
-				$("#middleName").val(user.middleName);
-				$("#lastName").val(user.lastName);
-				$("#emailId").val(user.emailId);
-				$("#mobileNo").val(user.mobileNo);
-			}
-			$("#roles").select2({
-				placeholder : "Select an option",
-				data : dropdownData
-			});
-			if (!isEmpty(userId) && userRoleIds != null) {
-				$("#roles").val(userRoleIds);
-				$("#roles").trigger("change");
-			}
-			showLoaderRight(false);
-		},
-		error : function(jqXHR, textStatus, errorThrown) {
-			if (jqXHR.status == 403) {
-				location.reload();
-			}
-			return;
 		}
-	});
+		if (!isEmpty(userId) && user != null) {
+			$("#userName").val(user.userName);
+			$("#firstName").val(user.firstName);
+			$("#middleName").val(user.middleName);
+			$("#lastName").val(user.lastName);
+			$("#emailId").val(user.emailId);
+			$("#mobileNo").val(user.mobileNo);
+		}
+		$("#roles").select2({
+			placeholder : "Select an option",
+			data : dropdownData
+		});
+		if (!isEmpty(userId) && userRoleIds != null) {
+			$("#roles").val(userRoleIds);
+			$("#roles").trigger("change");
+		}
+		showLoaderRight(false);
+	};
+
+	return callAjaxPostFun(url, data, successFun, errorFun1);
 }
 
 function validateFun(dataObj) {
@@ -117,36 +110,22 @@ function validateFun(dataObj) {
 }
 
 function submitFun(dataObj) {
-	$.post({
-		url : contextPath + "user/validateSave",
-		contentType : "application/json",
-		data : dataObj,
-		success : function(responseObj) {
-			if (responseObj.status == "success") {
-				bootbox.alert({
-					message : responseObj.msg,
-					backdrop : true,
-					callback : function() {
-						goToListUsers();
-					}
-				});
-			} else {
-				showLoaderRight(false);
-			}
-		},
-		error : function(jqXHR, textStatus, errorThrown) {
-			if (jqXHR.status == 403) {
-				location.reload();
-			} else {
-				var errorObj = jqXHR.responseJSON;
-				if (errorObj.status == "fail") {
-					showErrors(errorObj);
+	var url = "user/validateSave";
+	var successFun = function(responseObj) {
+		if (responseObj.status == "success") {
+			bootbox.alert({
+				message : responseObj.msg,
+				backdrop : true,
+				callback : function() {
+					goToListUsers();
 				}
-				showLoaderRight(false);
-			}
-			return;
+			});
+		} else {
+			showLoaderRight(false);
 		}
-	});
+	};
+
+	return callAjaxPostFun(url, dataObj, successFun, errorFun2);
 }
 
 function validateSubmitFun() {

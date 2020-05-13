@@ -67,8 +67,7 @@ function validateFun() {
 }
 
 function submitFun() {
-	$.ajax({
-		type : "POST",
+	$.post({
 		url : contextPath + "validateSaveRegistration",
 		data : $("#regForm").serialize(),
 		success : function(data) {

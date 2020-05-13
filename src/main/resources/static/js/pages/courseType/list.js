@@ -33,42 +33,35 @@ $(function() {
 
 function loadData() {
 	showLoaderRight(true);
-	$.post({
-		url : contextPath + "courseType/fetchDetails",
-		contentType : "application/json",
-		success : function(data) {
-			var courseTypes = data;
-			var courseTypesData = [];
-			for (var i = 0; i < courseTypes.length; i++) {
-				var courseType = courseTypes[i];
-				var isActiveStr = '';
-				if (activationIsAllowed) {
-					isActiveStr = '<div class="ui fitted toggle checkbox"><input type="checkbox" ';
-					isActiveStr += (courseType.isActive == 1) ? 'checked="checked" ' : '';
-					isActiveStr += 'onclick="activationFun(\'' + courseType.courseTypeId + '\',this)" /><label></label></div>';
-				}
-				var isActionStr = '';
-				if (updateIsAllowed) {
-					isActionStr = '<a class="btn" onclick="editFun(\'' + courseType.courseTypeId + '\')"><i class="fas fa-edit"></i></a>';
-				}
-				courseTypesData.push({
-					courseTypeCode : courseType.courseTypeCode,
-					courseTypeName : courseType.courseTypeName,
-					noOfDays : courseType.noOfDays,
-					isActive : isActiveStr,
-					action : isActionStr
-				});
+	var url = "courseType/fetchDetails";
+	var successFun = function(data) {
+		var courseTypes = data;
+		var courseTypesData = [];
+		for (var i = 0; i < courseTypes.length; i++) {
+			var courseType = courseTypes[i];
+			var isActiveStr = '';
+			if (activationIsAllowed) {
+				isActiveStr = '<div class="ui fitted toggle checkbox"><input type="checkbox" ';
+				isActiveStr += (courseType.isActive == 1) ? 'checked="checked" ' : '';
+				isActiveStr += 'onclick="activationFun(\'' + courseType.courseTypeId + '\',this)" /><label></label></div>';
 			}
-			courseTypesDataTable.clear().rows.add(courseTypesData).draw();
-			showLoaderRight(false);
-		},
-		error : function(jqXHR, textStatus, errorThrown) {
-			if (jqXHR.status == 403) {
-				location.reload();
+			var isActionStr = '';
+			if (updateIsAllowed) {
+				isActionStr = '<a class="btn" onclick="editFun(\'' + courseType.courseTypeId + '\')"><i class="fas fa-edit"></i></a>';
 			}
-			return;
+			courseTypesData.push({
+				courseTypeCode : courseType.courseTypeCode,
+				courseTypeName : courseType.courseTypeName,
+				noOfDays : courseType.noOfDays,
+				isActive : isActiveStr,
+				action : isActionStr
+			});
 		}
-	});
+		courseTypesDataTable.clear().rows.add(courseTypesData).draw();
+		showLoaderRight(false);
+	};
+
+	return callAjaxPostFun(url, null, successFun, errorFun1);
 }
 
 function editFun(courseTypeId) {
@@ -85,28 +78,20 @@ function activationFun(courseTypeId, checkBoxObj) {
 	if (checkBoxObj.checked) {
 		isActive = 1;
 	}
-
-	$.post({
-		url : contextPath + "courseType/activation",
-		contentType : "application/json",
-		data : {
-			courseTypeId : courseTypeId,
-			isActive : isActive
-		},
-		success : function(responseObj) {
-			if (responseObj.status == "success") {
-				bootbox.alert({
-					message : responseObj.msg,
-					backdrop : true
-				});
-			}
-			showLoaderRight(false);
-		},
-		error : function(jqXHR, textStatus, errorThrown) {
-			if (jqXHR.status == 403) {
-				location.reload();
-			}
-			return;
+	var url = "courseType/activation";
+	var data = {
+		courseTypeId : courseTypeId,
+		isActive : isActive
+	};
+	var successFun = function(responseObj) {
+		if (responseObj.status == "success") {
+			bootbox.alert({
+				message : responseObj.msg,
+				backdrop : true
+			});
 		}
-	});
+		showLoaderRight(false);
+	};
+
+	return callAjaxPostFun(url, data, successFun, errorFun1);
 }

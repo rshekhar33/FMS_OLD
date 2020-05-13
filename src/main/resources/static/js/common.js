@@ -13,6 +13,7 @@ $(function() {
 	});
 });
 
+// Error message functions
 function showErrorMsg(selector, errorMsg) {
 	$(selector + "Error").html("<i class='far fa-times-circle'></i> " + errorMsg);
 	$(selector + "Error").removeClass("d-none");
@@ -34,6 +35,40 @@ function showErrors(errorObj) {
 	return isValid;
 }
 
+// Ajax function
+function callAjaxPostFun(url, data, successFun, errorFun) {
+	return $.post({
+		url : contextPath + url,
+		contentType : "application/json",
+		data : data
+	}).done(successFun).fail(errorFun);
+}
+
+function whenAllDone(deferreds, callbackFun) {
+	$.when.apply($, deferreds).then(callbackFun);
+}
+
+// Ajax error function
+function errorFun1(jqXHR) {
+	console.log("errorFun1");
+	if (jqXHR.status == 403) {
+		location.reload();
+	}
+}
+
+function errorFun2(jqXHR) {
+	if (jqXHR.status == 403) {
+		location.reload();
+	} else {
+		var errorObj = jqXHR.responseJSON;
+		if (errorObj.status == "fail") {
+			showErrors(errorObj);
+		}
+		showLoaderRight(false);
+	}
+}
+
+// Validation functions
 function isEmpty(fieldVar) {
 	if (typeof fieldVar === 'undefined') {
 		return true;

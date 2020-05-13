@@ -27,40 +27,33 @@ $(function() {
 
 function loadData() {
 	showLoaderRight(true);
-	$.post({
-		url : contextPath + "role/fetchDetails",
-		contentType : "application/json",
-		success : function(data) {
-			var roles = data;
-			var rolesData = [];
-			for (var i = 0; i < roles.length; i++) {
-				var role = roles[i];
-				var isActiveStr = '';
-				if (activationIsAllowed) {
-					isActiveStr = '<div class="ui fitted toggle checkbox"><input type="checkbox" ';
-					isActiveStr += (role.isActive == 1) ? 'checked="checked" ' : '';
-					isActiveStr += 'onclick="activationFun(\'' + role.roleId + '\',this)" /><label></label></div>';
-				}
-				var isActionStr = '';
-				if (updateIsAllowed) {
-					isActionStr = '<a class="btn" onclick="editFun(\'' + role.roleId + '\')"><i class="fas fa-edit"></i></a>';
-				}
-				rolesData.push({
-					roleName : role.roleName,
-					isActive : isActiveStr,
-					action : isActionStr
-				});
+	var url = "role/fetchDetails";
+	var successFun = function(data) {
+		var roles = data;
+		var rolesData = [];
+		for (var i = 0; i < roles.length; i++) {
+			var role = roles[i];
+			var isActiveStr = '';
+			if (activationIsAllowed) {
+				isActiveStr = '<div class="ui fitted toggle checkbox"><input type="checkbox" ';
+				isActiveStr += (role.isActive == 1) ? 'checked="checked" ' : '';
+				isActiveStr += 'onclick="activationFun(\'' + role.roleId + '\',this)" /><label></label></div>';
 			}
-			rolesDataTable.clear().rows.add(rolesData).draw();
-			showLoaderRight(false);
-		},
-		error : function(jqXHR, textStatus, errorThrown) {
-			if (jqXHR.status == 403) {
-				location.reload();
+			var isActionStr = '';
+			if (updateIsAllowed) {
+				isActionStr = '<a class="btn" onclick="editFun(\'' + role.roleId + '\')"><i class="fas fa-edit"></i></a>';
 			}
-			return;
+			rolesData.push({
+				roleName : role.roleName,
+				isActive : isActiveStr,
+				action : isActionStr
+			});
 		}
-	});
+		rolesDataTable.clear().rows.add(rolesData).draw();
+		showLoaderRight(false);
+	};
+
+	return callAjaxPostFun(url, null, successFun, errorFun1);
 }
 
 function editFun(roleId) {
@@ -77,28 +70,20 @@ function activationFun(roleId, checkBoxObj) {
 	if (checkBoxObj.checked) {
 		isActive = 1;
 	}
-
-	$.post({
-		url : contextPath + "role/activation",
-		contentType : "application/json",
-		data : {
-			roleId : roleId,
-			isActive : isActive
-		},
-		success : function(responseObj) {
-			if (responseObj.status == "success") {
-				bootbox.alert({
-					message : responseObj.msg,
-					backdrop : true
-				});
-			}
-			showLoaderRight(false);
-		},
-		error : function(jqXHR, textStatus, errorThrown) {
-			if (jqXHR.status == 403) {
-				location.reload();
-			}
-			return;
+	var url = "role/activation";
+	var data = {
+		roleId : roleId,
+		isActive : isActive
+	};
+	var successFun = function(responseObj) {
+		if (responseObj.status == "success") {
+			bootbox.alert({
+				message : responseObj.msg,
+				backdrop : true
+			});
 		}
-	});
+		showLoaderRight(false);
+	};
+
+	return callAjaxPostFun(url, data, successFun, errorFun1);
 }

@@ -10,27 +10,22 @@ function loadDataFun() {
 	showLoaderRight(true);
 	var roleId = $("#roleId").val();
 	if (!isEmpty(roleId)) {
-		$.post({
-			url : contextPath + "role/fetchData",
-			contentType : "application/json",
-			data : {
-				roleId : roleId
-			},
-			success : function(responseObj) {
-				var role = responseObj.role;
+		var url = "role/fetchData";
+		var data = {
+			roleId : roleId
+		};
+		var successFun = function(responseObj) {
+			var role = responseObj.role;
 
-				if (role != null) {
-					$("#roleName").val(role.roleName);
-				}
-				showLoaderRight(false);
-			},
-			error : function(jqXHR, textStatus, errorThrown) {
-				if (jqXHR.status == 403) {
-					location.reload();
-				}
-				return;
+			if (role != null) {
+				$("#roleName").val(role.roleName);
 			}
-		});
+			showLoaderRight(false);
+		};
+
+		return callAjaxPostFun(url, data, successFun, errorFun1);
+	} else {
+		return $.when(null);
 	}
 }
 
@@ -54,36 +49,22 @@ function validateFun(dataObj) {
 }
 
 function submitFun(dataObj) {
-	$.post({
-		url : contextPath + "role/validateSave",
-		contentType : "application/json",
-		data : dataObj,
-		success : function(responseObj) {
-			if (responseObj.status == "success") {
-				bootbox.alert({
-					message : responseObj.msg,
-					backdrop : true,
-					callback : function() {
-						goToListRoles();
-					}
-				});
-			} else {
-				showLoaderRight(false);
-			}
-		},
-		error : function(jqXHR, textStatus, errorThrown) {
-			if (jqXHR.status == 403) {
-				location.reload();
-			} else {
-				var errorObj = jqXHR.responseJSON;
-				if (errorObj.status == "fail") {
-					showErrors(errorObj);
+	var url = "role/validateSave";
+	var successFun = function(responseObj) {
+		if (responseObj.status == "success") {
+			bootbox.alert({
+				message : responseObj.msg,
+				backdrop : true,
+				callback : function() {
+					goToListRoles();
 				}
-				showLoaderRight(false);
-			}
-			return;
+			});
+		} else {
+			showLoaderRight(false);
 		}
-	});
+	};
+
+	return callAjaxPostFun(url, dataObj, successFun, errorFun2);
 }
 
 function validateSubmitFun() {
