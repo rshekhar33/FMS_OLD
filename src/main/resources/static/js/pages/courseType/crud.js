@@ -10,28 +10,24 @@ function loadDataFun() {
 	showLoaderRight(true);
 	var courseTypeId = $("#courseTypeId").val();
 	if (!isEmpty(courseTypeId)) {
-		$.post({
-			url : contextPath + "courseType/fetchData",
-			contentType : "application/json",
-			data : {
-				courseTypeId : courseTypeId
-			},
-			success : function(responseObj) {
-				var courseType = responseObj.courseType;
+		var url = "courseType/fetchData";
+		var data = {
+			courseTypeId : courseTypeId
+		};
+		var successFun = function(responseObj) {
+			var courseType = responseObj.courseType;
 
-				if (courseType != null) {
-					$("#courseTypeCode").val(courseType.courseTypeCode);
-					$("#courseTypeName").val(courseType.courseTypeName);
-					$("#noOfDays").val(courseType.noOfDays);
-				}
-				showLoaderRight(false);
-			},
-			error : function(jqXHR, textStatus, errorThrown) {
-				if (jqXHR.status == 403)
-					location.reload();
-				return;
+			if (courseType != null) {
+				$("#courseTypeCode").val(courseType.courseTypeCode);
+				$("#courseTypeName").val(courseType.courseTypeName);
+				$("#noOfDays").val(courseType.noOfDays);
 			}
-		});
+			showLoaderRight(false);
+		};
+
+		return callAjaxPostFun(url, data, successFun, errorFun1);
+	} else {
+		return $.when(null);
 	}
 }
 
@@ -59,36 +55,22 @@ function validateFun(dataObj) {
 }
 
 function submitFun(dataObj) {
-	$.post({
-		url : contextPath + "courseType/validateSave",
-		contentType : "application/json",
-		data : dataObj,
-		success : function(responseObj) {
-			if (responseObj.status == "success") {
-				bootbox.alert({
-					message : responseObj.msg,
-					backdrop : true,
-					callback : function() {
-						goToListCourseTypes();
-					}
-				});
-			} else {
-				showLoaderRight(false);
-			}
-		},
-		error : function(jqXHR, textStatus, errorThrown) {
-			if (jqXHR.status == 403) {
-				location.reload();
-			} else {
-				var errorObj = jqXHR.responseJSON;
-				if (errorObj.status == "fail") {
-					showErrors(errorObj);
+	var url = "courseType/validateSave";
+	var successFun = function(responseObj) {
+		if (responseObj.status == "success") {
+			bootbox.alert({
+				message : responseObj.msg,
+				backdrop : true,
+				callback : function() {
+					goToListCourseTypes();
 				}
-				showLoaderRight(false);
-			}
-			return;
+			});
+		} else {
+			showLoaderRight(false);
 		}
-	});
+	};
+
+	return callAjaxPostFun(url, dataObj, successFun, errorFun2);
 }
 
 function validateSubmitFun() {

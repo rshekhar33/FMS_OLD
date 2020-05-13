@@ -10,27 +10,22 @@ function loadDataFun() {
 	showLoaderRight(true);
 	var moduleId = $("#moduleId").val();
 	if (!isEmpty(moduleId)) {
-		$.post({
-			url : contextPath + "module/fetchData",
-			contentType : "application/json",
-			data : {
-				moduleId : moduleId
-			},
-			success : function(responseObj) {
-				var module = responseObj.module;
+		var url = "module/fetchData";
+		var data = {
+			moduleId : moduleId
+		};
+		var successFun = function(responseObj) {
+			var module = responseObj.module;
 
-				if (module != null) {
-					$("#moduleName").val(module.moduleName);
-				}
-				showLoaderRight(false);
-			},
-			error : function(jqXHR, textStatus, errorThrown) {
-				if (jqXHR.status == 403) {
-					location.reload();
-				}
-				return;
+			if (module != null) {
+				$("#moduleName").val(module.moduleName);
 			}
-		});
+			showLoaderRight(false);
+		};
+
+		return callAjaxPostFun(url, data, successFun, errorFun1);
+	} else {
+		return $.when(null);
 	}
 }
 
@@ -54,36 +49,22 @@ function validateFun(dataObj) {
 }
 
 function submitFun(dataObj) {
-	$.post({
-		url : contextPath + "module/validateSave",
-		contentType : "application/json",
-		data : dataObj,
-		success : function(responseObj) {
-			if (responseObj.status == "success") {
-				bootbox.alert({
-					message : responseObj.msg,
-					backdrop : true,
-					callback : function() {
-						goToListModules();
-					}
-				});
-			} else {
-				showLoaderRight(false);
-			}
-		},
-		error : function(jqXHR, textStatus, errorThrown) {
-			if (jqXHR.status == 403) {
-				location.reload();
-			} else {
-				var errorObj = jqXHR.responseJSON;
-				if (errorObj.status == "fail") {
-					showErrors(errorObj);
+	var url = "module/validateSave";
+	var successFun = function(responseObj) {
+		if (responseObj.status == "success") {
+			bootbox.alert({
+				message : responseObj.msg,
+				backdrop : true,
+				callback : function() {
+					goToListModules();
 				}
-				showLoaderRight(false);
-			}
-			return;
+			});
+		} else {
+			showLoaderRight(false);
 		}
-	});
+	};
+
+	return callAjaxPostFun(url, dataObj, successFun, errorFun2);
 }
 
 function validateSubmitFun() {

@@ -27,40 +27,33 @@ $(function() {
 
 function loadData() {
 	showLoaderRight(true);
-	$.post({
-		url : contextPath + "module/fetchDetails",
-		contentType : "application/json",
-		success : function(data) {
-			var modules = data;
-			var modulesData = [];
-			for (var i = 0; i < modules.length; i++) {
-				var module = modules[i];
-				var isActiveStr = '';
-				if (activationIsAllowed) {
-					isActiveStr = '<div class="ui fitted toggle checkbox"><input type="checkbox" ';
-					isActiveStr += (module.isActive == 1) ? 'checked="checked" ' : '';
-					isActiveStr += 'onclick="activationFun(\'' + module.moduleId + '\',this)" /><label></label></div>';
-				}
-				var isActionStr = '';
-				if (updateIsAllowed) {
-					isActionStr = '<a class="btn" onclick="editFun(\'' + module.moduleId + '\')"><i class="fas fa-edit"></i></a>';
-				}
-				modulesData.push({
-					moduleName : module.moduleName,
-					isActive : isActiveStr,
-					action : isActionStr
-				});
+	var url = "module/fetchDetails";
+	var successFun = function(data) {
+		var modules = data;
+		var modulesData = [];
+		for (var i = 0; i < modules.length; i++) {
+			var module = modules[i];
+			var isActiveStr = '';
+			if (activationIsAllowed) {
+				isActiveStr = '<div class="ui fitted toggle checkbox"><input type="checkbox" ';
+				isActiveStr += (module.isActive == 1) ? 'checked="checked" ' : '';
+				isActiveStr += 'onclick="activationFun(\'' + module.moduleId + '\',this)" /><label></label></div>';
 			}
-			modulesDataTable.clear().rows.add(modulesData).draw();
-			showLoaderRight(false);
-		},
-		error : function(jqXHR, textStatus, errorThrown) {
-			if (jqXHR.status == 403) {
-				location.reload();
+			var isActionStr = '';
+			if (updateIsAllowed) {
+				isActionStr = '<a class="btn" onclick="editFun(\'' + module.moduleId + '\')"><i class="fas fa-edit"></i></a>';
 			}
-			return;
+			modulesData.push({
+				moduleName : module.moduleName,
+				isActive : isActiveStr,
+				action : isActionStr
+			});
 		}
-	});
+		modulesDataTable.clear().rows.add(modulesData).draw();
+		showLoaderRight(false);
+	};
+
+	return callAjaxPostFun(url, null, successFun, errorFun1);
 }
 
 function editFun(moduleId) {
@@ -77,28 +70,20 @@ function activationFun(moduleId, checkBoxObj) {
 	if (checkBoxObj.checked) {
 		isActive = 1;
 	}
-
-	$.post({
-		url : contextPath + "module/activation",
-		contentType : "application/json",
-		data : {
-			moduleId : moduleId,
-			isActive : isActive
-		},
-		success : function(responseObj) {
-			if (responseObj.status == "success") {
-				bootbox.alert({
-					message : responseObj.msg,
-					backdrop : true
-				});
-			}
-			showLoaderRight(false);
-		},
-		error : function(jqXHR, textStatus, errorThrown) {
-			if (jqXHR.status == 403) {
-				location.reload();
-			}
-			return;
+	var url = "module/activation";
+	var data = {
+		moduleId : moduleId,
+		isActive : isActive
+	};
+	var successFun = function(responseObj) {
+		if (responseObj.status == "success") {
+			bootbox.alert({
+				message : responseObj.msg,
+				backdrop : true
+			});
 		}
-	});
+		showLoaderRight(false);
+	};
+
+	return callAjaxPostFun(url, data, successFun, errorFun1);
 }
