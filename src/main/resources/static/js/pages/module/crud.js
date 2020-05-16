@@ -58,9 +58,8 @@ function submitFun(dataObj) {
 					goToListModules();
 				}
 			});
-		} else {
-			showLoaderRight(false);
 		}
+		showLoaderRight(false);
 	};
 
 	return callAjaxPostFun(url, dataObj, successFun, errorFun2);
