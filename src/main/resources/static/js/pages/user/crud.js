@@ -62,15 +62,7 @@ function validateFun(dataObj) {
 
 	$(".validationField").removeClass("is-invalid");
 
-	var errorObj = {
-		userName : "",
-		firstName : "",
-		middleName : "",
-		lastName : "",
-		emailId : "",
-		mobileNo : "",
-		roles : ""
-	};
+	var errorObj = {};
 
 	if (isEmpty(dataObj.userId)) {
 		if (isEmpty(dataObj.userName)) {

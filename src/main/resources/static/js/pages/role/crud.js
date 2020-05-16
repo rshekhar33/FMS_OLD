@@ -25,6 +25,7 @@ function loadDataFun() {
 
 		return callAjaxPostFun(url, data, successFun, errorFun1);
 	} else {
+		showLoaderRight(false);
 		return $.when(null);
 	}
 }
@@ -35,9 +36,7 @@ function validateFun(dataObj) {
 
 	$(".validationField").removeClass("is-invalid");
 
-	var errorObj = {
-		roleName : ""
-	};
+	var errorObj = {};
 
 	if (isEmpty(dataObj.roleName)) {
 		errorObj.roleName = "Mandatory Field!";
