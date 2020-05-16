@@ -19,6 +19,7 @@
 	<link rel="stylesheet" href="${contextPath}css/adminlte.min.css">
 	<!-- Google Font: Source Sans Pro -->
 	<link rel="stylesheet" href="${contextPath}resources/google-fonts/google-fonts.css">
+	<link rel="stylesheet" href="${contextPath}css/override.css">
 	<link rel="shortcut icon" href="${contextPath}images/favicon.ico" />
 </head>
 <body class="hold-transition sidebar-mini text-sm layout-fixed layout-navbar-fixed layout-footer-fixed">
@@ -29,6 +30,9 @@
 
 		<!-- Content Wrapper. Contains page content -->
 		<div class="content-wrapper">
+			<div id="loaderRightContainer">
+				<div id="loaderRight"></div>
+			</div>
 			<!-- Content Header (Page header) -->
 			<div class="content-header">
 				<div class="container-fluid">

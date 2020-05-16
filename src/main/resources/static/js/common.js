@@ -50,7 +50,6 @@ function whenAllDone(deferreds, callbackFun) {
 
 // Ajax error function
 function errorFun1(jqXHR) {
-	console.log("errorFun1");
 	if (jqXHR.status == 403) {
 		location.reload();
 	}
@@ -126,8 +125,9 @@ function showLoader(condition) {
 }
 
 function showLoaderRight(condition) {
-	/*if (condition)
-		$("#loadingRight").show();
-	else
-		$("#loadingRight").hide();*/
+	if (condition) {
+		$("#loaderRightContainer").removeClass("d-none");
+	} else {
+		$("#loaderRightContainer").addClass("d-none");
+	}
 }

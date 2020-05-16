@@ -27,6 +27,7 @@ function loadDataFun() {
 
 		return callAjaxPostFun(url, data, successFun, errorFun1);
 	} else {
+		showLoaderRight(false);
 		return $.when(null);
 	}
 }
@@ -37,10 +38,7 @@ function validateFun(dataObj) {
 
 	$(".validationField").removeClass("is-invalid");
 
-	var errorObj = {
-		courseTypeName : "",
-		noOfDays : ""
-	};
+	var errorObj = {};
 
 	if (isEmpty(dataObj.courseTypeName)) {
 		errorObj.courseTypeName = "Mandatory Field!";
