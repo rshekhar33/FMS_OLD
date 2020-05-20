@@ -51,15 +51,14 @@ public class AppModuleServiceImpl implements AppModuleService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public Map<String, Module> fetchDataModule(final Module formModule) {
-		final Map<String, Module> json = new ConcurrentHashMap<>();
+	public Module fetchDataModule(final Module formModule) {
+		Module module = null;
 
 		if (AppCommon.isPositiveInteger(formModule.getModuleId())) {
-			final Module module = moduleRepository.getOne(formModule.getModuleId());
-			json.put(AppResponseKey.MODULE, module);
+			module = moduleRepository.getOne(formModule.getModuleId());
 		}
 
-		return json;
+		return module;
 	}
 
 	@Override

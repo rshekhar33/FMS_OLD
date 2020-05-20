@@ -14,8 +14,8 @@ function loadDataFun() {
 		var data = {
 			courseTypeId : courseTypeId
 		};
-		var successFun = function(responseObj) {
-			var courseType = responseObj.courseType;
+		var doneCallbackFun = function(responseObj) {
+			var courseType = responseObj;
 
 			if (courseType != null) {
 				$("#courseTypeCode").val(courseType.courseTypeCode);
@@ -23,9 +23,11 @@ function loadDataFun() {
 				$("#noOfDays").val(courseType.noOfDays);
 			}
 			showLoaderRight(false);
+
+			return courseType;
 		};
 
-		return callAjaxPostFun(url, data, successFun, errorFun1);
+		return callAjaxPostFun(url, data, doneCallbackFun, errorFun1);
 	} else {
 		showLoaderRight(false);
 		return $.when(null);
@@ -54,20 +56,23 @@ function validateFun(dataObj) {
 
 function submitFun(dataObj) {
 	var url = "courseType/validateSave";
-	var successFun = function(responseObj) {
+	var doneCallbackFun = function(responseObj) {
 		if (responseObj.status == "success") {
 			bootbox.alert({
 				message : responseObj.msg,
 				backdrop : true,
 				callback : function() {
+					showLoaderRight(true);
 					goToListCourseTypes();
 				}
 			});
 		}
 		showLoaderRight(false);
+
+		return responseObj;
 	};
 
-	return callAjaxPostFun(url, dataObj, successFun, errorFun2);
+	return callAjaxPostFun(url, dataObj, doneCallbackFun, errorFun2);
 }
 
 function validateSubmitFun() {

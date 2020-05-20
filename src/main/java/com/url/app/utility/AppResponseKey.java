@@ -20,7 +20,6 @@ public class AppResponseKey {
 	public static final String MSG = "msg";
 
 	public static final String USER = "user";
-	public static final String USER_ROLE_IDS = "userRoleIds";
 
 	public static final String MODULE = "module";
 	public static final String MODULES = "modules";

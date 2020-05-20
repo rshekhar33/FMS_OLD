@@ -22,7 +22,6 @@ import com.url.app.dto.User;
 import com.url.app.dto.UserMng;
 import com.url.app.dto.UserRoleRelation;
 import com.url.app.interf.dao.AppDao;
-import com.url.app.interf.dao.RoleRepository;
 import com.url.app.interf.dao.UserRepository;
 import com.url.app.interf.service.AppUserService;
 import com.url.app.utility.AppCommon;
@@ -46,9 +45,6 @@ public class AppUserServiceImpl implements AppUserService {
 
 	@Autowired
 	private UserRepository userRepository;
-
-	@Autowired
-	private RoleRepository roleRepository;
 
 	@Autowired
 	private PasswordEncoder passwordEncoder;
@@ -123,21 +119,16 @@ public class AppUserServiceImpl implements AppUserService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public Map<String, Object> fetchDataUser(final User formUser) {
-		final Map<String, Object> json = new ConcurrentHashMap<>();
+	public User fetchDataUser(final User formUser) {
+		User user = null;
 
 		if (AppCommon.isPositiveInteger(formUser.getUserId())) {
-			final User user = appDao.fetchUserWithRoles(formUser.getUserId());
-			json.put(AppResponseKey.USER, user);
+			user = appDao.fetchUserWithRoles(formUser.getUserId());
 
-			final List<Integer> userRoleIds = user.getUserRoleRelations().stream().map(UserRoleRelation::getRole).map(Role::getRoleId).collect(Collectors.toList());
-			json.put(AppResponseKey.USER_ROLE_IDS, userRoleIds);
+			user.setRoles(user.getUserRoleRelations().stream().map(UserRoleRelation::getRole).map(Role::getRoleId).collect(Collectors.toList()));
 		}
 
-		final List<Role> roles = roleRepository.findByIsActiveOrderByRoleId(AppConstant.ACTIVE);
-		json.put(AppResponseKey.ROLES, roles);
-
-		return json;
+		return user;
 	}
 
 	@Override

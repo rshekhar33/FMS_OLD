@@ -27,7 +27,7 @@ public class ModuleRestControllerImpl implements ModuleRestController {
 	}
 
 	@Override
-	public Map<String, Module> fetchData(final Module module) {
+	public Module fetchData(final Module module) {
 		return appModuleService.fetchDataModule(module);
 	}
 

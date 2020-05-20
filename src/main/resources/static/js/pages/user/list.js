@@ -40,8 +40,8 @@ $(function() {
 function loadData() {
 	showLoaderRight(true);
 	var url = "user/fetchDetails";
-	var successFun = function(data) {
-		var users = data;
+	var doneCallbackFun = function(responseObj) {
+		var users = responseObj;
 		var usersData = [];
 		for (var i = 0; i < users.length; i++) {
 			var user = users[i];
@@ -67,9 +67,11 @@ function loadData() {
 		}
 		usersDataTable.clear().rows.add(usersData).draw();
 		showLoaderRight(false);
+
+		return users;
 	};
 
-	return callAjaxPostFun(url, null, successFun, errorFun1);
+	return callAjaxPostFun(url, null, doneCallbackFun, errorFun1);
 }
 
 function editFun(userId) {
@@ -91,7 +93,7 @@ function activationFun(userId, checkBoxObj) {
 		userId : userId,
 		isActive : isActive
 	};
-	var successFun = function(responseObj) {
+	var doneCallbackFun = function(responseObj) {
 		if (responseObj.status == "success") {
 			bootbox.alert({
 				message : responseObj.msg,
@@ -99,7 +101,9 @@ function activationFun(userId, checkBoxObj) {
 			});
 		}
 		showLoaderRight(false);
+
+		return responseObj;
 	};
 
-	return callAjaxPostFun(url, data, successFun, errorFun1);
+	return callAjaxPostFun(url, data, doneCallbackFun, errorFun1);
 }

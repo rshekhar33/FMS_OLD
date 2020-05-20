@@ -53,6 +53,7 @@ public class AppUrlView {
 	public static final String PATH_UPDATE = "update";
 	public static final String PATH_ACTIVATION = "activation";
 	public static final String PATH_FETCH_DETAILS = "fetchDetails";
+	public static final String PATH_FETCH_ACTIVE_DETAILS = "fetchActiveDetails";
 	public static final String PATH_FETCH_DATA = "fetchData";
 	public static final String PATH_VALIDATE_SAVE = "validateSave";
 

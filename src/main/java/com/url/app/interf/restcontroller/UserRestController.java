@@ -30,7 +30,7 @@ public interface UserRestController {
 	 * Fetch data of on add/update user screen.
 	 */
 	@PostMapping(value = AppUrlView.PATH_FETCH_DATA, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	Map<String, Object> fetchData(@RequestBody User user);
+	User fetchData(@RequestBody User user);
 
 	/**
 	 * Validate and save data of on add/update user screen.

@@ -2,12 +2,12 @@ $(function() {
 	/* Code to include token in all Ajax headers */
 	var token = $("meta[name='_csrf']").attr("content");
 	var header = $("meta[name='_csrf_header']").attr("content");
-	$(document).ajaxSend(function(e, xhr, options) {
+	$(document).ajaxSend(function(e, xhr) {
 		xhr.setRequestHeader(header, token);
 	});
 
 	$.ajaxPrefilter(function(options, originalOptions) {
-		if (options.contentType == "application/json" && typeof originalOptions.data === "object") {
+		if (options.contentType == "application/json" && originalOptions.data != null && typeof originalOptions.data === "object") {
 			options.data = JSON.stringify(originalOptions.data);
 		}
 	});
@@ -36,16 +36,16 @@ function showErrors(errorObj) {
 }
 
 // Ajax function
-function callAjaxPostFun(url, data, successFun, errorFun) {
+function callAjaxPostFun(url, data, doneCallbackFun, failCallbackFun) {
 	return $.post({
 		url : contextPath + url,
 		contentType : "application/json",
 		data : data
-	}).done(successFun).fail(errorFun);
+	}).then(doneCallbackFun).fail(failCallbackFun);
 }
 
-function whenAllDone(deferreds, callbackFun) {
-	$.when.apply($, deferreds).then(callbackFun);
+function whenAllDone(deferreds, doneCallbackFun) {
+	return $.when.apply($, deferreds).then(doneCallbackFun);
 }
 
 // Ajax error function
@@ -118,10 +118,11 @@ function hasRestrictedChar3(fieldVar) {
 }
 
 function showLoader(condition) {
-	/*if (condition)
-		$("#loading").show();
-	else
-		$("#loading").hide();*/
+	if (condition) {
+		$("#loaderContainer").removeClass("d-none");
+	} else {
+		$("#loaderContainer").addClass("d-none");
+	}
 }
 
 function showLoaderRight(condition) {

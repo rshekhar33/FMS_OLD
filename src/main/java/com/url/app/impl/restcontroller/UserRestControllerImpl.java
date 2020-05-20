@@ -28,7 +28,7 @@ public class UserRestControllerImpl implements UserRestController {
 	}
 
 	@Override
-	public Map<String, Object> fetchData(final User user) {
+	public User fetchData(final User user) {
 		return appUserService.fetchDataUser(user);
 	}
 

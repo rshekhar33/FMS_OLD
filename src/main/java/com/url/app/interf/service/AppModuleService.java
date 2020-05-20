@@ -21,12 +21,12 @@ public interface AppModuleService {
 	List<Module> fetchDetailsModules();
 
 	/**
-	 * Fetch module data in case moduleId is sent else data required on add module screen.
+	 * Fetch module data on add module screen.
 	 * 
 	 * @param module contains the moduleId of module.
 	 * @return module data in json format.
 	 */
-	Map<String, Module> fetchDataModule(Module module);
+	Module fetchDataModule(Module module);
 
 	/**
 	 * Validates add/update module data.

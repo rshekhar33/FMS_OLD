@@ -12,17 +12,57 @@ function goToListUsers() {
 function loadDataFun() {
 	showLoaderRight(true);
 	var userId = $("#userId").val();
+	var deferreds = [];
+	deferreds.push(loadUserData(userId));
+	deferreds.push(loadRolesData());
+
+	var doneCallbackFun = function(user) {
+		if (user != null) {
+			var userRoleIds = user.roles;
+			if (!isEmpty(userId) && userRoleIds != null) {
+				$("#roles").val(userRoleIds);
+				$("#roles").trigger("change");
+			}
+		}
+		showLoaderRight(false);
+
+		return user;
+	};
+
+	return whenAllDone(deferreds, doneCallbackFun);
+}
+
+function loadUserData(userId) {
 	if (!isEmpty(userId)) {
 		$("#userName").prop("disabled", true);
+		var url = "user/fetchData";
+		var data = {
+			userId : userId
+		};
+		var doneCallbackFun = function(responseObj) {
+			var user = responseObj;
+			if (user != null) {
+				$("#userName").val(user.userName);
+				$("#firstName").val(user.firstName);
+				$("#middleName").val(user.middleName);
+				$("#lastName").val(user.lastName);
+				$("#emailId").val(user.emailId);
+				$("#mobileNo").val(user.mobileNo);
+			}
+
+			return user;
+		};
+
+		return callAjaxPostFun(url, data, doneCallbackFun, errorFun1);
+	} else {
+		return $.when(null);
 	}
-	var url = "user/fetchData";
-	var data = {
-		userId : userId
-	};
-	var successFun = function(responseObj) {
-		var user = responseObj.user;
-		var roles = responseObj.roles;
-		var userRoleIds = responseObj.userRoleIds;
+}
+
+function loadRolesData() {
+	var url = "role/fetchActiveDetails";
+	var doneCallbackFun = function(responseObj) {
+		var roles = responseObj;
 
 		var dropdownData = [];
 		if (roles != null) {
@@ -34,26 +74,15 @@ function loadDataFun() {
 				});
 			}
 		}
-		if (!isEmpty(userId) && user != null) {
-			$("#userName").val(user.userName);
-			$("#firstName").val(user.firstName);
-			$("#middleName").val(user.middleName);
-			$("#lastName").val(user.lastName);
-			$("#emailId").val(user.emailId);
-			$("#mobileNo").val(user.mobileNo);
-		}
 		$("#roles").select2({
 			placeholder : "Select an option",
 			data : dropdownData
 		});
-		if (!isEmpty(userId) && userRoleIds != null) {
-			$("#roles").val(userRoleIds);
-			$("#roles").trigger("change");
-		}
-		showLoaderRight(false);
+
+		return roles;
 	};
 
-	return callAjaxPostFun(url, data, successFun, errorFun1);
+	return callAjaxPostFun(url, null, doneCallbackFun, errorFun1);
 }
 
 function validateFun(dataObj) {
@@ -103,20 +132,23 @@ function validateFun(dataObj) {
 
 function submitFun(dataObj) {
 	var url = "user/validateSave";
-	var successFun = function(responseObj) {
+	var doneCallbackFun = function(responseObj) {
 		if (responseObj.status == "success") {
 			bootbox.alert({
 				message : responseObj.msg,
 				backdrop : true,
 				callback : function() {
+					showLoaderRight(true);
 					goToListUsers();
 				}
 			});
 		}
 		showLoaderRight(false);
+
+		return responseObj;
 	};
 
-	return callAjaxPostFun(url, dataObj, successFun, errorFun2);
+	return callAjaxPostFun(url, dataObj, doneCallbackFun, errorFun2);
 }
 
 function validateSubmitFun() {

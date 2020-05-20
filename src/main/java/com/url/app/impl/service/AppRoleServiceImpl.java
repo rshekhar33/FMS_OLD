@@ -51,15 +51,20 @@ public class AppRoleServiceImpl implements AppRoleService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public Map<String, Role> fetchDataRole(final Role formRole) {
-		final Map<String, Role> json = new ConcurrentHashMap<>();
+	public List<Role> fetchDetailsActiveRoles() {
+		return roleRepository.findByIsActiveOrderByRoleId(AppConstant.ACTIVE);
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public Role fetchDataRole(final Role formRole) {
+		Role role = null;
 
 		if (AppCommon.isPositiveInteger(formRole.getRoleId())) {
-			final Role role = roleRepository.getOne(formRole.getRoleId());
-			json.put(AppResponseKey.ROLE, role);
+			role = roleRepository.getOne(formRole.getRoleId());
 		}
 
-		return json;
+		return role;
 	}
 
 	@Override

@@ -26,8 +26,7 @@ public class UserControllerImpl implements UserController {
 	@Override
 	public String list(final HttpSession httpSess, final ModelMap modelMap) {
 		httpSess.removeAttribute(AppHttpSessionKey.HID_USER_ID);
-		modelMap.addAttribute(AppCssActiveClass.USER_MENU_OPEN_CLS, AppCssActiveClass.MENU_OPEN_CLASS);
-		modelMap.addAttribute(AppCssActiveClass.USERS_ACTIVE_CLS, AppCssActiveClass.ACTIVE_CLASS);
+		AppCssActiveClass.addClass(modelMap, AppCssActiveClass.USER_MENU_OPEN_CLS, AppCssActiveClass.USERS_ACTIVE_CLS);
 
 		return AppUrlView.VIEW_USER_LIST;
 	}
@@ -35,8 +34,7 @@ public class UserControllerImpl implements UserController {
 	@Override
 	public String add(final HttpSession httpSess, final ModelMap modelMap) {
 		httpSess.removeAttribute(AppHttpSessionKey.HID_USER_ID);
-		modelMap.addAttribute(AppCssActiveClass.USER_MENU_OPEN_CLS, AppCssActiveClass.MENU_OPEN_CLASS);
-		modelMap.addAttribute(AppCssActiveClass.USER_CRUD_ACTIVE_CLS, AppCssActiveClass.ACTIVE_CLASS);
+		AppCssActiveClass.addClass(modelMap, AppCssActiveClass.USER_MENU_OPEN_CLS, AppCssActiveClass.USER_CRUD_ACTIVE_CLS);
 
 		return AppUrlView.VIEW_USER_CRUD;
 	}
@@ -55,8 +53,7 @@ public class UserControllerImpl implements UserController {
 
 		String url = AppUrlView.REDIRECT_URL_USER_LIST;
 		if (!AppCommon.isEmpty(userId)) {
-			modelMap.addAttribute(AppCssActiveClass.USER_MENU_OPEN_CLS, AppCssActiveClass.MENU_OPEN_CLASS);
-			modelMap.addAttribute(AppCssActiveClass.USER_CRUD_ACTIVE_CLS, AppCssActiveClass.ACTIVE_CLASS);
+			AppCssActiveClass.addClass(modelMap, AppCssActiveClass.USER_MENU_OPEN_CLS, AppCssActiveClass.USER_CRUD_ACTIVE_CLS);
 			url = AppUrlView.VIEW_USER_CRUD;
 		}
 
