@@ -26,10 +26,16 @@ public interface RoleRestController {
 	List<Role> fetchDetails();
 
 	/**
+	 * Fetch data of Active Roles Listing.
+	 */
+	@PostMapping(value = AppUrlView.PATH_FETCH_ACTIVE_DETAILS, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	List<Role> fetchDetailsActive();
+
+	/**
 	 * Fetch data of on add/update role screen.
 	 */
 	@PostMapping(value = AppUrlView.PATH_FETCH_DATA, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	Map<String, Role> fetchData(@RequestBody Role role);
+	Role fetchData(@RequestBody Role role);
 
 	/**
 	 * Validate and save data of on add/update role screen.

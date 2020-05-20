@@ -27,7 +27,7 @@ public class CourseTypeRestControllerImpl implements CourseTypeRestController {
 	}
 
 	@Override
-	public Map<String, CourseType> fetchData(final CourseType courseType) {
+	public CourseType fetchData(final CourseType courseType) {
 		return appCourseTypeService.fetchDataCourseType(courseType);
 	}
 

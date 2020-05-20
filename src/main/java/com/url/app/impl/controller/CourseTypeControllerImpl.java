@@ -26,8 +26,7 @@ public class CourseTypeControllerImpl implements CourseTypeController {
 	@Override
 	public String list(final HttpSession httpSess, final ModelMap modelMap) {
 		httpSess.removeAttribute(AppHttpSessionKey.HID_COURSE_TYPE_ID);
-		modelMap.addAttribute(AppCssActiveClass.COURSE_TYPE_MENU_OPEN_CLS, AppCssActiveClass.MENU_OPEN_CLASS);
-		modelMap.addAttribute(AppCssActiveClass.COURSE_TYPES_ACTIVE_CLS, AppCssActiveClass.ACTIVE_CLASS);
+		AppCssActiveClass.addClass(modelMap, AppCssActiveClass.COURSE_TYPE_MENU_OPEN_CLS, AppCssActiveClass.COURSE_TYPES_ACTIVE_CLS);
 
 		return AppUrlView.VIEW_COURSE_TYPE_LIST;
 	}
@@ -35,8 +34,7 @@ public class CourseTypeControllerImpl implements CourseTypeController {
 	@Override
 	public String add(final HttpSession httpSess, final ModelMap modelMap) {
 		httpSess.removeAttribute(AppHttpSessionKey.HID_COURSE_TYPE_ID);
-		modelMap.addAttribute(AppCssActiveClass.COURSE_TYPE_MENU_OPEN_CLS, AppCssActiveClass.MENU_OPEN_CLASS);
-		modelMap.addAttribute(AppCssActiveClass.COURSE_TYPE_CRUD_ACTIVE_CLS, AppCssActiveClass.ACTIVE_CLASS);
+		AppCssActiveClass.addClass(modelMap, AppCssActiveClass.COURSE_TYPE_MENU_OPEN_CLS, AppCssActiveClass.COURSE_TYPE_CRUD_ACTIVE_CLS);
 
 		return AppUrlView.VIEW_COURSE_TYPE_CRUD;
 	}
@@ -55,8 +53,7 @@ public class CourseTypeControllerImpl implements CourseTypeController {
 
 		String url = AppUrlView.REDIRECT_URL_COURSE_TYPE_LIST;
 		if (!AppCommon.isEmpty(courseTypeId)) {
-			modelMap.addAttribute(AppCssActiveClass.COURSE_TYPE_MENU_OPEN_CLS, AppCssActiveClass.MENU_OPEN_CLASS);
-			modelMap.addAttribute(AppCssActiveClass.COURSE_TYPE_CRUD_ACTIVE_CLS, AppCssActiveClass.ACTIVE_CLASS);
+			AppCssActiveClass.addClass(modelMap, AppCssActiveClass.COURSE_TYPE_MENU_OPEN_CLS, AppCssActiveClass.COURSE_TYPE_CRUD_ACTIVE_CLS);
 			url = AppUrlView.VIEW_COURSE_TYPE_CRUD;
 		}
 

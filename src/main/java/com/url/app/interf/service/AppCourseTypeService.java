@@ -21,12 +21,12 @@ public interface AppCourseTypeService {
 	List<CourseType> fetchDetailsCourseTypes();
 
 	/**
-	 * Fetch course type data in case courseTypeId is sent else data required on add course type screen.
+	 * Fetch course type data on add course type screen.
 	 * 
 	 * @param courseType contains the courseTypeId of course type.
 	 * @return course type data in json format.
 	 */
-	Map<String, CourseType> fetchDataCourseType(CourseType courseType);
+	CourseType fetchDataCourseType(CourseType courseType);
 
 	/**
 	 * Validates add/update course type data.

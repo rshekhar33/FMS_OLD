@@ -28,8 +28,8 @@ $(function() {
 function loadData() {
 	showLoaderRight(true);
 	var url = "module/fetchDetails";
-	var successFun = function(data) {
-		var modules = data;
+	var doneCallbackFun = function(responseObj) {
+		var modules = responseObj;
 		var modulesData = [];
 		for (var i = 0; i < modules.length; i++) {
 			var module = modules[i];
@@ -51,9 +51,11 @@ function loadData() {
 		}
 		modulesDataTable.clear().rows.add(modulesData).draw();
 		showLoaderRight(false);
+
+		return modules;
 	};
 
-	return callAjaxPostFun(url, null, successFun, errorFun1);
+	return callAjaxPostFun(url, null, doneCallbackFun, errorFun1);
 }
 
 function editFun(moduleId) {
@@ -75,7 +77,7 @@ function activationFun(moduleId, checkBoxObj) {
 		moduleId : moduleId,
 		isActive : isActive
 	};
-	var successFun = function(responseObj) {
+	var doneCallbackFun = function(responseObj) {
 		if (responseObj.status == "success") {
 			bootbox.alert({
 				message : responseObj.msg,
@@ -83,7 +85,9 @@ function activationFun(moduleId, checkBoxObj) {
 			});
 		}
 		showLoaderRight(false);
+
+		return responseObj;
 	};
 
-	return callAjaxPostFun(url, data, successFun, errorFun1);
+	return callAjaxPostFun(url, data, doneCallbackFun, errorFun1);
 }

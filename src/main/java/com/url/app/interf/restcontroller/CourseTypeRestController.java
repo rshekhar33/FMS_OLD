@@ -24,7 +24,7 @@ public interface CourseTypeRestController {
 	 * Fetch data of on add/update course type screen.
 	 */
 	@PostMapping(value = AppUrlView.PATH_FETCH_DATA, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	Map<String, CourseType> fetchData(@RequestBody CourseType courseType);
+	CourseType fetchData(@RequestBody CourseType courseType);
 
 	/**
 	 * Validate and save data of on add/update course type screen.

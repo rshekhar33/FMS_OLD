@@ -17,7 +17,7 @@ public class DashboardControllerImpl implements DashboardController {
 
 	@Override
 	public String dashboard(final ModelMap modelMap) {
-		modelMap.addAttribute(AppCssActiveClass.DASHBOARD_ACTIVE_CLS, AppCssActiveClass.ACTIVE_CLASS);
+		AppCssActiveClass.addClass(modelMap, AppCssActiveClass.DASHBOARD_ACTIVE_CLS);
 
 		return AppUrlView.VIEW_DASHBOARD;
 	}

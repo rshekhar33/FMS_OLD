@@ -14,16 +14,18 @@ function loadDataFun() {
 		var data = {
 			moduleId : moduleId
 		};
-		var successFun = function(responseObj) {
-			var module = responseObj.module;
+		var doneCallbackFun = function(responseObj) {
+			var module = responseObj;
 
 			if (module != null) {
 				$("#moduleName").val(module.moduleName);
 			}
 			showLoaderRight(false);
+
+			return module;
 		};
 
-		return callAjaxPostFun(url, data, successFun, errorFun1);
+		return callAjaxPostFun(url, data, doneCallbackFun, errorFun1);
 	} else {
 		showLoaderRight(false);
 		return $.when(null);
@@ -49,20 +51,23 @@ function validateFun(dataObj) {
 
 function submitFun(dataObj) {
 	var url = "module/validateSave";
-	var successFun = function(responseObj) {
+	var doneCallbackFun = function(responseObj) {
 		if (responseObj.status == "success") {
 			bootbox.alert({
 				message : responseObj.msg,
 				backdrop : true,
 				callback : function() {
+					showLoaderRight(true);
 					goToListModules();
 				}
 			});
 		}
 		showLoaderRight(false);
+
+		return responseObj;
 	};
 
-	return callAjaxPostFun(url, dataObj, successFun, errorFun2);
+	return callAjaxPostFun(url, dataObj, doneCallbackFun, errorFun2);
 }
 
 function validateSubmitFun() {

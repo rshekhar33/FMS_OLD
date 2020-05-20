@@ -55,15 +55,14 @@ public class AppCourseTypeServiceImpl implements AppCourseTypeService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public Map<String, CourseType> fetchDataCourseType(final CourseType formCourseType) {
-		final Map<String, CourseType> json = new ConcurrentHashMap<>();
+	public CourseType fetchDataCourseType(final CourseType formCourseType) {
+		CourseType courseType = null;
 
 		if (AppCommon.isPositiveInteger(formCourseType.getCourseTypeId())) {
-			final CourseType courseType = courseTypeRepository.getOne(formCourseType.getCourseTypeId());
-			json.put(AppResponseKey.COURSE_TYPE, courseType);
+			courseType = courseTypeRepository.getOne(formCourseType.getCourseTypeId());
 		}
 
-		return json;
+		return courseType;
 	}
 
 	@Override

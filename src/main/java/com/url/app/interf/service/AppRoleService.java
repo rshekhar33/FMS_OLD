@@ -21,12 +21,19 @@ public interface AppRoleService {
 	List<Role> fetchDetailsRoles();
 
 	/**
-	 * Fetch role data in case roleId is sent else data required on add role screen.
+	 * Fetch all active role details.
+	 * 
+	 * @return roles details in json format.
+	 */
+	List<Role> fetchDetailsActiveRoles();
+
+	/**
+	 * Fetch role data on add role screen.
 	 * 
 	 * @param role contains the roleId of role.
 	 * @return role data in json format.
 	 */
-	Map<String, Role> fetchDataRole(Role role);
+	Role fetchDataRole(Role role);
 
 	/**
 	 * Validates add/update role data.

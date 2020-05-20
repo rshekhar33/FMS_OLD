@@ -85,11 +85,10 @@ function submitFun() {
 				$("#emailIdError").text(responseObj.userEmailError);
 			}
 		},
-		error : function(jqXHR, textStatus, errorThrown) {
+		error : function(jqXHR) {
 			if (jqXHR.status == 403) {
 				location.reload();
 			}
-			return;
 		}
 	});
 }

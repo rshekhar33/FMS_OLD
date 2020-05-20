@@ -1,5 +1,7 @@
 package com.url.app.utility;
 
+import org.springframework.ui.ModelMap;
+
 /**
  * CSS active class name Constants.
  * 
@@ -35,4 +37,13 @@ public class AppCssActiveClass {
 	public static final String FACULTY_SKILLSET_MENU_OPEN_CLS = "facultySkillsetMenuOpenCls";
 	public static final String FACULTY_SKILLSETS_ACTIVE_CLS = "facultySkillsetsActiveCls";
 	public static final String FACULTY_SKILLSET_CRUD_ACTIVE_CLS = "facultySkillsetCrudActiveCls";
+
+	public static final void addClass(final ModelMap modelMap, final String menuClsVar, final String submenuClsVar) {
+		modelMap.addAttribute(menuClsVar, MENU_OPEN_CLASS);
+		modelMap.addAttribute(submenuClsVar, ACTIVE_CLASS);
+	}
+
+	public static final void addClass(final ModelMap modelMap, final String menuClsVar) {
+		modelMap.addAttribute(menuClsVar, ACTIVE_CLASS);
+	}
 }

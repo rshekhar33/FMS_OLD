@@ -109,10 +109,11 @@ INSERT INTO `action` (`action_id`, `privilege_id`, `action_path`, `is_skip`, `is
 INSERT INTO `action` (`action_id`, `privilege_id`, `action_path`, `is_skip`, `is_active`) VALUES (DEFAULT, 2, 'user/list', 0, 1);
 INSERT INTO `action` (`action_id`, `privilege_id`, `action_path`, `is_skip`, `is_active`) VALUES (DEFAULT, 2, 'user/fetchDetails', 0, 1);
 INSERT INTO `action` (`action_id`, `privilege_id`, `action_path`, `is_skip`, `is_active`) VALUES (DEFAULT, 3, 'user/add', 0, 1);
-INSERT INTO `action` (`action_id`, `privilege_id`, `action_path`, `is_skip`, `is_active`) VALUES (DEFAULT, 3, 'user/fetchData', 0, 1);
+INSERT INTO `action` (`action_id`, `privilege_id`, `action_path`, `is_skip`, `is_active`) VALUES (DEFAULT, 3, 'role/fetchActiveDetails', 0, 1);
 INSERT INTO `action` (`action_id`, `privilege_id`, `action_path`, `is_skip`, `is_active`) VALUES (DEFAULT, 3, 'user/validateSave', 0, 1);
 INSERT INTO `action` (`action_id`, `privilege_id`, `action_path`, `is_skip`, `is_active`) VALUES (DEFAULT, 4, 'user/update', 0, 1);
 INSERT INTO `action` (`action_id`, `privilege_id`, `action_path`, `is_skip`, `is_active`) VALUES (DEFAULT, 4, 'user/fetchData', 0, 1);
+INSERT INTO `action` (`action_id`, `privilege_id`, `action_path`, `is_skip`, `is_active`) VALUES (DEFAULT, 4, 'role/fetchActiveDetails', 0, 1);
 INSERT INTO `action` (`action_id`, `privilege_id`, `action_path`, `is_skip`, `is_active`) VALUES (DEFAULT, 4, 'user/validateSave', 0, 1);
 INSERT INTO `action` (`action_id`, `privilege_id`, `action_path`, `is_skip`, `is_active`) VALUES (DEFAULT, 5, 'user/activation', 0, 1);
 INSERT INTO `action` (`action_id`, `privilege_id`, `action_path`, `is_skip`, `is_active`) VALUES (DEFAULT, 6, 'module/list', 0, 1);
@@ -172,5 +173,3 @@ INSERT INTO `course` (`course_id`, `user_id`, `module_id`, `course_type_id`, `co
 INSERT INTO `course` (`course_id`, `user_id`, `module_id`, `course_type_id`, `course_code`, `start_date`, `end_date`, `created_by`, `created_date`, `modified_by`, `modified_date`, `is_active`) VALUES (2, 4, 1, 2, 'C002', '2016-03-26', '2016-06-26', 1, now(), 1, now(), 1);
 INSERT INTO `course` (`course_id`, `user_id`, `module_id`, `course_type_id`, `course_code`, `start_date`, `end_date`, `created_by`, `created_date`, `modified_by`, `modified_date`, `is_active`) VALUES (3, 4, 2, 3, 'C003', '2016-03-26', '2016-04-10', 1, now(), 1, now(), 1);
 INSERT INTO `course` (`course_id`, `user_id`, `module_id`, `course_type_id`, `course_code`, `start_date`, `end_date`, `created_by`, `created_date`, `modified_by`, `modified_date`, `is_active`) VALUES (4, 5, 3, 4, 'C004', '2016-03-26', '2016-04-02', 1, now(), 1, now(), 1);
-
--- end attached script 'script'

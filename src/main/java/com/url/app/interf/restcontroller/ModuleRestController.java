@@ -29,7 +29,7 @@ public interface ModuleRestController {
 	 * Fetch data of on add/update module screen.
 	 */
 	@PostMapping(value = AppUrlView.PATH_FETCH_DATA, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	Map<String, Module> fetchData(@RequestBody Module module);
+	Module fetchData(@RequestBody Module module);
 
 	/**
 	 * Validate and save data of on add/update module screen.

@@ -14,16 +14,18 @@ function loadDataFun() {
 		var data = {
 			roleId : roleId
 		};
-		var successFun = function(responseObj) {
-			var role = responseObj.role;
+		var doneCallbackFun = function(responseObj) {
+			var role = responseObj;
 
 			if (role != null) {
 				$("#roleName").val(role.roleName);
 			}
 			showLoaderRight(false);
+
+			return role;
 		};
 
-		return callAjaxPostFun(url, data, successFun, errorFun1);
+		return callAjaxPostFun(url, data, doneCallbackFun, errorFun1);
 	} else {
 		showLoaderRight(false);
 		return $.when(null);
@@ -49,20 +51,23 @@ function validateFun(dataObj) {
 
 function submitFun(dataObj) {
 	var url = "role/validateSave";
-	var successFun = function(responseObj) {
+	var doneCallbackFun = function(responseObj) {
 		if (responseObj.status == "success") {
 			bootbox.alert({
 				message : responseObj.msg,
 				backdrop : true,
 				callback : function() {
+					showLoaderRight(true);
 					goToListRoles();
 				}
 			});
 		}
 		showLoaderRight(false);
+
+		return responseObj;
 	};
 
-	return callAjaxPostFun(url, dataObj, successFun, errorFun2);
+	return callAjaxPostFun(url, dataObj, doneCallbackFun, errorFun2);
 }
 
 function validateSubmitFun() {

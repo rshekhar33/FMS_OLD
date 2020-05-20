@@ -27,7 +27,12 @@ public class RoleRestControllerImpl implements RoleRestController {
 	}
 
 	@Override
-	public Map<String, Role> fetchData(final Role role) {
+	public List<Role> fetchDetailsActive() {
+		return appRoleService.fetchDetailsActiveRoles();
+	}
+
+	@Override
+	public Role fetchData(final Role role) {
 		return appRoleService.fetchDataRole(role);
 	}
 

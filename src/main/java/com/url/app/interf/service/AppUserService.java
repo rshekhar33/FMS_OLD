@@ -64,12 +64,12 @@ public interface AppUserService {
 	List<UserMng> fetchDetailsUsers();
 
 	/**
-	 * Fetch user data in case userId is sent else data required on add user screen.
+	 * Fetch user data on add user screen.
 	 * 
 	 * @param user contains the userId of user.
 	 * @return user data in json format.
 	 */
-	Map<String, Object> fetchDataUser(User user);
+	User fetchDataUser(User user);
 
 	/**
 	 * Validates add/update user data.

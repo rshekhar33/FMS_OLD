@@ -28,8 +28,8 @@ $(function() {
 function loadData() {
 	showLoaderRight(true);
 	var url = "role/fetchDetails";
-	var successFun = function(data) {
-		var roles = data;
+	var doneCallbackFun = function(responseObj) {
+		var roles = responseObj;
 		var rolesData = [];
 		for (var i = 0; i < roles.length; i++) {
 			var role = roles[i];
@@ -51,9 +51,11 @@ function loadData() {
 		}
 		rolesDataTable.clear().rows.add(rolesData).draw();
 		showLoaderRight(false);
+
+		return roles;
 	};
 
-	return callAjaxPostFun(url, null, successFun, errorFun1);
+	return callAjaxPostFun(url, null, doneCallbackFun, errorFun1);
 }
 
 function editFun(roleId) {
@@ -75,7 +77,7 @@ function activationFun(roleId, checkBoxObj) {
 		roleId : roleId,
 		isActive : isActive
 	};
-	var successFun = function(responseObj) {
+	var doneCallbackFun = function(responseObj) {
 		if (responseObj.status == "success") {
 			bootbox.alert({
 				message : responseObj.msg,
@@ -83,7 +85,9 @@ function activationFun(roleId, checkBoxObj) {
 			});
 		}
 		showLoaderRight(false);
+
+		return responseObj;
 	};
 
-	return callAjaxPostFun(url, data, successFun, errorFun1);
+	return callAjaxPostFun(url, data, doneCallbackFun, errorFun1);
 }

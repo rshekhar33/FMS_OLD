@@ -34,8 +34,8 @@ $(function() {
 function loadData() {
 	showLoaderRight(true);
 	var url = "courseType/fetchDetails";
-	var successFun = function(data) {
-		var courseTypes = data;
+	var doneCallbackFun = function(responseObj) {
+		var courseTypes = responseObj;
 		var courseTypesData = [];
 		for (var i = 0; i < courseTypes.length; i++) {
 			var courseType = courseTypes[i];
@@ -59,9 +59,11 @@ function loadData() {
 		}
 		courseTypesDataTable.clear().rows.add(courseTypesData).draw();
 		showLoaderRight(false);
+
+		return courseTypes;
 	};
 
-	return callAjaxPostFun(url, null, successFun, errorFun1);
+	return callAjaxPostFun(url, null, doneCallbackFun, errorFun1);
 }
 
 function editFun(courseTypeId) {
@@ -83,7 +85,7 @@ function activationFun(courseTypeId, checkBoxObj) {
 		courseTypeId : courseTypeId,
 		isActive : isActive
 	};
-	var successFun = function(responseObj) {
+	var doneCallbackFun = function(responseObj) {
 		if (responseObj.status == "success") {
 			bootbox.alert({
 				message : responseObj.msg,
@@ -91,7 +93,9 @@ function activationFun(courseTypeId, checkBoxObj) {
 			});
 		}
 		showLoaderRight(false);
+
+		return responseObj;
 	};
 
-	return callAjaxPostFun(url, data, successFun, errorFun1);
+	return callAjaxPostFun(url, data, doneCallbackFun, errorFun1);
 }
